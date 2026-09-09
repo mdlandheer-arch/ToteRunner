@@ -10,8 +10,7 @@ const stops = [
   "#f6f5f1", // paper — how it works
   "#fdf3dd", // safety tint — why us
   "#f6f5f1", // paper — service area
-  "#eaf1ec", // crate tint — reviews
-  "#f6f5f1", // paper — faq
+  "#eaf1ec", // crate tint — faq
   "#fdf3dd", // safety tint — booking
 ];
 

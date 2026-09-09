@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { packages, addOns } from "@/lib/site-config";
+import { useEffect, useRef, useState } from "react";
+import { packages, addOns, siteConfig } from "@/lib/site-config";
+import { lookupZip, haversineMiles, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 
 type FormState = {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
   deliveryDate: string;
   pickupDate: string;
   packageId: string;
@@ -18,12 +22,17 @@ const initialState: FormState = {
   name: "",
   email: "",
   phone: "",
-  address: "",
+  street: "",
+  city: "",
+  state: "",
+  zip: "",
   deliveryDate: "",
   pickupDate: "",
   packageId: packages[1]?.id ?? packages[0].id,
   honeypot: "",
 };
+
+type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 
 export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
@@ -32,12 +41,76 @@ export default function BookingForm() {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
+  const [zipStatus, setZipStatus] = useState<ZipStatus>("idle");
+  const [zipInfo, setZipInfo] = useState<ZipInfo | null>(null);
+  const [distanceMiles, setDistanceMiles] = useState<number | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Verify the zip as the person types (debounced) and auto-fill city/state.
+  // This is a live estimate for the person's benefit — the actual delivery
+  // fee is always recalculated server-side at checkout, since a client-side
+  // number could be tampered with before it reaches the payment step.
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    if (!/^\d{5}$/.test(form.zip)) {
+      setZipStatus("idle");
+      setZipInfo(null);
+      setDistanceMiles(null);
+      return;
+    }
+
+    setZipStatus("checking");
+    debounceRef.current = setTimeout(async () => {
+      const [customerZip, businessZip] = await Promise.all([
+        lookupZip(form.zip),
+        lookupZip(siteConfig.businessZip),
+      ]);
+
+      if (!customerZip) {
+        setZipStatus("not-found");
+        setZipInfo(null);
+        setDistanceMiles(null);
+        return;
+      }
+
+      setZipStatus("verified");
+      setZipInfo(customerZip);
+      setForm((f) => ({ ...f, city: customerZip.city, state: customerZip.stateAbbreviation }));
+
+      if (businessZip) {
+        const miles = haversineMiles(
+          customerZip.latitude,
+          customerZip.longitude,
+          businessZip.latitude,
+          businessZip.longitude
+        );
+        setDistanceMiles(miles);
+      }
+    }, 500);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.zip]);
+
+  const estimatedFee =
+    distanceMiles !== null
+      ? calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
+      : 0;
+
   function validate(): boolean {
     const next: Record<string, string> = {};
     if (!form.name.trim()) next.name = "Name is required.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = "Enter a valid email.";
     if (!/^[\d\s()+-]{7,}$/.test(form.phone)) next.phone = "Enter a valid phone number.";
-    if (!form.address.trim()) next.address = "Moving address is required.";
+    if (!form.street.trim()) next.street = "Street address is required.";
+    if (!/^\d{5}$/.test(form.zip)) next.zip = "Enter a 5-digit zip code.";
+    else if (zipStatus === "not-found") next.zip = "We couldn't verify this zip code.";
+    else if (zipStatus !== "verified") next.zip = "Still verifying — wait a moment and try again.";
+    if (!form.city.trim()) next.city = "City is required.";
+    if (!form.state.trim()) next.state = "State is required.";
     if (!form.deliveryDate) next.deliveryDate = "Pick a delivery date.";
     if (!form.pickupDate) next.pickupDate = "Pick a pickup date.";
     if (form.deliveryDate && form.pickupDate && form.pickupDate < form.deliveryDate) {
@@ -54,10 +127,11 @@ export default function BookingForm() {
 
     setSubmitting(true);
     try {
+      const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, addOnQuantities: addOnQty }),
+        body: JSON.stringify({ ...form, address, addOnQuantities: addOnQty }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -110,19 +184,63 @@ export default function BookingForm() {
             </div>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className={labelClass} htmlFor="phone">Phone</label>
+            <input id="phone" type="tel" className={inputClass} value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            {errors.phone && <p className={errorClass}>{errors.phone}</p>}
+          </div>
+
+          <div>
+            <label className={labelClass} htmlFor="street">Street address</label>
+            <input id="street" className={inputClass} value={form.street}
+              onChange={(e) => setForm({ ...form, street: e.target.value })} />
+            {errors.street && <p className={errorClass}>{errors.street}</p>}
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-[1fr_auto_auto]">
             <div>
-              <label className={labelClass} htmlFor="phone">Phone</label>
-              <input id="phone" type="tel" className={inputClass} value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-              {errors.phone && <p className={errorClass}>{errors.phone}</p>}
+              <label className={labelClass} htmlFor="city">City</label>
+              <input id="city" className={inputClass} value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })} />
+              {errors.city && <p className={errorClass}>{errors.city}</p>}
             </div>
             <div>
-              <label className={labelClass} htmlFor="address">Moving address</label>
-              <input id="address" className={inputClass} value={form.address}
-                onChange={(e) => setForm({ ...form, address: e.target.value })} />
-              {errors.address && <p className={errorClass}>{errors.address}</p>}
+              <label className={labelClass} htmlFor="state">State</label>
+              <input id="state" maxLength={2} className={`${inputClass} w-20 uppercase`} value={form.state}
+                onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
+              {errors.state && <p className={errorClass}>{errors.state}</p>}
             </div>
+            <div>
+              <label className={labelClass} htmlFor="zip">Zip code</label>
+              <input id="zip" inputMode="numeric" maxLength={5} className={`${inputClass} w-28`} value={form.zip}
+                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
+              {errors.zip && <p className={errorClass}>{errors.zip}</p>}
+            </div>
+          </div>
+
+          <div className="text-sm">
+            {zipStatus === "checking" && <p className="text-steel">Checking zip code…</p>}
+            {zipStatus === "not-found" && (
+              <p className="text-red-600">We couldn&apos;t verify that zip code — double check it.</p>
+            )}
+            {zipStatus === "verified" && zipInfo && (
+              <p className="text-crate">
+                ✓ Verified: {zipInfo.city}, {zipInfo.stateAbbreviation}
+                {distanceMiles !== null && (
+                  <>
+                    {" "}·{" "}
+                    {distanceMiles <= siteConfig.freeDeliveryRadiusMiles ? (
+                      <span className="text-ink/70">within our free {siteConfig.freeDeliveryRadiusMiles}-mile delivery zone</span>
+                    ) : (
+                      <span className="text-ink/70">
+                        ~{Math.round(distanceMiles)} mi from our hub — an estimated ${estimatedFee.toFixed(2)} delivery fee applies
+                      </span>
+                    )}
+                  </>
+                )}
+              </p>
+            )}
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -185,6 +303,7 @@ export default function BookingForm() {
           </button>
           <p className="text-xs text-steel">
             Payment is processed securely by Stripe. We never see or store your card details.
+            {siteConfig.perMileFeeBeyondRadius > 0 && " Delivery fees beyond our free zone are calculated automatically at checkout."}
           </p>
         </form>
       </div>

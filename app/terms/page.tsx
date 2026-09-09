@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, packages } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
@@ -17,53 +17,132 @@ export default function TermsPage() {
         <p className="mt-2 text-sm text-steel">Last updated: [DATE]</p>
 
         <div className="mt-4 rounded-md border border-safety bg-safety/10 p-4 text-sm text-ink/80">
-          <strong>Before you launch:</strong> this is a starting template, not legal advice. A
-          licensed attorney should confirm your damage/loss fees, liability limits, and cancellation
-          policy comply with your state&apos;s consumer protection law before you publish this.
+          <strong>Before you launch:</strong> this is a detailed starting template, not legal advice.
+          A licensed Michigan attorney should confirm your damage/loss fees, liability limits, and
+          cancellation policy comply with state consumer protection law before you publish this.
         </div>
 
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
-          <h2>Rental period</h2>
+          <h2>1. Agreement to these terms</h2>
           <p>
-            Each package includes a rental period as shown at checkout (default 3 days). Additional
-            days can be added as an add-on at checkout or by contacting us before your pickup date.
+            By booking a rental with {siteConfig.name}, you agree to these terms. If you&apos;re
+            booking on behalf of someone else, you confirm you have the authority to agree to these
+            terms for that booking.
           </p>
 
-          <h2>Payment</h2>
+          <h2>2. What we provide</h2>
           <p>
-            Full payment is collected at the time of booking through Stripe. [State your refund/
-            cancellation window, e.g. "Cancellations made 48+ hours before delivery are fully
-            refundable."]
+            {siteConfig.name} rents reusable plastic moving totes and optional accessories (hand
+            trucks, dollies, label kits). We deliver totes to the address you provide, and pick them
+            up from that same address (or a new address you&apos;ve confirmed with us in writing)
+            after your rental period.
           </p>
 
-          <h2>Lost or damaged totes</h2>
+          <h2>3. Rental period</h2>
           <p>
-            Customers are responsible for totes and accessories during the rental period. A
-            replacement fee of $[AMOUNT] per tote applies for lost or damaged totes beyond normal
-            wear.
+            Each package includes a rental period shown at checkout (currently{" "}
+            {packages[0]?.days ?? 7} days). Extra days can be added at checkout or by contacting us
+            before your pickup date, subject to availability. Totes not returned by the end of the
+            rental period (including any paid extension) may continue to accrue daily charges at our
+            posted extra-day rate until pickup is completed.
           </p>
 
-          <h2>Weight limits</h2>
-          <p>Totes are rated for up to roughly 60 lbs each. Overloading may cause damage and void replacement coverage.</p>
-
-          <h2>Delivery and pickup</h2>
+          <h2>4. Pricing, payment, and delivery fees</h2>
           <p>
-            You&apos;ll receive a delivery window by [email/text] before your scheduled date. Someone
-            does not need to be present if a safe drop-off location is provided at booking.
+            Package prices are shown at checkout and include delivery and pickup within{" "}
+            {siteConfig.freeDeliveryRadiusMiles} miles of our hub. Addresses beyond that radius are
+            charged an additional delivery fee of ${siteConfig.perMileFeeBeyondRadius.toFixed(2)} per
+            mile beyond the free radius, calculated automatically at checkout based on the zip code
+            you provide. Full payment is collected at the time of booking through Stripe.
           </p>
 
-          <h2>Liability</h2>
+          <h2>5. Cancellations and changes</h2>
           <p>
-            [Add your liability limitation language here — e.g. limits on liability for delays caused
-            by weather, road conditions, or circumstances outside the company&apos;s control.]
+            [Decide and state your real policy — for example: &quot;Cancellations made at least 48
+            hours before your scheduled delivery are fully refundable. Cancellations made within 48
+            hours of delivery are non-refundable / subject to a $X cancellation fee.&quot; Also state
+            how customers request a date change.]
           </p>
 
-          <h2>Governing law</h2>
-          <p>These terms are governed by the laws of [STATE].</p>
-
-          <h2>Contact</h2>
+          <h2>6. Condition, weight limits, and prohibited items</h2>
           <p>
-            Questions? Email <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+            Totes are rated for up to approximately 60 lbs each. Overloading a tote may cause damage
+            and can void replacement coverage under Section 7. Totes may not be used to transport
+            hazardous materials, perishable food, live animals, firearms, or any illegal items.
+          </p>
+
+          <h2>7. Lost, damaged, or unreturned totes</h2>
+          <p>
+            You&apos;re responsible for our totes and any rented accessories during your rental
+            period. A replacement fee of $[AMOUNT] per tote (and $[AMOUNT] per accessory) applies for
+            items that are lost, stolen, or damaged beyond normal wear and tear. Totes not returned or
+            made available for pickup within [X] days of the scheduled pickup date may be billed at
+            full replacement value.
+          </p>
+
+          <h2>8. Delivery and pickup logistics</h2>
+          <p>
+            We&apos;ll send a delivery window by [email/text] before your scheduled date. You don&apos;t
+            need to be present for delivery or pickup if you provide a safe, accessible drop-off/pickup
+            location when you book (for example, a garage, porch, or building lobby). We&apos;re not
+            responsible for delays caused by inaccurate address information, blocked access, or
+            circumstances outside our control (see Section 10).
+          </p>
+
+          <h2>9. Cleanliness</h2>
+          <p>
+            Totes are sanitized before delivery. Please return totes free of food debris, liquids, or
+            hazardous residue. A cleaning fee of $[AMOUNT] may apply for totes returned in a condition
+            requiring more than standard cleaning.
+          </p>
+
+          <h2>10. Force majeure</h2>
+          <p>
+            We&apos;re not liable for delays or failure to perform caused by events beyond our
+            reasonable control, including severe weather, road closures, natural disasters, or other
+            circumstances that make delivery or pickup impracticable. We&apos;ll make reasonable
+            efforts to reschedule as soon as conditions allow.
+          </p>
+
+          <h2>11. Limitation of liability</h2>
+          <p>
+            [Add your liability limitation language here — consult your attorney on an appropriate cap,
+            e.g. limiting liability to the amount paid for the rental, and excluding indirect or
+            consequential damages, subject to what Michigan law allows for consumer contracts.]
+          </p>
+
+          <h2>12. Assumption of risk</h2>
+          <p>
+            You&apos;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.name}{" "}
+            is not responsible for injury resulting from improper lifting, stacking, or transport of
+            totes by you or others assisting with your move.
+          </p>
+
+          <h2>13. Indemnification</h2>
+          <p>
+            You agree to reimburse {siteConfig.name} for any loss, claim, or damage arising from your
+            misuse of the totes or violation of these terms, to the extent permitted by Michigan law.
+          </p>
+
+          <h2>14. Dispute resolution and governing law</h2>
+          <p>
+            These terms are governed by the laws of the State of Michigan. [Add your preferred dispute
+            resolution process — for example, informal resolution first, followed by small claims
+            court or arbitration, and specify the venue/county.]
+          </p>
+
+          <h2>15. Changes to these terms</h2>
+          <p>
+            We may update these terms from time to time; the &quot;Last updated&quot; date above
+            reflects the latest version. Continuing to use our services after a change means you
+            accept the updated terms.
+          </p>
+
+          <h2>16. Contact</h2>
+          <p>
+            Questions about these terms? Email{" "}
+            <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> or call{" "}
+            <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}>{siteConfig.phone}</a>.
           </p>
         </div>
       </div>

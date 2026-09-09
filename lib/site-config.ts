@@ -3,7 +3,7 @@
 export const siteConfig = {
   name: "ToteRunner",
   tagline: "Reusable moving totes, delivered and picked up.",
-  domain: "https://www.example.com", // replace with your real domain before launch
+  domain: "https://www.tote-runner.com", // replace with your real domain before launch
   city: "Grand Rapids",
   region: "Greater Grand Rapids",
   serviceAreas: [
@@ -20,10 +20,11 @@ export const siteConfig = {
     "Cascade",
     "Ada",
   ],
-  freeDeliveryRadiusMiles: 15, // adjust to your real service radius
+  freeDeliveryRadiusMiles: 20, // adjust to your real service radius
   perMileFeeBeyondRadius: 1.5, // USD per mile beyond the free radius — set to 0 to disable
-  email: "hello@example.com",
-  phone: "(555) 123-4567",
+  businessZip: "49544", // origin point for the delivery-distance calculation
+  email: "hello@tote-runner.com",
+  phone: "(616) 402-8504",
   gaMeasurementId: "G-XXXXXXXXXX", // replace with your GA4 ID
   // Set these once you have real accounts — leave "#" to hide a broken link risk.
   social: {
@@ -105,8 +106,5 @@ export const addOns: AddOn[] = [
   { id: "extra-tote", name: "Extra tote", price: 5, unit: "each" },
   { id: "hand-truck", name: "2-wheel hand truck", price: 18, unit: "flat" },
   { id: "dolly", name: "4-wheel dolly", price: 12, unit: "each" },
-  { id: "blankets-8", name: "Moving blankets (8-pack)", price: 18, unit: "flat" },
-  { id: "blankets-12", name: "Moving blankets (12-pack)", price: 26, unit: "flat" },
-  { id: "bubble-wrap", name: "Bubble wrap, 12\" x 250'", price: 32, unit: "/roll" },
   { id: "label-kit", name: "Label & marker kit", price: 8, unit: "flat" },
 ];

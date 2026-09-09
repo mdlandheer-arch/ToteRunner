@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripeClient } from "@/lib/stripe";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
+import { lookupZip, haversineMiles, calculateDeliveryFee } from "@/lib/geo";
 
 // Basic in-memory rate limit per server instance — good enough to blunt naive
 // bots. For real spam/abuse protection, put Cloudflare Turnstile or
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { packageId, addOnQuantities, name, email, phone, address, deliveryDate, pickupDate, honeypot } = body;
+    const { packageId, addOnQuantities, name, email, phone, address, zip, deliveryDate, pickupDate, honeypot } = body;
 
     // Honeypot: real users never fill this hidden field; bots often do.
     if (honeypot) {
@@ -40,12 +41,37 @@ export async function POST(req: NextRequest) {
     if (!pkg) {
       return NextResponse.json({ error: "Invalid package selected." }, { status: 400 });
     }
-    if (!name || !email || !phone || !address || !deliveryDate || !pickupDate) {
+    if (!name || !email || !phone || !address || !zip || !deliveryDate || !pickupDate) {
       return NextResponse.json({ error: "Missing required booking details." }, { status: 400 });
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
+    }
+    if (!/^\d{5}$/.test(zip)) {
+      return NextResponse.json({ error: "Invalid zip code." }, { status: 400 });
+    }
+
+    // Recompute the delivery distance/fee server-side — never trust a fee the
+    // client calculated, since that number is directly editable in devtools
+    // before the request is sent.
+    let deliveryFee = 0;
+    let distanceMiles: number | null = null;
+    const [customerZip, businessZip] = await Promise.all([
+      lookupZip(zip),
+      lookupZip(siteConfig.businessZip),
+    ]);
+    if (!customerZip) {
+      return NextResponse.json({ error: "We couldn't verify that zip code — please check and try again." }, { status: 400 });
+    }
+    if (businessZip) {
+      distanceMiles = haversineMiles(
+        customerZip.latitude,
+        customerZip.longitude,
+        businessZip.latitude,
+        businessZip.longitude
+      );
+      deliveryFee = calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius);
     }
 
     const lineItems: { price_data: any; quantity: number }[] = [
@@ -58,6 +84,19 @@ export async function POST(req: NextRequest) {
         quantity: 1,
       },
     ];
+
+    if (deliveryFee > 0 && distanceMiles !== null) {
+      lineItems.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: `Delivery beyond free zone (~${Math.round(distanceMiles)} mi from hub)`,
+          },
+          unit_amount: Math.round(deliveryFee * 100),
+        },
+        quantity: 1,
+      });
+    }
 
     if (addOnQuantities && typeof addOnQuantities === "object") {
       for (const [addOnId, qtyRaw] of Object.entries(addOnQuantities)) {
@@ -87,9 +126,12 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         address,
+        zip,
         deliveryDate,
         pickupDate,
         packageId,
+        deliveryFee: deliveryFee.toFixed(2),
+        distanceMiles: distanceMiles !== null ? distanceMiles.toFixed(1) : "",
       },
     });
 
