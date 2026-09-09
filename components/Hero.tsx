@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export default function Hero() {
   return (
-    <section className="border-b border-line">
+    <section>
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center md:py-24">
         <div>
           <h1 className="text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">

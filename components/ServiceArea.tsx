@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export default function ServiceArea() {
   return (
-    <section className="border-b border-line bg-white/40">
+    <section>
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Serving {siteConfig.region}</h2>
         <p className="mt-2 max-w-xl text-ink/70">

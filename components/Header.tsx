@@ -13,6 +13,7 @@ export default function Header() {
           <a href="/#pricing" className="hover:text-crate">Pricing</a>
           <a href="/#faq" className="hover:text-crate">FAQ</a>
           <Link href="/moving-tips" className="hover:text-crate">Moving tips</Link>
+          <Link href="/realtor-referral" className="hover:text-crate">Realtors</Link>
         </nav>
         <a
           href="/#booking"

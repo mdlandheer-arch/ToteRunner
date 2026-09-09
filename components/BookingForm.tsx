@@ -77,7 +77,7 @@ export default function BookingForm() {
   const errorClass = "mt-1 text-xs text-red-600";
 
   return (
-    <section id="booking" className="bg-white/60">
+    <section id="booking">
       <div className="mx-auto max-w-2xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Reserve your totes</h2>
         <p className="mt-2 text-ink/70">Fill this out and you&apos;ll be taken to secure checkout.</p>

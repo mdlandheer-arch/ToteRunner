@@ -3,7 +3,7 @@ import ToteCalculator from "@/components/ToteCalculator";
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="border-b border-line">
+    <section id="pricing">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Pricing</h2>
         <p className="mt-2 text-ink/70">Delivery and pickup included in every package.</p>

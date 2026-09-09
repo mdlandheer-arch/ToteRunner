@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 import { siteConfig } from "@/lib/site-config";
 
-const CONSENT_KEY = "cratehaul-cookie-consent";
+const CONSENT_KEY = "toterunner-cookie-consent";
 
 export default function CookieConsent() {
   const [consent, setConsent] = useState<"granted" | "denied" | null>(null);
