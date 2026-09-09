@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --paper: #f6f5f1;
+  --ink: #1b1f23;
+  --crate-green: #2f6d4f;
+  --crate-green-dark: #234f39;
+  --safety-yellow: #f2b705;
+  --steel: #6b7280;
+  --line: #d8d5cb;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-crate: var(--crate-green);
+  --color-crate-dark: var(--crate-green-dark);
+  --color-safety: var(--safety-yellow);
+  --color-steel: var(--steel);
+  --color-line: var(--line);
+  --font-display: var(--font-archivo);
+  --font-body: var(--font-inter);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid var(--crate-green);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
