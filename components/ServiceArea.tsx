@@ -19,13 +19,13 @@ export default function ServiceArea() {
                 </span>
               ))}
             </div>
-            <p className="mt-6 text-sm text-ink/60">
+            <p className="mt-6 text-sm text-ink/75">
               Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles.
               {siteConfig.perMileFeeBeyondRadius > 0 && (
                 <> A ${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies beyond that.</>
               )}
             </p>
-            <p className="mt-2 text-sm text-ink/60">
+            <p className="mt-2 text-sm text-ink/75">
               Further out?{" "}
               <a href={`mailto:${siteConfig.email}`} className="font-medium text-crate hover:underline">
                 Email us

@@ -50,7 +50,7 @@ export default function EcoImpact() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-lg border border-line bg-white/60 p-6">
+        <div className="mt-8 rounded-lg border border-line bg-white/70 p-6">
           <p className="text-ink/80">
             <span className="font-semibold text-ink">The short version:</span> one rental keeps a
             household&apos;s worth of cardboard out of the waste stream, and the same totes go on to

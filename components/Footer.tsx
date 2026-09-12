@@ -56,7 +56,6 @@ export default function Footer() {
             <li><a href="/#pricing" className="hover:underline">Pricing</a></li>
             <li><a href="/#eco" className="hover:underline">Eco impact</a></li>
             <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
-            <li><Link href="/moving-tips" className="hover:underline">Moving tips</Link></li>
             <li><Link href="/realtor-referral" className="hover:underline">Realtor referral program</Link></li>
             <li><Link href="/rental-agreement" className="hover:underline">Rental agreement</Link></li>
             <li><Link href="/privacy" className="hover:underline">Privacy policy</Link></li>

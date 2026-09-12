@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --paper: #f7f4ed;
-  --ink: #14211c;
+  --paper: #fbfaf6;
+  --ink: #152420;
   --crate-green: #1a6848;
   --crate-green-dark: #114832;
   --safety-yellow: #f5a524;
@@ -13,10 +13,10 @@
   /* Section tints. Only two alternate down the page, so the site reads as one
      palette rather than a color transition. Both verified >=4.5:1 against ink,
      steel, crate, clay and sky. */
-  --tint-green: #e4efe8;
-  --tint-sand: #fdf0d9;
-  --steel: #566169;
-  --line: #ded7c9;
+  --tint-green: #eef5f1;
+  --tint-sand: #fdf7ea;
+  --steel: #525c64;
+  --line: #e5e0d4;
 }
 
 @theme inline {

@@ -10,7 +10,7 @@ export default function WhyUs() {
         <h2 className="text-3xl font-bold text-ink">Cardboard vs. totes</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <div className="rounded-lg border border-line p-6">
-            <h3 className="font-bold text-ink/60">Cardboard boxes</h3>
+            <h3 className="font-bold text-ink/75">Cardboard boxes</h3>
             <ul className="mt-4 space-y-2 text-sm text-ink/70">
               {cardboard.map((c) => (
                 <li key={c}>– {c}</li>
@@ -49,7 +49,7 @@ export default function WhyUs() {
               ["Sanitized", "Cleaned inside and out, lids included."],
               ["Inspected", "Old labels off, lids and handles checked."],
             ].map(([title, body]) => (
-              <div key={title} className="rounded-md border border-line bg-white/60 p-4">
+              <div key={title} className="rounded-md border border-line bg-white/70 p-4">
                 <p className="text-sm font-semibold text-crate">{title}</p>
                 <p className="mt-1 text-sm text-ink/70">{body}</p>
               </div>
@@ -61,7 +61,7 @@ export default function WhyUs() {
           <h3 className="text-xl font-bold text-ink">Also great for</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {siteConfig.otherUseCases.map((useCase) => (
-              <span key={useCase} className="rounded-full border border-line bg-white/60 px-4 py-1.5 text-sm text-ink/80">
+              <span key={useCase} className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80">
                 {useCase}
               </span>
             ))}

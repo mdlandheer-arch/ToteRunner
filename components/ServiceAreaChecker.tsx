@@ -53,7 +53,7 @@ export default function ServiceAreaChecker() {
   }
 
   return (
-    <div className="rounded-lg border border-line bg-white/60 p-6">
+    <div className="rounded-lg border border-line bg-white/70 p-6">
       <h3 className="text-lg font-bold text-ink">Do we deliver to you?</h3>
       <p className="mt-1 text-sm text-ink/70">Enter your zip code to check.</p>
 

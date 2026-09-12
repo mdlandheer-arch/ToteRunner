@@ -351,7 +351,7 @@ export default function BookingForm() {
             </div>
           </div>
 
-          <div className="rounded-md border border-line bg-white/60 p-4">
+          <div className="rounded-md border border-line bg-white/70 p-4">
             <p className="font-medium text-ink">Where should we pick the empties up?</p>
             <p className="mt-0.5 text-sm text-steel">
               Usually the new place. Same as delivery? Tap to copy it over.
@@ -405,7 +405,7 @@ export default function BookingForm() {
           </div>
 
           {rentalDays !== null && rentalDays > 0 && (
-            <div className="rounded-md border border-line bg-white/60 p-3 text-sm">
+            <div className="rounded-md border border-line bg-white/70 p-3 text-sm">
               {extraDays === 0 ? (
                 <p className="text-ink/80">
                   <span className="font-semibold text-crate">{rentalDays}-day rental</span> — covered

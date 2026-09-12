@@ -51,7 +51,7 @@ export default function About() {
               {badges.map((b) => (
                 <span
                   key={b.label}
-                  className="rounded-full border border-line bg-white/60 px-4 py-1.5 text-sm text-ink/80"
+                  className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80"
                 >
                   <span aria-hidden="true">{b.icon}</span> {b.label}
                 </span>
@@ -61,7 +61,7 @@ export default function About() {
 
           {/* Swap this placeholder for a real photo of you with the totes —
               it's the single highest-impact image on the whole site. */}
-          <div className="rounded-lg border border-dashed border-line bg-white/40 p-10 text-center">
+          <div className="rounded-lg border border-dashed border-line bg-white/70 p-10 text-center">
             <svg viewBox="0 0 200 200" className="mx-auto h-28 w-28" role="img" aria-label="Photo placeholder">
               <rect x="30" y="120" width="140" height="55" rx="8" fill="#1b1f23" />
               <rect x="30" y="120" width="140" height="12" rx="6" fill="#f2b705" />

@@ -41,7 +41,10 @@ export const siteConfig = {
   },
   // Placeholder referral terms — decide your real commission structure before launch.
   realtorReferral: {
-    commissionPerReferral: 15, // USD, or switch copy to a % if you prefer
+    commissionPerReferral: 15, // USD paid to the agent per completed booking
+    clientDiscount: 10, // USD off the client's booking when they use an agent's code
+    payoutMethod: "Venmo, Zelle, or check — your pick", // confirm before launch
+    payoutTiming: "the first week of the following month",
   },
   // Owner story shown in the About section — rewrite this in your own voice.
   // Local trust matters more than polish for this kind of business.

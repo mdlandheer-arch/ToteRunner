@@ -17,7 +17,7 @@ export default function ToteCalculator() {
   const suggested = packages[bedroomOptions[selected].index];
 
   return (
-    <div className="rounded-lg border border-line bg-white/60 p-6">
+    <div className="rounded-lg border border-line bg-white/70 p-6">
       <h3 className="text-lg font-bold text-ink">How many totes do I need?</h3>
       <p className="mt-1 text-sm text-ink/70">Tell us your home size for a quick recommendation.</p>
 

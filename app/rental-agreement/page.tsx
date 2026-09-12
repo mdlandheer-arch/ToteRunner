@@ -129,7 +129,7 @@ export default function RentalAgreementPage() {
 
         <div className="mt-8 space-y-4">
           {sections.map((sec) => (
-            <details key={sec.title} open className="group rounded-lg border border-line bg-white/60 p-5">
+            <details key={sec.title} open className="group rounded-lg border border-line bg-white/70 p-5">
               <summary className="flex cursor-pointer list-none items-center gap-3 font-bold text-ink">
                 <span aria-hidden="true" className="text-xl">{sec.icon}</span>
                 {sec.title}
@@ -147,7 +147,7 @@ export default function RentalAgreementPage() {
           ))}
         </div>
 
-        <div className="mt-12 rounded-lg border border-line bg-white/60 p-6">
+        <div className="mt-12 rounded-lg border border-line bg-white/70 p-6">
           <p className="text-sm text-ink/75">
             Questions before you book? Email{" "}
             <a href={`mailto:${siteConfig.email}`} className="font-medium text-crate hover:underline">
