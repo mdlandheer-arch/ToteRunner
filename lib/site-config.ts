@@ -2,8 +2,10 @@
 // Every page pulls from here — nothing else in the codebase needs editing.
 export const siteConfig = {
   name: "ToteRunner",
-  tagline: "Reusable moving totes, delivered and picked up.",
-  domain: "https://www.tote-runner.com", // replace with your real domain before launch
+  tagline: "We run the totes. You run the move.",
+  // Plain description used where a tagline would be too clever (meta tags, SEO)
+  descriptor: "Reusable moving totes, delivered and picked up.",
+  domain: "https://www.example.com", // replace with your real domain before launch
   city: "Grand Rapids",
   region: "Greater Grand Rapids",
   serviceAreas: [
@@ -20,10 +22,10 @@ export const siteConfig = {
     "Cascade",
     "Ada",
   ],
-  freeDeliveryRadiusMiles: 20, // adjust to your real service radius
+  freeDeliveryRadiusMiles: 15, // adjust to your real service radius
   perMileFeeBeyondRadius: 1.5, // USD per mile beyond the free radius — set to 0 to disable
   businessZip: "49544", // origin point for the delivery-distance calculation
-  email: "hello@tote-runner.com",
+  email: "hello@toterunner.com",
   phone: "(616) 402-8504",
   gaMeasurementId: "G-XXXXXXXXXX", // replace with your GA4 ID
   // Set these once you have real accounts — leave "#" to hide a broken link risk.
@@ -53,44 +55,51 @@ export type Package = {
   days: number;
   price: number; // USD
   blurb: string;
+  includes: string[]; // bundled items shown on the pricing card
   popular?: boolean;
 };
 
 // Placeholder pricing — benchmarked against comparable tote-rental competitors,
 // but still adjust to your actual delivery/tote costs before launch.
+// Every package now bundles a dolly + labels; dollies come back to you, so the
+// real recurring cost of the bundle is mostly the labels.
 export const packages: Package[] = [
   {
-    id: "apartment",
-    name: "Apartment Pack",
+    id: "studio",
+    name: "Studio / 1 Bedroom",
     totes: 15,
     days: 7,
     price: 69,
-    blurb: "Studios and 1-bedrooms.",
+    blurb: "Apartments and smaller spaces.",
+    includes: ["1 dolly", "15 labels", "Delivery + pickup"],
   },
   {
-    id: "small-move",
-    name: "Small Move",
+    id: "two-bedroom",
+    name: "2 Bedroom",
     totes: 25,
     days: 7,
     price: 99,
-    blurb: "1–2 bedroom homes.",
+    blurb: "The most common home size.",
+    includes: ["1 dolly", "25 labels", "Delivery + pickup"],
     popular: true,
   },
   {
-    id: "home-move",
-    name: "Home Move",
+    id: "three-bedroom",
+    name: "3 Bedroom",
     totes: 40,
     days: 7,
     price: 149,
-    blurb: "2–3 bedroom homes.",
+    blurb: "Most single-family homes.",
+    includes: ["2 dollies", "40 labels", "Delivery + pickup"],
   },
   {
-    id: "large-move",
-    name: "Large Move",
+    id: "four-bedroom",
+    name: "4+ Bedroom",
     totes: 60,
     days: 7,
     price: 199,
-    blurb: "3+ bedrooms and big moves.",
+    blurb: "Large homes and full-estate moves.",
+    includes: ["3 dollies", "60 labels", "Delivery + pickup"],
   },
 ];
 
@@ -105,6 +114,13 @@ export const addOns: AddOn[] = [
   { id: "extra-day", name: "Extra day rental", price: 15, unit: "/day" },
   { id: "extra-tote", name: "Extra tote", price: 5, unit: "each" },
   { id: "hand-truck", name: "2-wheel hand truck", price: 18, unit: "flat" },
-  { id: "dolly", name: "4-wheel dolly", price: 12, unit: "each" },
-  { id: "label-kit", name: "Label & marker kit", price: 8, unit: "flat" },
+  { id: "extra-dolly", name: "Extra 4-wheel dolly", price: 12, unit: "each" },
 ];
+
+// Published so customers see it before booking — reduces support emails.
+// These are placeholders: decide your real numbers before launch.
+export const cancellationPolicy = {
+  freeCancellationHours: 48,
+  lateCancellationFee: 25, // USD, inside the free window
+  postDeliveryRestockingFee: 49, // USD, if totes already delivered
+};

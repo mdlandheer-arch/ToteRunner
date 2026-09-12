@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, haversineMiles, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
+import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
 
 type FormState = {
   name: string;
@@ -100,6 +101,16 @@ export default function BookingForm() {
       ? calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
       : 0;
 
+  // Running total so nobody reaches Stripe surprised by the amount. The
+  // server recalculates everything independently at checkout — this is a
+  // preview, not the source of truth.
+  const selectedPackage = packages.find((p) => p.id === form.packageId);
+  const addOnTotal = Object.entries(addOnQty).reduce((sum, [id, qty]) => {
+    const a = addOns.find((x) => x.id === id);
+    return a && qty > 0 ? sum + a.price * qty : sum;
+  }, 0);
+  const estimatedTotal = (selectedPackage?.price ?? 0) + addOnTotal + estimatedFee;
+
   function validate(): boolean {
     const next: Record<string, string> = {};
     if (!form.name.trim()) next.name = "Name is required.";
@@ -172,13 +183,13 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className={labelClass} htmlFor="name">Full name</label>
-              <input id="name" className={inputClass} value={form.name}
+              <input id="name" autoComplete="name" className={inputClass} value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} />
               {errors.name && <p className={errorClass}>{errors.name}</p>}
             </div>
             <div>
               <label className={labelClass} htmlFor="email">Email</label>
-              <input id="email" type="email" className={inputClass} value={form.email}
+              <input id="email" type="email" autoComplete="email" className={inputClass} value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} />
               {errors.email && <p className={errorClass}>{errors.email}</p>}
             </div>
@@ -186,36 +197,55 @@ export default function BookingForm() {
 
           <div>
             <label className={labelClass} htmlFor="phone">Phone</label>
-            <input id="phone" type="tel" className={inputClass} value={form.phone}
+            <input id="phone" type="tel" autoComplete="tel" className={inputClass} value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             {errors.phone && <p className={errorClass}>{errors.phone}</p>}
           </div>
 
           <div>
             <label className={labelClass} htmlFor="street">Street address</label>
-            <input id="street" className={inputClass} value={form.street}
-              onChange={(e) => setForm({ ...form, street: e.target.value })} />
+            <AddressAutocomplete
+              id="street"
+              className={inputClass}
+              value={form.street}
+              onChange={(street) => setForm({ ...form, street })}
+              onAddressSelected={(addr: ParsedAddress) =>
+                setForm((f) => ({
+                  ...f,
+                  street: addr.street || f.street,
+                  city: addr.city || f.city,
+                  state: addr.state || f.state,
+                  zip: addr.zip || f.zip,
+                }))
+              }
+            />
             {errors.street && <p className={errorClass}>{errors.street}</p>}
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-[1fr_auto_auto]">
+          <div className="grid gap-5 sm:grid-cols-[1fr_5rem_7rem]">
             <div>
               <label className={labelClass} htmlFor="city">City</label>
-              <input id="city" className={inputClass} value={form.city}
+              <input id="city" autoComplete="address-level2" className={inputClass} value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })} />
               {errors.city && <p className={errorClass}>{errors.city}</p>}
             </div>
-            <div>
-              <label className={labelClass} htmlFor="state">State</label>
-              <input id="state" maxLength={2} className={`${inputClass} w-20 uppercase`} value={form.state}
-                onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
-              {errors.state && <p className={errorClass}>{errors.state}</p>}
-            </div>
-            <div>
-              <label className={labelClass} htmlFor="zip">Zip code</label>
-              <input id="zip" inputMode="numeric" maxLength={5} className={`${inputClass} w-28`} value={form.zip}
-                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
-              {errors.zip && <p className={errorClass}>{errors.zip}</p>}
+            {/* State and zip share a row on mobile instead of stacking as
+                narrow orphans; they sit inline with city from sm up. */}
+            <div className="grid grid-cols-2 gap-5 sm:contents">
+              <div>
+                <label className={labelClass} htmlFor="state">State</label>
+                <input id="state" maxLength={2} autoComplete="address-level1"
+                  className={`${inputClass} uppercase`} value={form.state}
+                  onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
+                {errors.state && <p className={errorClass}>{errors.state}</p>}
+              </div>
+              <div>
+                <label className={labelClass} htmlFor="zip">Zip code</label>
+                <input id="zip" inputMode="numeric" maxLength={5} autoComplete="postal-code"
+                  className={inputClass} value={form.zip}
+                  onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
+                {errors.zip && <p className={errorClass}>{errors.zip}</p>}
+              </div>
             </div>
           </div>
 
@@ -272,27 +302,79 @@ export default function BookingForm() {
 
           <fieldset>
             <legend className={labelClass}>Add-ons (optional)</legend>
-            <div className="mt-2 grid gap-3 sm:grid-cols-2">
-              {addOns.map((a) => (
-                <div key={a.id} className="flex items-center justify-between rounded-md border border-line px-3 py-2">
-                  <span className="text-sm text-ink/80">{a.name} (${a.price} {a.unit !== "flat" ? a.unit : ""})</span>
-                  <input
-                    type="number"
-                    min={0}
-                    max={20}
-                    className="w-16 rounded-md border border-line px-2 py-1 text-sm"
-                    value={addOnQty[a.id] ?? 0}
-                    onChange={(e) =>
-                      setAddOnQty({ ...addOnQty, [a.id]: Math.max(0, Number(e.target.value)) })
-                    }
-                    aria-label={`Quantity for ${a.name}`}
-                  />
-                </div>
-              ))}
+            <div className="mt-2 space-y-2">
+              {addOns.map((a) => {
+                const qty = addOnQty[a.id] ?? 0;
+                const setQty = (n: number) =>
+                  setAddOnQty({ ...addOnQty, [a.id]: Math.min(20, Math.max(0, n)) });
+                return (
+                  <div key={a.id} className="flex items-center justify-between rounded-md border border-line px-3 py-2">
+                    <div className="text-sm">
+                      <span className="text-ink/80">{a.name}</span>
+                      <span className="ml-2 text-steel">
+                        ${a.price} {a.unit !== "flat" ? a.unit : ""}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setQty(qty - 1)}
+                        disabled={qty === 0}
+                        aria-label={`Remove one ${a.name}`}
+                        className="h-9 w-9 rounded-md border border-line text-lg leading-none text-ink disabled:opacity-30"
+                      >
+                        −
+                      </button>
+                      <span className="w-8 text-center text-sm font-semibold tabular-nums" aria-live="polite">
+                        {qty}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setQty(qty + 1)}
+                        aria-label={`Add one ${a.name}`}
+                        className="h-9 w-9 rounded-md border border-line text-lg leading-none text-ink"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </fieldset>
 
           {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+
+          <div className="rounded-md border border-crate bg-crate/5 p-4">
+            <div className="flex items-baseline justify-between">
+              <span className="text-sm font-semibold text-ink">Estimated total</span>
+              <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
+            </div>
+            <div className="mt-2 space-y-1 text-sm text-ink/70">
+              {selectedPackage && (
+                <div className="flex justify-between">
+                  <span>{selectedPackage.name} ({selectedPackage.totes} totes)</span>
+                  <span>${selectedPackage.price.toFixed(2)}</span>
+                </div>
+              )}
+              {addOnTotal > 0 && (
+                <div className="flex justify-between">
+                  <span>Add-ons</span>
+                  <span>${addOnTotal.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span>Delivery</span>
+                <span>
+                  {zipStatus !== "verified"
+                    ? "Enter zip"
+                    : estimatedFee > 0
+                      ? `$${estimatedFee.toFixed(2)}`
+                      : "Free"}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <button
             type="submit"

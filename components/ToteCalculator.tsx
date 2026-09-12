@@ -53,9 +53,12 @@ export default function ToteCalculator() {
         </a>
       </div>
 
-      <p className="mt-4 text-xs text-steel">
-        Rough guide only — pack size varies by household. You can always add extra totes at checkout.
-      </p>
+      <div className="mt-4 rounded-md border border-line p-4">
+        <p className="text-sm font-semibold text-ink">How long should I rent for?</p>
+        <p className="mt-1 text-sm text-ink/70">
+          Most people need 2–4 weeks — a week or two to pack, the same to unpack. You can add days later.
+        </p>
+      </div>
     </div>
   );
 }

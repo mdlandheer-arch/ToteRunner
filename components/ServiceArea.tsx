@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/site-config";
+import ServiceAreaChecker from "@/components/ServiceAreaChecker";
 
 export default function ServiceArea() {
   return (
@@ -8,26 +9,33 @@ export default function ServiceArea() {
         <p className="mt-2 max-w-xl text-ink/70">
           We deliver across {siteConfig.city} and the surrounding area, including:
         </p>
-        <div className="mt-6 flex flex-wrap gap-2">
-          {siteConfig.serviceAreas.map((area) => (
-            <span key={area} className="rounded-full border border-line px-4 py-1.5 text-sm text-ink/80">
-              {area}
-            </span>
-          ))}
+
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
+          <div>
+            <div className="flex flex-wrap gap-2">
+              {siteConfig.serviceAreas.map((area) => (
+                <span key={area} className="rounded-full border border-line px-4 py-1.5 text-sm text-ink/80">
+                  {area}
+                </span>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-ink/60">
+              Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles.
+              {siteConfig.perMileFeeBeyondRadius > 0 && (
+                <> A ${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies beyond that.</>
+              )}
+            </p>
+            <p className="mt-2 text-sm text-ink/60">
+              Further out?{" "}
+              <a href={`mailto:${siteConfig.email}`} className="font-medium text-crate hover:underline">
+                Email us
+              </a>{" "}
+              — if you&apos;re nearby, chances are we can help.
+            </p>
+          </div>
+
+          <ServiceAreaChecker />
         </div>
-        <p className="mt-6 text-sm text-ink/60">
-          Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles.
-          {siteConfig.perMileFeeBeyondRadius > 0 && (
-            <> A ${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies beyond that.</>
-          )}
-        </p>
-        <p className="mt-2 text-sm text-ink/60">
-          Not sure if we cover your address?{" "}
-          <a href={`mailto:${siteConfig.email}`} className="font-medium text-crate hover:underline">
-            Email us
-          </a>{" "}
-          — if you&apos;re nearby, chances are we can help.
-        </p>
       </div>
     </section>
   );

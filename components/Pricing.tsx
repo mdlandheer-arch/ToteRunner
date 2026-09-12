@@ -28,6 +28,14 @@ export default function Pricing() {
                   {pkg.totes} totes · {pkg.days}-day rental
                 </p>
                 <p className="mt-3 text-sm text-ink/70">{pkg.blurb}</p>
+                <ul className="mt-4 space-y-1.5 border-t border-line pt-4">
+                  {pkg.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-ink/80">
+                      <span className="text-crate">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
                 <a
                   href={`#booking`}
                   className="mt-5 block rounded-md bg-crate px-4 py-2 text-center text-sm font-semibold text-paper hover:bg-crate-dark"

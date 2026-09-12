@@ -1,11 +1,15 @@
 import { siteConfig } from "@/lib/site-config";
+import ReserveButton from "@/components/ReserveButton";
 
 export default function Hero() {
   return (
     <section>
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center md:py-24">
         <div>
-          <h1 className="text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">
+          <p className="text-sm font-semibold uppercase tracking-wide text-crate">
+            {siteConfig.tagline}
+          </p>
+          <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">
             Stop buying boxes you&apos;ll just throw away.
           </h1>
           <p className="mt-5 max-w-md text-lg text-ink/70">
@@ -13,12 +17,10 @@ export default function Hero() {
             you&apos;re done. No tape, no cardboard mess, no landfill run.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#booking"
+            <ReserveButton
+              label="Reserve your totes"
               className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
-            >
-              Reserve your totes
-            </a>
+            />
             <a
               href="#pricing"
               className="rounded-md border border-ink/20 px-6 py-3 font-semibold text-ink hover:bg-ink/5"

@@ -9,6 +9,7 @@ const stops = [
   "#eaf1ec", // crate tint — pricing
   "#f6f5f1", // paper — how it works
   "#fdf3dd", // safety tint — why us
+  "#e6efe8", // deeper green — eco impact (the section that should feel greenest)
   "#f6f5f1", // paper — service area
   "#eaf1ec", // crate tint — faq
   "#fdf3dd", // safety tint — booking

@@ -33,6 +33,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:grid-cols-3">
         <div>
           <p className="text-lg font-bold">{siteConfig.name}</p>
+          <p className="mt-1 text-sm font-medium text-safety">{siteConfig.tagline}</p>
           <p className="mt-2 text-sm text-paper/70">
             No boxes. No tape. No cardboard in the landfill. Heavy-duty totes, delivered.
           </p>
@@ -53,6 +54,7 @@ export default function Footer() {
           <ul className="mt-3 space-y-2 text-sm">
             <li><a href="/#how-it-works" className="hover:underline">How it works</a></li>
             <li><a href="/#pricing" className="hover:underline">Pricing</a></li>
+            <li><a href="/#eco" className="hover:underline">Eco impact</a></li>
             <li><a href="/#faq" className="hover:underline">FAQ</a></li>
             <li><Link href="/moving-tips" className="hover:underline">Moving tips</Link></li>
             <li><Link href="/realtor-referral" className="hover:underline">Realtor referral program</Link></li>

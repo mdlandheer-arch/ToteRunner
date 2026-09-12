@@ -7,7 +7,7 @@
   --crate-green: #2f6d4f;
   --crate-green-dark: #234f39;
   --safety-yellow: #f2b705;
-  --steel: #6b7280;
+  --steel: #575d66;
   --line: #d8d5cb;
 }
 
@@ -25,6 +25,12 @@
 
 * {
   scroll-behavior: smooth;
+}
+
+/* The header is sticky, so anchor targets must stop below it — otherwise
+   the section heading lands underneath the header bar and looks cut off. */
+[id] {
+  scroll-margin-top: 5.5rem;
 }
 
 body {

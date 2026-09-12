@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig, packages } from "@/lib/site-config";
+import { siteConfig, packages, cancellationPolicy } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
@@ -58,10 +58,15 @@ export default function TermsPage() {
 
           <h2>5. Cancellations and changes</h2>
           <p>
-            [Decide and state your real policy — for example: &quot;Cancellations made at least 48
-            hours before your scheduled delivery are fully refundable. Cancellations made within 48
-            hours of delivery are non-refundable / subject to a $X cancellation fee.&quot; Also state
-            how customers request a date change.]
+            Cancellations made at least {cancellationPolicy.freeCancellationHours} hours before the
+            scheduled delivery are fully refundable. Cancellations made within{" "}
+            {cancellationPolicy.freeCancellationHours} hours of delivery are subject to a $
+            {cancellationPolicy.lateCancellationFee} cancellation fee. If the Equipment has already
+            been delivered, a $
+            {cancellationPolicy.postDeliveryRestockingFee} restocking fee applies. To request a date
+            change, contact us as early as possible; changes are accommodated subject to
+            availability. [Confirm these amounts with your attorney and keep them consistent with the
+            cancellation policy published on your website.]
           </p>
 
           <h2>6. Condition, weight limits, and prohibited items</h2>

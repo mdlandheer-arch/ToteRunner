@@ -36,6 +36,28 @@ export default function WhyUs() {
         </div>
 
         <div className="mt-6 rounded-lg border border-line p-6">
+          <h3 className="text-xl font-bold text-ink">Clean, sanitized, and bug-free</h3>
+          <p className="mt-2 max-w-2xl text-sm text-ink/70">
+            Every tote is cleaned and sanitized between rentals — inside, outside, and the lids — and
+            old labels are removed before it reaches you. This is one of the real advantages over
+            cardboard: used boxes absorb moisture and odors, and they&apos;re a known hiding spot for
+            bedbugs and pantry pests. Hard plastic doesn&apos;t give them anywhere to go.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {[
+              ["Vacuumed", "Debris and dust removed from every corner."],
+              ["Sanitized", "Cleaned inside and out, lids included."],
+              ["Inspected", "Old labels off, lids and handles checked."],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-md border border-line bg-white/60 p-4">
+                <p className="text-sm font-semibold text-crate">{title}</p>
+                <p className="mt-1 text-sm text-ink/70">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-line p-6">
           <h3 className="text-xl font-bold text-ink">Also great for</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {siteConfig.otherUseCases.map((useCase) => (
