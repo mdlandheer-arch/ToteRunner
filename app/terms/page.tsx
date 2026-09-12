@@ -40,11 +40,11 @@ export default function TermsPage() {
 
           <h2>3. Rental period</h2>
           <p>
-            Each package includes a base rental period of {packages[0]?.days ?? 14} days. Additional
-            weeks may be purchased at checkout or by contacting us before your pickup date, subject to
-            availability. Totes not returned or made available for pickup by the end of the rental
-            period (including any paid extension) may continue to accrue charges at our posted weekly
-            extension rate until pickup is completed.
+            Each package includes a base rental period of {packages[0]?.days ?? 14} days. Rentals
+            longer than the base period are charged a per-day rate that varies by package size and is
+            shown at checkout before payment. Totes not returned or made available for pickup by the
+            end of the rental period (including any paid extension) may continue to accrue charges at
+            our posted daily rate until pickup is completed.
           </p>
 
           <h2>4. Pricing, payment, and delivery fees</h2>

@@ -58,6 +58,7 @@ export default function Footer() {
             <li><a href="/#faq" className="hover:underline">FAQ</a></li>
             <li><Link href="/moving-tips" className="hover:underline">Moving tips</Link></li>
             <li><Link href="/realtor-referral" className="hover:underline">Realtor referral program</Link></li>
+            <li><Link href="/rental-agreement" className="hover:underline">Rental agreement</Link></li>
             <li><Link href="/privacy" className="hover:underline">Privacy policy</Link></li>
             <li><Link href="/terms" className="hover:underline">Terms & conditions</Link></li>
           </ul>

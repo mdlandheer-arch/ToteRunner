@@ -16,6 +16,11 @@ type FormState = {
   deliveryDate: string;
   pickupDate: string;
   packageId: string;
+  // Pickup is often the new home, so it's captured separately when it differs.
+  pickupStreet: string;
+  pickupCity: string;
+  pickupState: string;
+  pickupZip: string;
   honeypot: string; // hidden field — bots tend to fill every input
 };
 
@@ -30,6 +35,10 @@ const initialState: FormState = {
   deliveryDate: "",
   pickupDate: "",
   packageId: packages[1]?.id ?? packages[0].id,
+  pickupStreet: "",
+  pickupCity: "",
+  pickupState: "",
+  pickupZip: "",
   honeypot: "",
 };
 
@@ -38,7 +47,9 @@ type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
-  const [extraWeeks, setExtraWeeks] = useState(0);
+  const [differentPickup, setDifferentPickup] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -106,12 +117,29 @@ export default function BookingForm() {
   // server recalculates everything independently at checkout — this is a
   // preview, not the source of truth.
   const selectedPackage = packages.find((p) => p.id === form.packageId);
+
+  // Rental length comes from the dates the customer picked — the dates are the
+  // single source of truth, so there's nothing for them to keep in sync. Any
+  // time past the package's included period is billed in whole weeks.
+  const rentalDays =
+    form.deliveryDate && form.pickupDate
+      ? Math.max(
+          0,
+          Math.round(
+            (new Date(form.pickupDate).getTime() - new Date(form.deliveryDate).getTime()) /
+              86_400_000
+          )
+        )
+      : null;
+  const includedDays = selectedPackage?.days ?? 14;
+  const extraDays =
+    rentalDays !== null && rentalDays > includedDays ? rentalDays - includedDays : 0;
   const addOnTotal = Object.entries(addOnQty).reduce((sum, [id, qty]) => {
     const a = addOns.find((x) => x.id === id);
     return a && qty > 0 ? sum + a.price * qty : sum;
   }, 0);
-  const extraWeekTotal = (selectedPackage?.extraWeekPrice ?? 0) * extraWeeks;
-  const estimatedTotal = (selectedPackage?.price ?? 0) + extraWeekTotal + addOnTotal + estimatedFee;
+  const extraDaysTotal = (selectedPackage?.dailyRate ?? 0) * extraDays;
+  const estimatedTotal = (selectedPackage?.price ?? 0) + extraDaysTotal + addOnTotal + estimatedFee;
 
   function validate(): boolean {
     const next: Record<string, string> = {};
@@ -129,6 +157,13 @@ export default function BookingForm() {
     if (form.deliveryDate && form.pickupDate && form.pickupDate < form.deliveryDate) {
       next.pickupDate = "Pickup date must be on or after delivery date.";
     }
+    if (differentPickup) {
+      if (!form.pickupStreet.trim()) next.pickupStreet = "Pickup street address is required.";
+      if (!form.pickupCity.trim()) next.pickupCity = "Pickup city is required.";
+      if (!form.pickupState.trim()) next.pickupState = "Pickup state is required.";
+      if (!/^\d{5}$/.test(form.pickupZip)) next.pickupZip = "Enter a 5-digit zip code.";
+    }
+    if (!agreed) next.agreed = "Please review and accept the rental agreement.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
@@ -141,10 +176,13 @@ export default function BookingForm() {
     setSubmitting(true);
     try {
       const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
+      const pickupAddress = differentPickup
+        ? `${form.pickupStreet}, ${form.pickupCity}, ${form.pickupState} ${form.pickupZip}`
+        : address;
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, address, addOnQuantities: addOnQty, extraWeeks }),
+        body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -290,6 +328,77 @@ export default function BookingForm() {
             </div>
           </div>
 
+          <div className="rounded-md border border-line bg-white/60 p-4">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={differentPickup}
+                onChange={(e) => setDifferentPickup(e.target.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--crate-green)]"
+              />
+              <span className="text-sm text-ink/80">
+                <span className="font-medium text-ink">Pick up from a different address</span>
+                <span className="mt-0.5 block text-steel">
+                  Most people unpack at the new place — tell us where to collect the empties.
+                </span>
+              </span>
+            </label>
+
+            {differentPickup && (
+              <div className="mt-4 space-y-4 border-t border-line pt-4">
+                <div>
+                  <label className={labelClass} htmlFor="pickupStreet">Pickup street address</label>
+                  <input id="pickupStreet" autoComplete="off" className={inputClass} value={form.pickupStreet}
+                    onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
+                  {errors.pickupStreet && <p className={errorClass}>{errors.pickupStreet}</p>}
+                </div>
+                <div className="grid gap-4 sm:grid-cols-[1fr_5rem_7rem]">
+                  <div>
+                    <label className={labelClass} htmlFor="pickupCity">City</label>
+                    <input id="pickupCity" className={inputClass} value={form.pickupCity}
+                      onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
+                    {errors.pickupCity && <p className={errorClass}>{errors.pickupCity}</p>}
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 sm:contents">
+                    <div>
+                      <label className={labelClass} htmlFor="pickupState">State</label>
+                      <input id="pickupState" maxLength={2} className={`${inputClass} uppercase`} value={form.pickupState}
+                        onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
+                      {errors.pickupState && <p className={errorClass}>{errors.pickupState}</p>}
+                    </div>
+                    <div>
+                      <label className={labelClass} htmlFor="pickupZip">Zip code</label>
+                      <input id="pickupZip" inputMode="numeric" maxLength={5} className={inputClass} value={form.pickupZip}
+                        onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
+                      {errors.pickupZip && <p className={errorClass}>{errors.pickupZip}</p>}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-steel">
+                  Delivery pricing is based on your delivery address above.
+                </p>
+              </div>
+            )}
+          </div>
+
+          {rentalDays !== null && rentalDays > 0 && (
+            <div className="rounded-md border border-line bg-white/60 p-3 text-sm">
+              {extraDays === 0 ? (
+                <p className="text-ink/80">
+                  <span className="font-semibold text-crate">{rentalDays}-day rental</span> — covered
+                  by the {includedDays} days included in your package.
+                </p>
+              ) : (
+                <p className="text-ink/80">
+                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> —{" "}
+                  {includedDays} days included, plus {extraDays} extra day
+                  {extraDays > 1 ? "s" : ""} at $
+                  {(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day.
+                </p>
+              )}
+            </div>
+          )}
+
           <div>
             <label className={labelClass} htmlFor="packageId">Package</label>
             <select id="packageId" className={inputClass} value={form.packageId}
@@ -300,28 +409,6 @@ export default function BookingForm() {
                 </option>
               ))}
             </select>
-          </div>
-
-          <div>
-            <label className={labelClass} htmlFor="extraWeeks">Rental length</label>
-            <select
-              id="extraWeeks"
-              className={inputClass}
-              value={extraWeeks}
-              onChange={(e) => setExtraWeeks(Number(e.target.value))}
-            >
-              {[0, 1, 2, 3, 4].map((w) => (
-                <option key={w} value={w}>
-                  {14 + w * 7} days
-                  {w === 0
-                    ? " (included)"
-                    : ` — +$${((selectedPackage?.extraWeekPrice ?? 0) * w).toFixed(0)}`}
-                </option>
-              ))}
-            </select>
-            <p className="mt-1 text-sm text-steel">
-              Most moves run 2–4 weeks once you count packing and unpacking.
-            </p>
           </div>
 
           <fieldset>
@@ -369,6 +456,33 @@ export default function BookingForm() {
 
           {serverError && <p className="text-sm text-red-600">{serverError}</p>}
 
+          <div>
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--crate-green)]"
+              />
+              <span className="text-sm text-ink/80">
+                I have reviewed and agree to the{" "}
+                <a href="/rental-agreement" target="_blank" rel="noopener noreferrer" className="font-medium text-crate underline">
+                  rental agreement
+                </a>
+                ,{" "}
+                <a href="/terms" target="_blank" rel="noopener noreferrer" className="font-medium text-crate underline">
+                  terms
+                </a>
+                , and{" "}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer" className="font-medium text-crate underline">
+                  privacy policy
+                </a>
+                .
+              </span>
+            </label>
+            {errors.agreed && <p className={errorClass}>{errors.agreed}</p>}
+          </div>
+
           <div className="rounded-md border border-crate bg-crate/5 p-4">
             <div className="flex items-baseline justify-between">
               <span className="text-sm font-semibold text-ink">Estimated total</span>
@@ -381,18 +495,27 @@ export default function BookingForm() {
                   <span>${selectedPackage.price.toFixed(2)}</span>
                 </div>
               )}
-              {extraWeeks > 0 && (
+              {extraDays > 0 && (
                 <div className="flex justify-between">
-                  <span>+{extraWeeks} week{extraWeeks > 1 ? "s" : ""}</span>
-                  <span>${extraWeekTotal.toFixed(2)}</span>
+                  <span>
+                    +{extraDays} day{extraDays > 1 ? "s" : ""} @ ${(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day
+                  </span>
+                  <span>${extraDaysTotal.toFixed(2)}</span>
                 </div>
               )}
-              {addOnTotal > 0 && (
-                <div className="flex justify-between">
-                  <span>Add-ons</span>
-                  <span>${addOnTotal.toFixed(2)}</span>
-                </div>
-              )}
+              {addOns.map((a) => {
+                const qty = addOnQty[a.id] ?? 0;
+                if (qty <= 0) return null;
+                return (
+                  <div key={a.id} className="flex justify-between">
+                    <span>
+                      {a.name}
+                      {qty > 1 ? ` × ${qty}` : ""}
+                    </span>
+                    <span>${(a.price * qty).toFixed(2)}</span>
+                  </div>
+                );
+              })}
               <div className="flex justify-between">
                 <span>Delivery</span>
                 <span>

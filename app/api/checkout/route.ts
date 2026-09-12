@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { packageId, addOnQuantities, extraWeeks, name, email, phone, address, zip, deliveryDate, pickupDate, honeypot } = body;
+    const { packageId, addOnQuantities, name, email, phone, address, pickupAddress, agreed, zip, deliveryDate, pickupDate, honeypot } = body;
 
     // Honeypot: real users never fill this hidden field; bots often do.
     if (honeypot) {
@@ -44,6 +44,12 @@ export async function POST(req: NextRequest) {
     if (!name || !email || !phone || !address || !zip || !deliveryDate || !pickupDate) {
       return NextResponse.json({ error: "Missing required booking details." }, { status: 400 });
     }
+    // Consent is enforced server-side too — a checkbox is trivial to bypass in
+    // devtools, and the whole point of clickwrap is a reliable record.
+    if (agreed !== true) {
+      return NextResponse.json({ error: "You must accept the rental agreement to book." }, { status: 400 });
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
@@ -85,19 +91,28 @@ export async function POST(req: NextRequest) {
       },
     ];
 
-    // Extra rental weeks, priced per package. Clamped server-side so a
-    // tampered client can't request a negative or absurd number.
-    const weeks = Math.min(8, Math.max(0, Math.floor(Number(extraWeeks) || 0)));
-    if (weeks > 0) {
+    // Extra rental weeks are derived from the dates the customer submitted,
+    // not from the number the client sent — the dates are what we validated
+    // above, and recomputing here means a tampered client value can't
+    // buy a longer rental for free.
+    const rentalDays = Math.max(
+      0,
+      Math.round(
+        (new Date(pickupDate).getTime() - new Date(deliveryDate).getTime()) / 86_400_000
+      )
+    );
+    const derivedExtraDays = rentalDays > pkg.days ? rentalDays - pkg.days : 0;
+    const extraDays = Math.min(60, Math.max(0, derivedExtraDays));
+    if (extraDays > 0) {
       lineItems.push({
         price_data: {
           currency: "usd",
           product_data: {
-            name: `${weeks} additional week${weeks > 1 ? "s" : ""} (${pkg.days + weeks * 7}-day rental)`,
+            name: `${extraDays} additional day${extraDays > 1 ? "s" : ""} (${pkg.days + extraDays}-day rental)`,
           },
-          unit_amount: Math.round(pkg.extraWeekPrice * 100),
+          unit_amount: Math.round(pkg.dailyRate * 100),
         },
-        quantity: weeks,
+        quantity: extraDays,
       });
     }
 
@@ -142,11 +157,13 @@ export async function POST(req: NextRequest) {
         name,
         phone,
         address,
+        pickupAddress: pickupAddress ?? address,
+        agreedToTerms: "yes",
         zip,
         deliveryDate,
         pickupDate,
         packageId,
-        extraWeeks: String(weeks),
+        extraDays: String(extraDays),
         deliveryFee: deliveryFee.toFixed(2),
         distanceMiles: distanceMiles !== null ? distanceMiles.toFixed(1) : "",
       },

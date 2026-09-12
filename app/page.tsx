@@ -4,6 +4,7 @@ import Pricing from "@/components/Pricing";
 import HowItWorks from "@/components/HowItWorks";
 import WhyUs from "@/components/WhyUs";
 import EcoImpact from "@/components/EcoImpact";
+import About from "@/components/About";
 import ServiceArea from "@/components/ServiceArea";
 import FAQ from "@/components/FAQ";
 import BookingForm from "@/components/BookingForm";
@@ -23,9 +24,10 @@ export default function Home() {
       <Reveal><HowItWorks /></Reveal>
       <Reveal><WhyUs /></Reveal>
       <Reveal><EcoImpact /></Reveal>
+      <Reveal><About /></Reveal>
       <Reveal><ServiceArea /></Reveal>
-      <Reveal><FAQ /></Reveal>
       <Reveal><BookingForm /></Reveal>
+      <Reveal><FAQ /></Reveal>
       <Footer />
     </main>
   );

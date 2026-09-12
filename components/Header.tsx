@@ -14,6 +14,7 @@ export default function Header() {
           <a href="/#how-it-works" className="hover:text-crate">How it works</a>
           <a href="/#pricing" className="hover:text-crate">Pricing</a>
           <a href="/#eco" className="hover:text-crate">Eco impact</a>
+          <a href="/#about" className="hover:text-crate">About</a>
           <a href="/#faq" className="hover:text-crate">FAQ</a>
           <Link href="/moving-tips" className="hover:text-crate">Moving tips</Link>
           <Link href="/realtor-referral" className="hover:text-crate">Realtors</Link>

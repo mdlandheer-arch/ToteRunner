@@ -2,13 +2,15 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --paper: #f6f5f1;
-  --ink: #1b1f23;
-  --crate-green: #2f6d4f;
-  --crate-green-dark: #234f39;
-  --safety-yellow: #f2b705;
-  --steel: #575d66;
-  --line: #d8d5cb;
+  --paper: #f7f4ed;
+  --ink: #14211c;
+  --crate-green: #1a6848;
+  --crate-green-dark: #114832;
+  --safety-yellow: #f5a524;
+  --clay: #a8431f;      /* warm accent for secondary highlights */
+  --sky: #2d6e8f;       /* cool accent, keeps the palette from reading one-note */
+  --steel: #566169;
+  --line: #ded7c9;
 }
 
 @theme inline {
@@ -17,6 +19,8 @@
   --color-crate: var(--crate-green);
   --color-crate-dark: var(--crate-green-dark);
   --color-safety: var(--safety-yellow);
+  --color-clay: var(--clay);
+  --color-sky: var(--sky);
   --color-steel: var(--steel);
   --color-line: var(--line);
   --font-display: var(--font-archivo);

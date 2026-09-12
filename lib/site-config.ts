@@ -21,6 +21,11 @@ export const siteConfig = {
     "Rockford",
     "Cascade",
     "Ada",
+    "Caledonia",
+    "Comstock Park",
+    "Coopersville",
+    "Cutlerville",
+    "Allendale",
   ],
   freeDeliveryRadiusMiles: 15, // adjust to your real service radius
   perMileFeeBeyondRadius: 1.5, // USD per mile beyond the free radius — set to 0 to disable
@@ -38,6 +43,12 @@ export const siteConfig = {
   realtorReferral: {
     commissionPerReferral: 15, // USD, or switch copy to a % if you prefer
   },
+  // Owner story shown in the About section — rewrite this in your own voice.
+  // Local trust matters more than polish for this kind of business.
+  about: {
+    ownerNames: "[YOUR NAME]",
+    homeTown: "Grand Rapids",
+  },
   // Other uses beyond moving day — shown in the "also great for" section.
   otherUseCases: [
     "Temporary storage",
@@ -54,7 +65,7 @@ export type Package = {
   totes: number;
   days: number;
   price: number; // USD — covers the full base rental period
-  extraWeekPrice: number; // USD per additional week beyond the base period
+  dailyRate: number; // USD per day beyond the base rental period
   blurb: string;
   includes: string[]; // bundled items shown on the pricing card
   popular?: boolean;
@@ -64,9 +75,17 @@ export type Package = {
 // but still adjust to your actual delivery/tote costs before launch.
 //
 // Base period is 14 days because most moves run 2-4 weeks (pack + unpack).
-// Extensions are priced per week, per package, rather than a flat daily rate —
-// a daily rate makes a realistic 3-week rental cost more than double the base,
-// which loses the booking.
+// Past day 14, a per-day rate keeps short overruns cheap (nobody pays for a
+// full week to keep totes two extra days).
+//
+// Daily rates are set to undercut Dragon Totes, the only reviewed competitor
+// publishing a daily figure ($0.39/tote/day):
+//   15 totes: $4/day  vs their $5.85
+//   25 totes: $6/day  vs their $9.75
+//   40 totes: $9/day  vs their $15.60
+//   60 totes: $13/day vs their $23.40
+// Verify against your real per-tote costs before launch — undercutting is only
+// worth it if the margin survives it.
 // Every package now bundles a dolly + labels; dollies come back to you, so the
 // real recurring cost of the bundle is mostly the labels.
 export const packages: Package[] = [
@@ -76,7 +95,7 @@ export const packages: Package[] = [
     totes: 15,
     days: 14,
     price: 69,
-    extraWeekPrice: 20,
+    dailyRate: 4,
     blurb: "Apartments and smaller spaces.",
     includes: ["1 dolly", "15 labels", "Delivery + pickup"],
   },
@@ -86,7 +105,7 @@ export const packages: Package[] = [
     totes: 25,
     days: 14,
     price: 99,
-    extraWeekPrice: 25,
+    dailyRate: 6,
     blurb: "The most common home size.",
     includes: ["1 dolly", "25 labels", "Delivery + pickup"],
     popular: true,
@@ -97,7 +116,7 @@ export const packages: Package[] = [
     totes: 40,
     days: 14,
     price: 149,
-    extraWeekPrice: 35,
+    dailyRate: 9,
     blurb: "Most single-family homes.",
     includes: ["2 dollies", "40 labels", "Delivery + pickup"],
   },
@@ -107,7 +126,7 @@ export const packages: Package[] = [
     totes: 60,
     days: 14,
     price: 199,
-    extraWeekPrice: 45,
+    dailyRate: 13,
     blurb: "Large homes and full-estate moves.",
     includes: ["3 dollies", "60 labels", "Delivery + pickup"],
   },

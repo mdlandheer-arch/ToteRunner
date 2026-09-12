@@ -71,6 +71,7 @@ export async function POST(req: NextRequest) {
       email: session.customer_email ?? session.customer_details?.email ?? "",
       phone: meta.phone ?? "",
       address: meta.address ?? "",
+      pickupAddress: meta.pickupAddress ?? "",
       deliveryDate: meta.deliveryDate ?? "",
       pickupDate: meta.pickupDate ?? "",
       packageName: pkg?.name ?? meta.packageId ?? "Unknown package",

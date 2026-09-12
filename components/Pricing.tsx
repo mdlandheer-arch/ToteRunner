@@ -27,6 +27,13 @@ export default function Pricing() {
                 <p className="mt-1 text-sm text-steel">
                   {pkg.totes} totes · {pkg.days}-day rental
                 </p>
+                <p className="mt-1 text-sm text-steel">
+                  Need longer? ${pkg.dailyRate}/day after that.
+                </p>
+                <p className="mt-2 text-sm font-medium text-crate">
+                  ${(pkg.price / pkg.totes).toFixed(2)} per tote — dolly, labels, delivery and
+                  pickup included.
+                </p>
                 <p className="mt-3 text-sm text-ink/70">{pkg.blurb}</p>
                 <ul className="mt-4 space-y-1.5 border-t border-line pt-4">
                   {pkg.includes.map((item) => (

@@ -5,14 +5,14 @@ import { motion, useScroll, useTransform } from "framer-motion";
 // One color per major section, in page order. Subtle washes of the brand
 // palette — paper stays the anchor, crate/safety tints breathe in and out.
 const stops = [
-  "#f6f5f1", // paper — hero
-  "#eaf1ec", // crate tint — pricing
-  "#f6f5f1", // paper — how it works
-  "#fdf3dd", // safety tint — why us
-  "#e6efe8", // deeper green — eco impact (the section that should feel greenest)
-  "#f6f5f1", // paper — service area
-  "#eaf1ec", // crate tint — faq
-  "#fdf3dd", // safety tint — booking
+  "#f7f4ed", // paper — hero
+  "#e4efe8", // crate tint — pricing
+  "#fdf0d9", // warm sand — how it works
+  "#f7e9e2", // clay tint — why us
+  "#dcebe0", // deeper green — eco impact (the section that should feel greenest)
+  "#e8eef2", // cool sky tint — about + service area
+  "#fdf0d9", // warm sand — booking (the form should feel like the destination)
+  "#f7f4ed", // paper — faq
 ];
 
 export default function MorphBackground() {

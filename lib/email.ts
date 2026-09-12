@@ -11,6 +11,7 @@ export type BookingDetails = {
   email: string;
   phone: string;
   address: string;
+  pickupAddress: string;
   deliveryDate: string;
   pickupDate: string;
   packageName: string;
@@ -62,7 +63,8 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
         ${row("Customer", b.name)}
         ${row("Email", b.email)}
         ${row("Phone", b.phone)}
-        ${row("Address", b.address)}
+        ${row("Delivery address", b.address)}
+        ${b.pickupAddress && b.pickupAddress !== b.address ? row("Pickup address", b.pickupAddress) : ""}
         ${row("Delivery", b.deliveryDate)}
         ${row("Pickup", b.pickupDate)}
         ${row("Package", `${b.packageName} (${b.totes} totes)`)}
@@ -103,7 +105,8 @@ export async function sendCustomerConfirmation(b: BookingDetails): Promise<void>
         ${row("Add-ons", b.addOnSummary || "None")}
         ${row("Delivery date", b.deliveryDate)}
         ${row("Pickup date", b.pickupDate)}
-        ${row("Address", b.address)}
+        ${row("Delivery address", b.address)}
+        ${b.pickupAddress && b.pickupAddress !== b.address ? row("Pickup address", b.pickupAddress) : ""}
         ${row("Total paid", `$${b.amountTotal}`)}
       </table>
       <p style="color:#333;margin-top:16px;">
