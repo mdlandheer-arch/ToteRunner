@@ -38,6 +38,7 @@ type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
+  const [extraWeeks, setExtraWeeks] = useState(0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
@@ -109,7 +110,8 @@ export default function BookingForm() {
     const a = addOns.find((x) => x.id === id);
     return a && qty > 0 ? sum + a.price * qty : sum;
   }, 0);
-  const estimatedTotal = (selectedPackage?.price ?? 0) + addOnTotal + estimatedFee;
+  const extraWeekTotal = (selectedPackage?.extraWeekPrice ?? 0) * extraWeeks;
+  const estimatedTotal = (selectedPackage?.price ?? 0) + extraWeekTotal + addOnTotal + estimatedFee;
 
   function validate(): boolean {
     const next: Record<string, string> = {};
@@ -142,7 +144,7 @@ export default function BookingForm() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, address, addOnQuantities: addOnQty }),
+        body: JSON.stringify({ ...form, address, addOnQuantities: addOnQty, extraWeeks }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -300,6 +302,28 @@ export default function BookingForm() {
             </select>
           </div>
 
+          <div>
+            <label className={labelClass} htmlFor="extraWeeks">Rental length</label>
+            <select
+              id="extraWeeks"
+              className={inputClass}
+              value={extraWeeks}
+              onChange={(e) => setExtraWeeks(Number(e.target.value))}
+            >
+              {[0, 1, 2, 3, 4].map((w) => (
+                <option key={w} value={w}>
+                  {14 + w * 7} days
+                  {w === 0
+                    ? " (included)"
+                    : ` — +$${((selectedPackage?.extraWeekPrice ?? 0) * w).toFixed(0)}`}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-sm text-steel">
+              Most moves run 2–4 weeks once you count packing and unpacking.
+            </p>
+          </div>
+
           <fieldset>
             <legend className={labelClass}>Add-ons (optional)</legend>
             <div className="mt-2 space-y-2">
@@ -355,6 +379,12 @@ export default function BookingForm() {
                 <div className="flex justify-between">
                   <span>{selectedPackage.name} ({selectedPackage.totes} totes)</span>
                   <span>${selectedPackage.price.toFixed(2)}</span>
+                </div>
+              )}
+              {extraWeeks > 0 && (
+                <div className="flex justify-between">
+                  <span>+{extraWeeks} week{extraWeeks > 1 ? "s" : ""}</span>
+                  <span>${extraWeekTotal.toFixed(2)}</span>
                 </div>
               )}
               {addOnTotal > 0 && (

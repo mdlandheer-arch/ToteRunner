@@ -53,7 +53,8 @@ export type Package = {
   name: string;
   totes: number;
   days: number;
-  price: number; // USD
+  price: number; // USD — covers the full base rental period
+  extraWeekPrice: number; // USD per additional week beyond the base period
   blurb: string;
   includes: string[]; // bundled items shown on the pricing card
   popular?: boolean;
@@ -61,6 +62,11 @@ export type Package = {
 
 // Placeholder pricing — benchmarked against comparable tote-rental competitors,
 // but still adjust to your actual delivery/tote costs before launch.
+//
+// Base period is 14 days because most moves run 2-4 weeks (pack + unpack).
+// Extensions are priced per week, per package, rather than a flat daily rate —
+// a daily rate makes a realistic 3-week rental cost more than double the base,
+// which loses the booking.
 // Every package now bundles a dolly + labels; dollies come back to you, so the
 // real recurring cost of the bundle is mostly the labels.
 export const packages: Package[] = [
@@ -68,8 +74,9 @@ export const packages: Package[] = [
     id: "studio",
     name: "Studio / 1 Bedroom",
     totes: 15,
-    days: 7,
+    days: 14,
     price: 69,
+    extraWeekPrice: 20,
     blurb: "Apartments and smaller spaces.",
     includes: ["1 dolly", "15 labels", "Delivery + pickup"],
   },
@@ -77,8 +84,9 @@ export const packages: Package[] = [
     id: "two-bedroom",
     name: "2 Bedroom",
     totes: 25,
-    days: 7,
+    days: 14,
     price: 99,
+    extraWeekPrice: 25,
     blurb: "The most common home size.",
     includes: ["1 dolly", "25 labels", "Delivery + pickup"],
     popular: true,
@@ -87,8 +95,9 @@ export const packages: Package[] = [
     id: "three-bedroom",
     name: "3 Bedroom",
     totes: 40,
-    days: 7,
+    days: 14,
     price: 149,
+    extraWeekPrice: 35,
     blurb: "Most single-family homes.",
     includes: ["2 dollies", "40 labels", "Delivery + pickup"],
   },
@@ -96,8 +105,9 @@ export const packages: Package[] = [
     id: "four-bedroom",
     name: "4+ Bedroom",
     totes: 60,
-    days: 7,
+    days: 14,
     price: 199,
+    extraWeekPrice: 45,
     blurb: "Large homes and full-estate moves.",
     includes: ["3 dollies", "60 labels", "Delivery + pickup"],
   },
@@ -111,7 +121,6 @@ export type AddOn = {
 };
 
 export const addOns: AddOn[] = [
-  { id: "extra-day", name: "Extra day rental", price: 15, unit: "/day" },
   { id: "extra-tote", name: "Extra tote", price: 5, unit: "each" },
   { id: "hand-truck", name: "2-wheel hand truck", price: 18, unit: "flat" },
   { id: "extra-dolly", name: "Extra 4-wheel dolly", price: 12, unit: "each" },

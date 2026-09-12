@@ -3,12 +3,12 @@ import { FAQSchema } from "@/components/StructuredData";
 
 export const faqs = [
   { q: "How many totes will I need?", a: "As a rough guide: studio/1BR ≈ 15 totes, 2BR ≈ 25, 3BR ≈ 40, 4+BR ≈ 60. Use the calculator in our pricing section, and when in doubt, size up slightly." },
-  { q: "How long should I rent for?", a: "Most people need 1–2 weeks to pack before moving day and another 1–2 weeks to unpack after — so 2–4 weeks total is typical. Count backward from your move date, add time on the other side, and book that. You can always add days later." },
+  { q: "How long should I rent for?", a: "Every package includes a 14-day rental, which covers most moves. If you need longer, add extra weeks at checkout — pricing depends on package size, and it's a lot cheaper than you'd expect. Most people need 2–4 weeks once you count packing and unpacking." },
   { q: "Do I have to clean the totes?", a: "No — every tote is vacuumed, sanitized inside and out, and inspected between rentals before it reaches you. Just return them free of food debris and liquids." },
   { q: "What's included in each package?", a: "Every package includes the totes, at least one dolly, a matching set of labels, and free delivery and pickup within our service area." },
   { q: "How far in advance should I reserve?", a: "We recommend booking 1–2 weeks ahead, especially for weekends and month-end when demand is highest. Our fleet is limited, so booking early secures your dates." },
   { q: "What is your cancellation policy?", a: `Cancel at least ${cancellationPolicy.freeCancellationHours} hours before your scheduled delivery for a full refund. Inside that window, a $${cancellationPolicy.lateCancellationFee} cancellation fee applies. If the totes have already been delivered, a $${cancellationPolicy.postDeliveryRestockingFee} restocking fee applies.` },
-  { q: "Can I change my rental dates?", a: "Usually yes, as long as we can accommodate it — just call, text, or email us as early as you can. If you need longer than your original rental period, you can add extra days at checkout or by contacting us before your pickup date." },
+  { q: "Can I change my rental dates?", a: "Usually yes, as long as we can accommodate it — just call, text, or email us as early as you can. If you need longer than your original rental period, add extra weeks at checkout, or contact us before your pickup date." },
   { q: "What if I need more totes than I booked?", a: "Add extra totes at checkout, or contact us during your rental and we'll do our best to get more to you the same week." },
   { q: "What if a tote is lost or damaged?", a: "A reasonable replacement fee applies for lost or badly damaged totes — the details are in our terms & conditions." },
   { q: "Do the lids lock or snap shut?", a: "Yes — each lid snaps securely and stays closed during transport." },

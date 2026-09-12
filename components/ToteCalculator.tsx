@@ -56,7 +56,7 @@ export default function ToteCalculator() {
       <div className="mt-4 rounded-md border border-line p-4">
         <p className="text-sm font-semibold text-ink">How long should I rent for?</p>
         <p className="mt-1 text-sm text-ink/70">
-          Most people need 2–4 weeks — a week or two to pack, the same to unpack. You can add days later.
+          Every package includes 14 days, which covers most moves. Need longer? Add weeks at checkout.
         </p>
       </div>
     </div>

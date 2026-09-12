@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { packageId, addOnQuantities, name, email, phone, address, zip, deliveryDate, pickupDate, honeypot } = body;
+    const { packageId, addOnQuantities, extraWeeks, name, email, phone, address, zip, deliveryDate, pickupDate, honeypot } = body;
 
     // Honeypot: real users never fill this hidden field; bots often do.
     if (honeypot) {
@@ -85,6 +85,22 @@ export async function POST(req: NextRequest) {
       },
     ];
 
+    // Extra rental weeks, priced per package. Clamped server-side so a
+    // tampered client can't request a negative or absurd number.
+    const weeks = Math.min(8, Math.max(0, Math.floor(Number(extraWeeks) || 0)));
+    if (weeks > 0) {
+      lineItems.push({
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: `${weeks} additional week${weeks > 1 ? "s" : ""} (${pkg.days + weeks * 7}-day rental)`,
+          },
+          unit_amount: Math.round(pkg.extraWeekPrice * 100),
+        },
+        quantity: weeks,
+      });
+    }
+
     if (deliveryFee > 0 && distanceMiles !== null) {
       lineItems.push({
         price_data: {
@@ -130,6 +146,7 @@ export async function POST(req: NextRequest) {
         deliveryDate,
         pickupDate,
         packageId,
+        extraWeeks: String(weeks),
         deliveryFee: deliveryFee.toFixed(2),
         distanceMiles: distanceMiles !== null ? distanceMiles.toFixed(1) : "",
       },
