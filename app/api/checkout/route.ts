@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { packageId, addOnQuantities, name, email, phone, address, pickupAddress, agreed, zip, deliveryDate, pickupDate, honeypot } = body;
+    const { packageId, addOnQuantities, name, email, phone, address, pickupAddress, agreed, zip, pickupZip, deliveryDate, pickupDate, honeypot } = body;
 
     // Honeypot: real users never fill this hidden field; bots often do.
     if (honeypot) {
@@ -80,6 +80,16 @@ export async function POST(req: NextRequest) {
       deliveryFee = calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius);
     }
 
+    // Pickup is a separate trip, so it's priced as its own leg.
+    let pickupFee = 0;
+    if (/^\d{5}$/.test(String(pickupZip ?? "")) && businessZip) {
+      const pz = await lookupZip(String(pickupZip));
+      if (pz) {
+        const pickupMiles = haversineMiles(pz.latitude, pz.longitude, businessZip.latitude, businessZip.longitude);
+        pickupFee = calculateDeliveryFee(pickupMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius);
+      }
+    }
+
     const lineItems: { price_data: any; quantity: number }[] = [
       {
         price_data: {
@@ -120,10 +130,18 @@ export async function POST(req: NextRequest) {
       lineItems.push({
         price_data: {
           currency: "usd",
-          product_data: {
-            name: `Delivery beyond free zone (~${Math.round(distanceMiles)} mi from hub)`,
-          },
+          product_data: { name: `Delivery trip beyond free zone (~${Math.round(distanceMiles)} mi)` },
           unit_amount: Math.round(deliveryFee * 100),
+        },
+        quantity: 1,
+      });
+    }
+    if (pickupFee > 0) {
+      lineItems.push({
+        price_data: {
+          currency: "usd",
+          product_data: { name: "Pickup trip beyond free zone" },
+          unit_amount: Math.round(pickupFee * 100),
         },
         quantity: 1,
       });
@@ -164,7 +182,7 @@ export async function POST(req: NextRequest) {
         pickupDate,
         packageId,
         extraDays: String(extraDays),
-        deliveryFee: deliveryFee.toFixed(2),
+        deliveryFee: (deliveryFee + pickupFee).toFixed(2),
         distanceMiles: distanceMiles !== null ? distanceMiles.toFixed(1) : "",
       },
     });

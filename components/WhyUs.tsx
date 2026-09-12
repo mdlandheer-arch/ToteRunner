@@ -5,7 +5,7 @@ const totes = ["Delivered to your door", "No tape needed", "Stack tight, stay ri
 
 export default function WhyUs() {
   return (
-    <section>
+    <section className="bg-tint-sand">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Cardboard vs. totes</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig, packages, cancellationPolicy } from "@/lib/site-config";
+import { siteConfig, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
@@ -14,7 +14,7 @@ export default function TermsPage() {
       <Header />
       <div className="mx-auto max-w-3xl px-5 py-16">
         <h1 className="text-3xl font-bold text-ink">Terms & Conditions</h1>
-        <p className="mt-2 text-sm text-steel">Last updated: [DATE]</p>
+        <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
 
         <div className="mt-4 rounded-md border border-safety bg-safety/10 p-4 text-sm text-ink/80">
           <strong>Before you launch:</strong> this is a detailed starting template, not legal advice.
@@ -79,8 +79,9 @@ export default function TermsPage() {
           <h2>7. Lost, damaged, or unreturned totes</h2>
           <p>
             You&apos;re responsible for our totes and any rented accessories during your rental
-            period. A replacement fee of $[AMOUNT] per tote (and $[AMOUNT] per accessory) applies for
-            items that are lost, stolen, or damaged beyond normal wear and tear. Totes not returned or
+            period. A replacement fee of ${damageFees.perTote} per tote (and ${damageFees.perAccessory}{" "}
+            per accessory) applies for items that are lost, stolen, or damaged beyond normal wear and
+            tear. Totes not returned or
             made available for pickup within [X] days of the scheduled pickup date may be billed at
             full replacement value.
           </p>
@@ -97,8 +98,8 @@ export default function TermsPage() {
           <h2>9. Cleanliness</h2>
           <p>
             Totes are sanitized before delivery. Please return totes free of food debris, liquids, or
-            hazardous residue. A cleaning fee of $[AMOUNT] may apply for totes returned in a condition
-            requiring more than standard cleaning.
+            hazardous residue. A ${damageFees.cleaning} cleaning fee may apply for totes returned in a
+            condition requiring more than standard cleaning.
           </p>
 
           <h2>10. Force majeure</h2>

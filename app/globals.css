@@ -9,6 +9,12 @@
   --safety-yellow: #f5a524;
   --clay: #a8431f;      /* warm accent for secondary highlights */
   --sky: #2d6e8f;       /* cool accent, keeps the palette from reading one-note */
+
+  /* Section tints. Only two alternate down the page, so the site reads as one
+     palette rather than a color transition. Both verified >=4.5:1 against ink,
+     steel, crate, clay and sky. */
+  --tint-green: #e4efe8;
+  --tint-sand: #fdf0d9;
   --steel: #566169;
   --line: #ded7c9;
 }
@@ -21,6 +27,8 @@
   --color-safety: var(--safety-yellow);
   --color-clay: var(--clay);
   --color-sky: var(--sky);
+  --color-tint-green: var(--tint-green);
+  --color-tint-sand: var(--tint-sand);
   --color-steel: var(--steel);
   --color-line: var(--line);
   --font-display: var(--font-archivo);

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, legalLastUpdated } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       <Header />
       <div className="mx-auto max-w-3xl px-5 py-16">
         <h1 className="text-3xl font-bold text-ink">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-steel">Last updated: [DATE]</p>
+        <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
 
         <div className="mt-4 rounded-md border border-safety bg-safety/10 p-4 text-sm text-ink/80">
           <strong>Before you launch:</strong> this is a detailed starting template, not legal advice.

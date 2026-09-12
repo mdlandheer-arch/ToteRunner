@@ -6,10 +6,10 @@ import { siteConfig } from "@/lib/site-config";
 // do when you're not hauling totes) are worth more here than polish.
 
 const badges = [
-  { icon: "🌱", label: "Reused, not landfilled" },
-  { icon: "🧼", label: "Sanitized every round" },
-  { icon: "🚚", label: "Free drop-off & pickup" },
-  { icon: "📍", label: "West Michigan owned" },
+  { icon: "♻️", label: "Hundreds of moves per tote" },
+  { icon: "✨", label: "Scrubbed before every drop-off" },
+  { icon: "🚚", label: "We handle both trips" },
+  { icon: "🏡", label: "Run from Grand Rapids" },
 ];
 
 export default function About() {

@@ -46,7 +46,7 @@ export const siteConfig = {
   // Owner story shown in the About section — rewrite this in your own voice.
   // Local trust matters more than polish for this kind of business.
   about: {
-    ownerNames: "[YOUR NAME]",
+    ownerNames: "Mitchell",
     homeTown: "Grand Rapids",
   },
   // Other uses beyond moving day — shown in the "also great for" section.
@@ -147,6 +147,18 @@ export const addOns: AddOn[] = [
 
 // Published so customers see it before booking — reduces support emails.
 // These are placeholders: decide your real numbers before launch.
+// Damage / loss fees, shown on the rental agreement and terms pages.
+// Set from the owner's decisions — confirm with your attorney that these are
+// enforceable as liquidated damages under Michigan consumer law.
+// Shown on the legal pages. Bump this whenever you change legal copy.
+export const legalLastUpdated = "September 12, 2026";
+
+export const damageFees = {
+  perTote: 15,
+  perAccessory: 25,
+  cleaning: 15,
+};
+
 export const cancellationPolicy = {
   freeCancellationHours: 48,
   lateCancellationFee: 25, // USD, inside the free window

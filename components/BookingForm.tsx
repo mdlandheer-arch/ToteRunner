@@ -47,7 +47,6 @@ type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
-  const [differentPickup, setDifferentPickup] = useState(false);
   const [agreed, setAgreed] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -57,6 +56,7 @@ export default function BookingForm() {
   const [zipStatus, setZipStatus] = useState<ZipStatus>("idle");
   const [zipInfo, setZipInfo] = useState<ZipInfo | null>(null);
   const [distanceMiles, setDistanceMiles] = useState<number | null>(null);
+  const [pickupDistanceMiles, setPickupDistanceMiles] = useState<number | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Verify the zip as the person types (debounced) and auto-fill city/state.
@@ -108,10 +108,35 @@ export default function BookingForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.zip]);
 
-  const estimatedFee =
+  // Same lookup for the pickup address, so an out-of-area pickup is priced.
+  useEffect(() => {
+    if (!/^\d{5}$/.test(form.pickupZip)) {
+      setPickupDistanceMiles(null);
+      return;
+    }
+    let cancelled = false;
+    const t = window.setTimeout(async () => {
+      const [pz, bz] = await Promise.all([lookupZip(form.pickupZip), lookupZip(siteConfig.businessZip)]);
+      if (cancelled || !pz || !bz) return;
+      setPickupDistanceMiles(haversineMiles(pz.latitude, pz.longitude, bz.latitude, bz.longitude));
+    }, 500);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, [form.pickupZip]);
+
+  // Each leg is priced on its own — delivery and pickup are separate trips, so
+  // an address outside the free zone costs us the drive either way.
+  const deliveryLegFee =
     distanceMiles !== null
       ? calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
       : 0;
+  const pickupLegFee =
+    pickupDistanceMiles !== null
+      ? calculateDeliveryFee(pickupDistanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
+      : 0;
+  const estimatedFee = deliveryLegFee + pickupLegFee;
 
   // Running total so nobody reaches Stripe surprised by the amount. The
   // server recalculates everything independently at checkout — this is a
@@ -157,7 +182,7 @@ export default function BookingForm() {
     if (form.deliveryDate && form.pickupDate && form.pickupDate < form.deliveryDate) {
       next.pickupDate = "Pickup date must be on or after delivery date.";
     }
-    if (differentPickup) {
+    {
       if (!form.pickupStreet.trim()) next.pickupStreet = "Pickup street address is required.";
       if (!form.pickupCity.trim()) next.pickupCity = "Pickup city is required.";
       if (!form.pickupState.trim()) next.pickupState = "Pickup state is required.";
@@ -176,9 +201,7 @@ export default function BookingForm() {
     setSubmitting(true);
     try {
       const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
-      const pickupAddress = differentPickup
-        ? `${form.pickupStreet}, ${form.pickupCity}, ${form.pickupState} ${form.pickupZip}`
-        : address;
+      const pickupAddress = `${form.pickupStreet}, ${form.pickupCity}, ${form.pickupState} ${form.pickupZip}`;
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -202,7 +225,7 @@ export default function BookingForm() {
   const errorClass = "mt-1 text-xs text-red-600";
 
   return (
-    <section id="booking">
+    <section id="booking" className="bg-tint-green">
       <div className="mx-auto max-w-2xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Reserve your totes</h2>
         <p className="mt-2 text-ink/70">Fill this out and you&apos;ll be taken to secure checkout.</p>
@@ -329,56 +352,56 @@ export default function BookingForm() {
           </div>
 
           <div className="rounded-md border border-line bg-white/60 p-4">
-            <label className="flex cursor-pointer items-start gap-3">
-              <input
-                type="checkbox"
-                checked={differentPickup}
-                onChange={(e) => setDifferentPickup(e.target.checked)}
-                className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--crate-green)]"
-              />
-              <span className="text-sm text-ink/80">
-                <span className="font-medium text-ink">Pick up from a different address</span>
-                <span className="mt-0.5 block text-steel">
-                  Most people unpack at the new place — tell us where to collect the empties.
-                </span>
-              </span>
-            </label>
+            <p className="font-medium text-ink">Where should we pick the empties up?</p>
+            <p className="mt-0.5 text-sm text-steel">
+              Usually the new place. Same as delivery? Tap to copy it over.
+            </p>
+            <button
+              type="button"
+              onClick={() =>
+                setForm((f) => ({
+                  ...f,
+                  pickupStreet: f.street,
+                  pickupCity: f.city,
+                  pickupState: f.state,
+                  pickupZip: f.zip,
+                }))
+              }
+              className="mt-3 rounded-md border border-crate px-3 py-1.5 text-sm font-medium text-crate hover:bg-crate/5"
+            >
+              Same as delivery address
+            </button>
 
-            {differentPickup && (
-              <div className="mt-4 space-y-4 border-t border-line pt-4">
-                <div>
-                  <label className={labelClass} htmlFor="pickupStreet">Pickup street address</label>
-                  <input id="pickupStreet" autoComplete="off" className={inputClass} value={form.pickupStreet}
-                    onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
-                  {errors.pickupStreet && <p className={errorClass}>{errors.pickupStreet}</p>}
-                </div>
-                <div className="grid gap-4 sm:grid-cols-[1fr_5rem_7rem]">
-                  <div>
-                    <label className={labelClass} htmlFor="pickupCity">City</label>
-                    <input id="pickupCity" className={inputClass} value={form.pickupCity}
-                      onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
-                    {errors.pickupCity && <p className={errorClass}>{errors.pickupCity}</p>}
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 sm:contents">
-                    <div>
-                      <label className={labelClass} htmlFor="pickupState">State</label>
-                      <input id="pickupState" maxLength={2} className={`${inputClass} uppercase`} value={form.pickupState}
-                        onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
-                      {errors.pickupState && <p className={errorClass}>{errors.pickupState}</p>}
-                    </div>
-                    <div>
-                      <label className={labelClass} htmlFor="pickupZip">Zip code</label>
-                      <input id="pickupZip" inputMode="numeric" maxLength={5} className={inputClass} value={form.pickupZip}
-                        onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
-                      {errors.pickupZip && <p className={errorClass}>{errors.pickupZip}</p>}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-sm text-steel">
-                  Delivery pricing is based on your delivery address above.
-                </p>
+            <div className="mt-4 space-y-4 border-t border-line pt-4">
+              <div>
+                <label className={labelClass} htmlFor="pickupStreet">Pickup street address</label>
+                <input id="pickupStreet" autoComplete="off" className={inputClass} value={form.pickupStreet}
+                  onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
+                {errors.pickupStreet && <p className={errorClass}>{errors.pickupStreet}</p>}
               </div>
-            )}
+              <div className="grid gap-4 sm:grid-cols-[1fr_5rem_7rem]">
+                <div>
+                  <label className={labelClass} htmlFor="pickupCity">City</label>
+                  <input id="pickupCity" className={inputClass} value={form.pickupCity}
+                    onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
+                  {errors.pickupCity && <p className={errorClass}>{errors.pickupCity}</p>}
+                </div>
+                <div className="grid grid-cols-2 gap-4 sm:contents">
+                  <div>
+                    <label className={labelClass} htmlFor="pickupState">State</label>
+                    <input id="pickupState" maxLength={2} className={`${inputClass} uppercase`} value={form.pickupState}
+                      onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
+                    {errors.pickupState && <p className={errorClass}>{errors.pickupState}</p>}
+                  </div>
+                  <div>
+                    <label className={labelClass} htmlFor="pickupZip">Zip code</label>
+                    <input id="pickupZip" inputMode="numeric" maxLength={5} className={inputClass} value={form.pickupZip}
+                      onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
+                    {errors.pickupZip && <p className={errorClass}>{errors.pickupZip}</p>}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {rentalDays !== null && rentalDays > 0 && (
@@ -517,13 +540,15 @@ export default function BookingForm() {
                 );
               })}
               <div className="flex justify-between">
-                <span>Delivery</span>
+                <span>Delivery trip</span>
                 <span>
-                  {zipStatus !== "verified"
-                    ? "Enter zip"
-                    : estimatedFee > 0
-                      ? `$${estimatedFee.toFixed(2)}`
-                      : "Free"}
+                  {zipStatus !== "verified" ? "Enter zip" : deliveryLegFee > 0 ? `$${deliveryLegFee.toFixed(2)}` : "Free"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Pickup trip</span>
+                <span>
+                  {pickupDistanceMiles === null ? "Enter zip" : pickupLegFee > 0 ? `$${pickupLegFee.toFixed(2)}` : "Free"}
                 </span>
               </div>
             </div>

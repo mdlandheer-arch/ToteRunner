@@ -3,7 +3,7 @@ import ServiceAreaChecker from "@/components/ServiceAreaChecker";
 
 export default function ServiceArea() {
   return (
-    <section>
+    <section className="bg-tint-sand">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Serving {siteConfig.region}</h2>
         <p className="mt-2 max-w-xl text-ink/70">
