@@ -19,7 +19,6 @@ export default function ToteCalculator() {
   return (
     <div className="rounded-lg border border-line bg-white/70 p-6">
       <h3 className="text-lg font-bold text-ink">How many totes do I need?</h3>
-      <p className="mt-1 text-sm text-ink/70">Tell us your home size for a quick recommendation.</p>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {bedroomOptions.map((opt, i) => (
@@ -49,16 +48,11 @@ export default function ToteCalculator() {
           href="#booking"
           className="mt-4 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark"
         >
-          Reserve this package
+          Request this package
         </a>
       </div>
 
-      <div className="mt-4 rounded-md border border-line p-4">
-        <p className="text-sm font-semibold text-ink">How long should I rent for?</p>
-        <p className="mt-1 text-sm text-ink/70">
-          Every package includes 14 days, which covers most moves. Need longer? Add weeks at checkout.
-        </p>
-      </div>
+      <p className="mt-3 text-sm text-steel">14 days included. Need longer? Just pick later dates.</p>
     </div>
   );
 }

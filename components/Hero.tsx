@@ -18,7 +18,7 @@ export default function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ReserveButton
-              label="Reserve your totes"
+              label="Request your totes"
               className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
             />
             <a

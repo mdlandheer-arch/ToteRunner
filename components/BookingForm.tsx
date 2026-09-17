@@ -52,6 +52,7 @@ export default function BookingForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const [zipStatus, setZipStatus] = useState<ZipStatus>("idle");
   const [zipInfo, setZipInfo] = useState<ZipInfo | null>(null);
@@ -138,9 +139,8 @@ export default function BookingForm() {
       : 0;
   const estimatedFee = deliveryLegFee + pickupLegFee;
 
-  // Running total so nobody reaches Stripe surprised by the amount. The
-  // server recalculates everything independently at checkout — this is a
-  // preview, not the source of truth.
+  // Running total shown as an estimate. The server recalculates it for the
+  // owner's email; nothing here is a charge.
   const selectedPackage = packages.find((p) => p.id === form.packageId);
 
   // Rental length comes from the dates the customer picked — the dates are the
@@ -202,7 +202,7 @@ export default function BookingForm() {
     try {
       const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
       const pickupAddress = `${form.pickupStreet}, ${form.pickupCity}, ${form.pickupState} ${form.pickupZip}`;
-      const res = await fetch("/api/checkout", {
+      const res = await fetch("/api/reserve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty }),
@@ -213,7 +213,8 @@ export default function BookingForm() {
         setSubmitting(false);
         return;
       }
-      window.location.href = data.url;
+      setSubmitted(true);
+      window.scrollTo({ top: document.getElementById("booking")?.offsetTop ?? 0, behavior: "smooth" });
     } catch {
       setServerError("Network error — please try again.");
       setSubmitting(false);
@@ -228,8 +229,21 @@ export default function BookingForm() {
     <section id="booking" className="bg-tint-green">
       <div className="mx-auto max-w-2xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Reserve your totes</h2>
-        <p className="mt-2 text-ink/70">Fill this out and you&apos;ll be taken to secure checkout.</p>
+        <p className="mt-2 text-ink/75">Send a request and we&apos;ll confirm your dates within one business day. No payment now.</p>
 
+        {submitted ? (
+          <div className="mt-8 rounded-lg border border-crate bg-white/70 p-8 text-center">
+            <p className="text-2xl font-bold text-ink">Request sent</p>
+            <p className="mx-auto mt-3 max-w-md text-ink/75">
+              Thanks, {form.name.split(" ")[0]}. We&apos;ve emailed a copy to {form.email} and
+              we&apos;ll get back to you within one business day to confirm your dates and sort out
+              payment. Nothing has been charged.
+            </p>
+            <p className="mt-4 text-sm text-steel">
+              Need it sooner? Call {siteConfig.phone}.
+            </p>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
           {/* Honeypot — hidden from real users via CSS, invisible to screen readers */}
           <div aria-hidden="true" className="hidden">
@@ -353,9 +367,7 @@ export default function BookingForm() {
 
           <div className="rounded-md border border-line bg-white/70 p-4">
             <p className="font-medium text-ink">Where should we pick the empties up?</p>
-            <p className="mt-0.5 text-sm text-steel">
-              Usually the new place. Same as delivery? Tap to copy it over.
-            </p>
+<p className="mt-0.5 text-sm text-steel">Usually the new place.</p>
             <button
               type="button"
               onClick={() =>
@@ -407,16 +419,11 @@ export default function BookingForm() {
           {rentalDays !== null && rentalDays > 0 && (
             <div className="rounded-md border border-line bg-white/70 p-3 text-sm">
               {extraDays === 0 ? (
-                <p className="text-ink/80">
-                  <span className="font-semibold text-crate">{rentalDays}-day rental</span> — covered
-                  by the {includedDays} days included in your package.
-                </p>
+<p className="text-ink/80"><span className="font-semibold text-crate">{rentalDays}-day rental</span> — included.</p>
               ) : (
-                <p className="text-ink/80">
-                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> —{" "}
-                  {includedDays} days included, plus {extraDays} extra day
-                  {extraDays > 1 ? "s" : ""} at $
-                  {(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day.
+<p className="text-ink/80">
+                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> — {includedDays} included
+                  + {extraDays} day{extraDays > 1 ? "s" : ""} at ${(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day.
                 </p>
               )}
             </div>
@@ -551,6 +558,9 @@ export default function BookingForm() {
                   {pickupDistanceMiles === null ? "Enter zip" : pickupLegFee > 0 ? `$${pickupLegFee.toFixed(2)}` : "Free"}
                 </span>
               </div>
+              <p className="mt-3 border-t border-crate/20 pt-3 text-xs text-steel">
+                Estimate only — we&apos;ll confirm the final amount when we reply.
+              </p>
             </div>
           </div>
 
@@ -559,13 +569,13 @@ export default function BookingForm() {
             disabled={submitting}
             className="w-full rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark disabled:opacity-60"
           >
-            {submitting ? "Redirecting to checkout…" : "Continue to payment"}
+            {submitting ? "Sending…" : "Request these dates"}
           </button>
           <p className="text-xs text-steel">
-            Payment is processed securely by Stripe. We never see or store your card details.
-            {siteConfig.perMileFeeBeyondRadius > 0 && " Delivery fees beyond our free zone are calculated automatically at checkout."}
+Submitting a request doesn&apos;t charge you or lock in your dates — we&apos;ll confirm availability first.
           </p>
         </form>
+        )}
       </div>
     </section>
   );

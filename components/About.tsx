@@ -25,27 +25,12 @@ export default function About() {
               A better way to box up your move.
             </h2>
 
-            <div className="mt-5 space-y-4 text-ink/75">
-              <p>
-                I&apos;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
-                {siteConfig.about.homeTown}. [Replace this with why you started — the move that made
-                you think there had to be a better way, or what you noticed nobody was doing well
-                around here.]
-              </p>
-              <p>
-                Moving day already has enough going on without a trip to the store for boxes, a roll
-                of tape that runs out halfway through, and a stack of cardboard in the garage for
-                weeks afterward. So the setup here is simple: sturdy totes show up at your door,
-                snap shut without tape, stack the way they&apos;re supposed to, and disappear again
-                once you&apos;re unpacked.
-              </p>
-              <p>
-                No big franchise behind this — just a local operation covering{" "}
-                {siteConfig.serviceAreas.length}+ West Michigan communities, which means when
-                something needs sorting out, you&apos;re talking to the person who can actually sort
-                it out.
-              </p>
-            </div>
+            <p className="mt-4 text-ink/75">
+              I&apos;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
+              {siteConfig.about.homeTown}. [One or two sentences on why you started — the move that
+              made you think there had to be a better way.] No franchise behind this, just a local
+              operation covering {siteConfig.serviceAreas.length}+ West Michigan towns.
+            </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
               {badges.map((b) => (

@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 // than the homepage, navigates home first and lets the browser handle the
 // anchor.
 
-export default function ReserveButton({ className, label = "Reserve now" }: { className?: string; label?: string }) {
+export default function ReserveButton({ className, label = "Request totes" }: { className?: string; label?: string }) {
   const pathname = usePathname();
   const router = useRouter();
 

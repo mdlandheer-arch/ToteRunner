@@ -27,7 +27,7 @@ export default function WhyUs() {
           </div>
         </div>
 
-        <div className="mt-12 rounded-lg border border-line p-6">
+        <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
           <h3 className="text-xl font-bold text-ink">Built for real moving days</h3>
           <p className="mt-2 max-w-2xl text-sm text-ink/70">
             Rain or snow doesn&apos;t care about your move date. Wet cardboard loses its strength fast —
@@ -35,30 +35,16 @@ export default function WhyUs() {
           </p>
         </div>
 
-        <div className="mt-6 rounded-lg border border-line p-6">
-          <h3 className="text-xl font-bold text-ink">Clean, sanitized, and bug-free</h3>
-          <p className="mt-2 max-w-2xl text-sm text-ink/70">
-            Every tote is cleaned and sanitized between rentals — inside, outside, and the lids — and
-            old labels are removed before it reaches you. This is one of the real advantages over
-            cardboard: used boxes absorb moisture and odors, and they&apos;re a known hiding spot for
-            bedbugs and pantry pests. Hard plastic doesn&apos;t give them anywhere to go.
+        <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
+          <h3 className="font-bold text-ink">Clean every time</h3>
+          <p className="mt-1 text-sm text-ink/75">
+            Vacuumed, sanitized, and inspected between every rental — no moisture, odors, or pests
+            the way used cardboard can carry.
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            {[
-              ["Vacuumed", "Debris and dust removed from every corner."],
-              ["Sanitized", "Cleaned inside and out, lids included."],
-              ["Inspected", "Old labels off, lids and handles checked."],
-            ].map(([title, body]) => (
-              <div key={title} className="rounded-md border border-line bg-white/70 p-4">
-                <p className="text-sm font-semibold text-crate">{title}</p>
-                <p className="mt-1 text-sm text-ink/70">{body}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="mt-6 rounded-lg border border-line p-6">
-          <h3 className="text-xl font-bold text-ink">Also great for</h3>
+          <h3 className="font-bold text-ink">Also great for</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {siteConfig.otherUseCases.map((useCase) => (
               <span key={useCase} className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80">

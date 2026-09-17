@@ -53,7 +53,8 @@ export default function TermsPage() {
             {siteConfig.freeDeliveryRadiusMiles} miles of our hub. Addresses beyond that radius are
             charged an additional delivery fee of ${siteConfig.perMileFeeBeyondRadius.toFixed(2)} per
             mile beyond the free radius, calculated automatically at checkout based on the zip code
-            you provide. Full payment is collected at the time of booking through Stripe.
+            you provide. Submitting a reservation request does not charge you — once we confirm
+            availability we'll send payment details, and your dates are held when payment is received.
           </p>
 
           <h2>5. Cancellations and changes</h2>

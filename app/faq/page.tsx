@@ -32,10 +32,10 @@ export default function FAQPage() {
         </div>
 
         <div className="mt-12 rounded-lg border border-line bg-tint-green p-6 text-center">
-          <p className="font-semibold text-ink">Ready to book?</p>
-          <p className="mt-1 text-sm text-ink/70">Takes about two minutes.</p>
+          <p className="font-semibold text-ink">Ready to request dates?</p>
+          <p className="mt-1 text-sm text-ink/70">No payment up front.</p>
           <a href="/#booking" className="mt-4 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark">
-            Reserve your totes
+            Request your totes
           </a>
         </div>
       </div>

@@ -36,9 +36,9 @@ export default function PrivacyPage() {
             <li><strong>Booking details:</strong> full name, email address, phone number, delivery
               address (street, city, state, zip), delivery and pickup dates, and package/add-on
               selections.</li>
-            <li><strong>Payment information:</strong> processed entirely by Stripe. We never receive,
-              see, or store your full card number — Stripe passes us only a payment confirmation and
-              the last 4 digits of the card for your reference.</li>
+            <li><strong>Payment information:</strong> we don't collect payment through this website.
+              Once we confirm your reservation, we arrange payment separately. [Update this section to
+              describe whichever payment method you settle on.]</li>
             <li><strong>Address verification data:</strong> when you enter a zip code, we send it to a
               third-party zip-lookup service to confirm the city/state and estimate delivery distance.
               No account or persistent identifier is created with that service.</li>
@@ -62,8 +62,7 @@ export default function PrivacyPage() {
           <h2>4. How we share your information</h2>
           <p>We share information only as needed to run the business:</p>
           <ul>
-            <li><strong>Stripe</strong> — payment processing. See Stripe&apos;s own privacy policy for
-              how they handle payment data.</li>
+
             <li><strong>Zippopotam.us (or successor address-verification provider)</strong> — receives
               only the zip code you enter, to verify it and estimate distance.</li>
             <li><strong>Google Analytics</strong> — receives anonymized usage data, only if you accept

@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
 import CookieConsent from "@/components/CookieConsent";
+
+const archivo = Archivo({
+  variable: "--font-archivo",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
@@ -31,7 +44,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
+      <body className={`${archivo.variable} ${inter.variable} antialiased`}>
         {children}
         <CookieConsent />
       </body>

@@ -35,7 +35,7 @@ const sections = [
     icon: "💳",
     title: "Payment",
     body: [
-      "Payment is due in full at booking, processed securely by Stripe. We never see or store your card number.",
+      "Submitting a request doesn't charge you. Once we confirm your dates we'll send payment details, and your reservation is held when payment is received.",
       `Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of our hub. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies and is calculated at checkout before payment.`,
     ],
   },

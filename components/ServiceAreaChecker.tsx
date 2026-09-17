@@ -55,7 +55,6 @@ export default function ServiceAreaChecker() {
   return (
     <div className="rounded-lg border border-line bg-white/70 p-6">
       <h3 className="text-lg font-bold text-ink">Do we deliver to you?</h3>
-      <p className="mt-1 text-sm text-ink/70">Enter your zip code to check.</p>
 
       <div className="mt-4 flex gap-2">
         <input
@@ -87,7 +86,7 @@ export default function ServiceAreaChecker() {
           </p>
           <p className="mt-1 text-ink/70">Free delivery and pickup included.</p>
           <a href="#booking" className="mt-3 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
-            Reserve your totes
+            Request your totes
           </a>
         </div>
       )}
@@ -98,20 +97,18 @@ export default function ServiceAreaChecker() {
             Yes — we can deliver to {result.city}, {result.state}.
           </p>
           <p className="mt-1 text-ink/70">
-            You&apos;re about {Math.round(result.miles)} miles out, past our free{" "}
-            {siteConfig.freeDeliveryRadiusMiles}-mile zone, so an estimated ${result.fee.toFixed(2)}{" "}
-            delivery fee applies. The exact amount is calculated at checkout.
+            ~{Math.round(result.miles)} mi out — about ${result.fee.toFixed(2)} for delivery.
           </p>
           <a href="#booking" className="mt-3 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
-            Reserve your totes
+            Request your totes
           </a>
         </div>
       )}
 
       {result?.kind === "not-found" && (
         <p className="mt-4 text-sm text-red-600">
-          We couldn&apos;t look up that zip code. Double check it, or{" "}
-          <a href={`mailto:${siteConfig.email}`} className="underline">email us</a> and we&apos;ll confirm.
+          Couldn&apos;t find that zip — double check it, or{" "}
+          <a href={`mailto:${siteConfig.email}`} className="underline">email us</a>.
         </p>
       )}
     </div>
