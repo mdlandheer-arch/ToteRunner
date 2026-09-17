@@ -31,8 +31,8 @@
   --color-tint-sand: var(--tint-sand);
   --color-steel: var(--steel);
   --color-line: var(--line);
-  --font-display: var(--font-archivo);
-  --font-body: var(--font-inter);
+  --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -48,11 +48,11 @@
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-body);
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-display), system-ui, sans-serif;
+  font-family: var(--font-display);
 }
 
 :focus-visible {
