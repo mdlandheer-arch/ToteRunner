@@ -229,7 +229,7 @@ export default function BookingForm() {
     <section id="booking" className="bg-tint-green">
       <div className="mx-auto max-w-2xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Reserve your totes</h2>
-        <p className="mt-2 text-ink/75">Send a request and we&apos;ll confirm your dates within one business day. No payment now.</p>
+        <p className="mt-2 text-ink/75">Send a request and we&apos;ll get back to you within one business day. No payment now.</p>
 
         {submitted ? (
           <div className="mt-8 rounded-lg border border-crate bg-white/70 p-8 text-center">

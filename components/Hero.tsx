@@ -29,7 +29,7 @@ export default function Hero() {
             </a>
           </div>
           <p className="mt-4 text-sm text-steel">
-            Free delivery and pickup across {siteConfig.region}.
+            Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of {siteConfig.city}.
           </p>
         </div>
 

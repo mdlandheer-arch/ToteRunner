@@ -42,15 +42,21 @@ export default function Footer() {
             No boxes. No tape. No cardboard in the landfill. Heavy-duty totes, delivered.
           </p>
           <div className="mt-4 flex gap-3">
-            <a href={facebook} aria-label="Facebook" className="text-paper/70 hover:text-paper">
-              <FacebookIcon />
-            </a>
-            <a href={instagram} aria-label="Instagram" className="text-paper/70 hover:text-paper">
-              <InstagramIcon />
-            </a>
-            <a href={tiktok} aria-label="TikTok" className="text-paper/70 hover:text-paper">
-              <TikTokIcon />
-            </a>
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-paper/70 hover:text-paper">
+                <FacebookIcon />
+              </a>
+            )}
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-paper/70 hover:text-paper">
+                <InstagramIcon />
+              </a>
+            )}
+            {tiktok && (
+              <a href={tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="text-paper/70 hover:text-paper">
+                <TikTokIcon />
+              </a>
+            )}
           </div>
         </div>
         <div>

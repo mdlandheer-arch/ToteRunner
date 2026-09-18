@@ -27,9 +27,16 @@ export default function About() {
 
             <p className="mt-4 text-ink/75">
               I&apos;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
-              {siteConfig.about.homeTown}. [One or two sentences on why you started — the move that
-              made you think there had to be a better way.] No franchise behind this, just a local
-              operation covering {siteConfig.serviceAreas.length}+ West Michigan towns.
+              {siteConfig.about.homeTown}. Moving is always a bigger job than you think it&apos;s
+              going to be — there&apos;s never enough time, and there&apos;s always one more closet.
+              I can&apos;t pack it for you, but I can take one thing off the list: no hunting for
+              boxes, no taping, no pile of cardboard in the garage afterward. Totes show up, you
+              fill them, I come get them. That&apos;s it.
+            </p>
+            <p className="mt-3 text-ink/75">
+              No franchise behind this — just a local operation covering{" "}
+              {siteConfig.serviceAreas.length}+ West Michigan towns, which means when something
+              needs sorting out, you&apos;re talking to the person who can sort it out.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">

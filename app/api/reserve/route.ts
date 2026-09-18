@@ -127,8 +127,10 @@ export async function POST(req: NextRequest) {
       extraDays,
     };
 
-    // Emails are best-effort — if they fail, the request still succeeded from
-    // the customer's side, and the error is logged for the owner to catch.
+    // Both emails are best-effort and swallow their own errors — a mail
+    // failure must never make a submitted request look like it failed.
+    // Requires a Resend-verified domain with FROM_EMAIL set to an address on
+    // it; the shared resend.dev sender can only reach the account owner.
     await Promise.all([
       sendOwnerNotification(details),
       sendCustomerConfirmation(details),

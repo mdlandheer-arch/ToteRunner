@@ -5,7 +5,7 @@ export const siteConfig = {
   tagline: "We run the totes. You run the move.",
   // Plain description used where a tagline would be too clever (meta tags, SEO)
   descriptor: "Reusable moving totes, delivered and picked up.",
-  domain: "https://www.example.com", // replace with your real domain before launch
+  domain: "https://www.toterunnergr.com",
   city: "Grand Rapids",
   region: "Greater Grand Rapids",
   serviceAreas: [
@@ -34,10 +34,11 @@ export const siteConfig = {
   phone: "(616) 402-8504",
   gaMeasurementId: "G-XXXXXXXXXX", // replace with your GA4 ID
   // Set these once you have real accounts — leave "#" to hide a broken link risk.
+  // Leave a platform empty to hide its icon — a dead link is worse than none.
   social: {
-    facebook: "#",
-    instagram: "#",
-    tiktok: "#",
+    facebook: "https://www.facebook.com/ToteRunnerGR",
+    instagram: "",
+    tiktok: "",
   },
   // Placeholder referral terms — decide your real commission structure before launch.
   realtorReferral: {
