@@ -33,7 +33,7 @@ function getClient(): Resend | null {
 
 // Until you verify your own domain with Resend, set FROM_EMAIL to their
 // test sender (onboarding@resend.dev). After verifying toterunner.com,
-// switch it to hello@toterunner.com.
+// switch it to an address on your own domain once you have one.
 function fromAddress(): string {
   return process.env.FROM_EMAIL || "onboarding@resend.dev";
 }

@@ -47,13 +47,17 @@ export default function About() {
           {/* Swap this placeholder for a real photo of you with the totes —
               it's the single highest-impact image on the whole site. */}
           <div className="rounded-lg border border-dashed border-line bg-white/70 p-10 text-center">
-            <svg viewBox="0 0 200 200" className="mx-auto h-28 w-28" role="img" aria-label="Photo placeholder">
-              <rect x="30" y="120" width="140" height="55" rx="8" fill="#23292c" />
-              <rect x="30" y="120" width="140" height="12" rx="6" fill="#f5a524" />
-              <rect x="50" y="65" width="100" height="55" rx="8" fill="#23292c" />
-              <rect x="50" y="65" width="100" height="12" rx="6" fill="#f5a524" />
-              <rect x="70" y="20" width="60" height="45" rx="8" fill="#23292c" />
-              <rect x="70" y="20" width="60" height="10" rx="5" fill="#f5a524" />
+            <svg viewBox="0 0 200 200" className="mx-auto h-28 w-28" role="img" aria-label="Stack of moving totes">
+              <rect x="22" y="122" width="156" height="15" rx="7" fill="#f5a524" />
+              <path d="M28 137 L172 137 L156 180 L44 180 Z" fill="#23292c" />
+              <path d="M48 149 L152 149 L145 168 L55 168 Z" fill="#161b1e" opacity="0.5" />
+
+              <rect x="46" y="68" width="108" height="13" rx="6" fill="#f5a524" />
+              <path d="M51 81 L149 81 L138 118 L62 118 Z" fill="#23292c" />
+              <path d="M68 92 L132 92 L127 109 L73 109 Z" fill="#161b1e" opacity="0.5" />
+
+              <rect x="68" y="20" width="64" height="11" rx="5" fill="#f5a524" />
+              <path d="M72 31 L128 31 L121 64 L79 64 Z" fill="#23292c" />
             </svg>
             <p className="mt-4 text-sm font-medium text-ink/70">Your photo goes here</p>
             <p className="mt-1 text-sm text-steel">
