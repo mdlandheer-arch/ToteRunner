@@ -30,7 +30,7 @@ export const siteConfig = {
   freeDeliveryRadiusMiles: 15, // adjust to your real service radius
   perMileFeeBeyondRadius: 1.5, // USD per mile beyond the free radius — set to 0 to disable
   businessZip: "49544", // origin point for the delivery-distance calculation
-  email: "toterunnergr@gmail.com",
+  email: "hello@toterunnergr.com",
   phone: "(616) 402-8504",
   gaMeasurementId: "G-XXXXXXXXXX", // replace with your GA4 ID
   // Set these once you have real accounts — leave "#" to hide a broken link risk.
