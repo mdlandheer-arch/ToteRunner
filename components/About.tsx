@@ -48,12 +48,12 @@ export default function About() {
               it's the single highest-impact image on the whole site. */}
           <div className="rounded-lg border border-dashed border-line bg-white/70 p-10 text-center">
             <svg viewBox="0 0 200 200" className="mx-auto h-28 w-28" role="img" aria-label="Photo placeholder">
-              <rect x="30" y="120" width="140" height="55" rx="8" fill="#1b1f23" />
-              <rect x="30" y="120" width="140" height="12" rx="6" fill="#f2b705" />
-              <rect x="50" y="65" width="100" height="55" rx="8" fill="#2f6d4f" />
-              <rect x="50" y="65" width="100" height="12" rx="6" fill="#f2b705" />
-              <rect x="70" y="20" width="60" height="45" rx="8" fill="#1b1f23" />
-              <rect x="70" y="20" width="60" height="10" rx="5" fill="#f2b705" />
+              <rect x="30" y="120" width="140" height="55" rx="8" fill="#23292c" />
+              <rect x="30" y="120" width="140" height="12" rx="6" fill="#f5a524" />
+              <rect x="50" y="65" width="100" height="55" rx="8" fill="#23292c" />
+              <rect x="50" y="65" width="100" height="12" rx="6" fill="#f5a524" />
+              <rect x="70" y="20" width="60" height="45" rx="8" fill="#23292c" />
+              <rect x="70" y="20" width="60" height="10" rx="5" fill="#f5a524" />
             </svg>
             <p className="mt-4 text-sm font-medium text-ink/70">Your photo goes here</p>
             <p className="mt-1 text-sm text-steel">

@@ -36,12 +36,12 @@ export default function Hero() {
         {/* Illustration built in CSS/SVG — no stock photography needed */}
         <div className="relative mx-auto aspect-square w-full max-w-sm">
           <svg viewBox="0 0 320 320" className="h-full w-full" role="img" aria-label="Stack of moving totes">
-            <rect x="40" y="190" width="240" height="90" rx="10" fill="#1b1f23" />
-            <rect x="40" y="190" width="240" height="18" rx="9" fill="#f2b705" />
-            <rect x="70" y="100" width="180" height="90" rx="10" fill="#2f6d4f" />
-            <rect x="70" y="100" width="180" height="18" rx="9" fill="#f2b705" />
-            <rect x="100" y="20" width="120" height="80" rx="10" fill="#1b1f23" />
-            <rect x="100" y="20" width="120" height="16" rx="8" fill="#f2b705" />
+            <rect x="40" y="190" width="240" height="90" rx="10" fill="#23292c" />
+            <rect x="40" y="190" width="240" height="20" rx="10" fill="#f5a524" />
+            <rect x="70" y="100" width="180" height="90" rx="10" fill="#23292c" />
+            <rect x="70" y="100" width="180" height="20" rx="10" fill="#f5a524" />
+            <rect x="100" y="20" width="120" height="80" rx="10" fill="#23292c" />
+            <rect x="100" y="20" width="120" height="18" rx="9" fill="#f5a524" />
           </svg>
         </div>
       </div>

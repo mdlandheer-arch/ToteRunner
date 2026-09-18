@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
+import { LogoMark } from "@/components/Logo";
 
 function FacebookIcon() {
   return (
@@ -32,7 +33,10 @@ export default function Footer() {
     <footer className="border-t border-line bg-ink text-paper">
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:grid-cols-3">
         <div>
-          <p className="text-lg font-bold">{siteConfig.name}</p>
+          <div className="flex items-center gap-2.5">
+            <LogoMark className="h-7 w-auto text-safety" />
+            <p className="text-lg font-bold">{siteConfig.name}</p>
+          </div>
           <p className="mt-1 text-sm font-medium text-safety">{siteConfig.tagline}</p>
           <p className="mt-2 text-sm text-paper/70">
             No boxes. No tape. No cardboard in the landfill. Heavy-duty totes, delivered.

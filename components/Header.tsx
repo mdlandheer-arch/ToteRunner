@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { siteConfig } from "@/lib/site-config";
+import Logo from "@/components/Logo";
 import ReserveButton from "@/components/ReserveButton";
 
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-        <Link href="/" className="shrink-0 text-lg font-bold tracking-tight text-ink">
-          {siteConfig.name}
+        <Link href="/" className="shrink-0" aria-label="ToteRunner home">
+          <Logo />
         </Link>
 
         <nav className="hidden gap-6 text-sm font-medium text-ink/80 md:flex">
