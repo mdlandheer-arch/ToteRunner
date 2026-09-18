@@ -102,13 +102,6 @@ export default function RentalAgreementPage() {
           English — if anything here is unclear, call {siteConfig.phone} and ask before you book.
         </p>
 
-        <div className="mt-4 rounded-md border border-safety bg-safety/10 p-4 text-sm text-ink/80">
-          <strong>Before you launch:</strong> this is a template, not legal advice. A licensed
-          Michigan attorney should review it — especially sections 5, 6, and 8 — and every
-          fees below reflect your stated amounts, but an attorney should confirm they're enforceable
-          as liquidated damages under Michigan consumer law before you publish this.
-        </div>
-
         {/* Quick-scan summary so nobody has to read nine sections to get the gist */}
         <div className="mt-10 rounded-lg border border-crate/30 bg-tint-green p-6">
           <p className="font-bold text-ink">The short version</p>

@@ -21,6 +21,15 @@ export function LocalBusinessSchema() {
     telephone: siteConfig.phone,
     email: siteConfig.email,
     slogan: siteConfig.tagline,
+    image: `${siteConfig.domain}/og-image.png`,
+    logo: `${siteConfig.domain}/og-image.png`,
+    // Links the site to your social profiles so Google can connect this page,
+    // your Facebook Page, and your Google Business Profile as one entity.
+    sameAs: [
+      siteConfig.social.facebook,
+      siteConfig.social.instagram,
+      siteConfig.social.tiktok,
+    ].filter(Boolean),
     priceRange: `$${Math.min(...packages.map((p) => p.price))}-$${Math.max(...packages.map((p) => p.price))}`,
     address: {
       "@type": "PostalAddress",
