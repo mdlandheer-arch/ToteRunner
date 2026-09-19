@@ -12,6 +12,34 @@ export const metadata: Metadata = pageMetadata({
 
 const { commissionPerReferral, clientDiscount, payoutMethod, payoutTiming } = siteConfig.realtorReferral;
 
+// Both "get your code" buttons open the agent's email client with the subject
+// and a ready-to-send message already filled in, so signing up is one click and
+// a send. The short fill-in block collects what's needed to issue a code and
+// pay them; their email address comes through automatically either way.
+const referralSubject = `${siteConfig.name}GR - Realtor Referral Program`;
+
+const referralBody = [
+  `Hi ${siteConfig.name},`,
+  "",
+  "I'd like to join the realtor referral program and get my referral code.",
+  "",
+  "  Name:",
+  "  Brokerage:",
+  "  Best phone:",
+  "  Payout preference (Venmo, Zelle, or check):",
+  "",
+  "I'll pass the code along to clients who are moving.",
+  "",
+  "Thanks!",
+].join("\n");
+
+// encodeURIComponent keeps spaces, newlines and punctuation intact across
+// email clients — an unencoded subject can get truncated at the first space.
+const referralMailto =
+  `mailto:${siteConfig.email}` +
+  `?subject=${encodeURIComponent(referralSubject)}` +
+  `&body=${encodeURIComponent(referralBody)}`;
+
 const steps = [
   {
     n: "1",
@@ -96,7 +124,7 @@ export default function RealtorReferralPage() {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
-              href={`mailto:${siteConfig.email}?subject=Realtor Referral Program`}
+              href={referralMailto}
               className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
             >
               Get your referral code
@@ -192,7 +220,7 @@ export default function RealtorReferralPage() {
               One email and you&apos;ll have a code the same day.
             </p>
             <a
-              href={`mailto:${siteConfig.email}?subject=Realtor Referral Program`}
+              href={referralMailto}
               className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
             >
               Email {siteConfig.email}

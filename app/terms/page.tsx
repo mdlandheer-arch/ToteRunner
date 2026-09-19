@@ -18,12 +18,6 @@ export default function TermsPage() {
         <h1 className="text-3xl font-bold text-ink">Terms & Conditions</h1>
         <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
 
-        <div className="mt-4 rounded-md border border-safety bg-safety/10 p-4 text-sm text-ink/80">
-          <strong>Before you launch:</strong> this is a detailed starting template, not legal advice.
-          A licensed Michigan attorney should confirm your damage/loss fees, liability limits, and
-          cancellation policy comply with state consumer protection law before you publish this.
-        </div>
-
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Agreement to these terms</h2>
           <p>

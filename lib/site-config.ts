@@ -32,7 +32,7 @@ export const siteConfig = {
   businessZip: "49544", // origin point for the delivery-distance calculation
   email: "hello@toterunnergr.com",
   phone: "(616) 402-8504",
-  gaMeasurementId: "G-XXXXXXXXXX", // replace with your GA4 ID
+  gaMeasurementId: "G-0HVFL5SYZD",
   // Set these once you have real accounts — leave "#" to hide a broken link risk.
   // Leave a platform empty to hide its icon — a dead link is worse than none.
   social: {
