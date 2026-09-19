@@ -12,20 +12,28 @@ const LID = "#f5a524";
 function Tote({
   x, y, w, h, lidH, outline,
 }: { x: number; y: number; w: number; h: number; lidH: number; outline?: string }) {
-  const inset = w * 0.11;
+  // Gentle taper (Facebook mark's totes are nearly straight-sided, not a wide
+  // wedge) and a thin seam line near the top of the body rather than a big
+  // interior block — the block read as a broken "window" cut into the tote.
+  const topInset = w * 0.02;
+  const bottomInset = w * 0.08;
   return (
     <>
-      <rect x={x} y={y} width={w} height={lidH} rx={lidH * 0.22} fill={LID} />
+      <rect x={x} y={y} width={w} height={lidH} rx={w * 0.028} fill={LID} />
       <path
-        d={`M${x + w * 0.045} ${y + lidH} L${x + w * 0.955} ${y + lidH} L${x + w * 0.845} ${y + h} L${x + w * 0.155} ${y + h} Z`}
+        d={`M${x + topInset} ${y + lidH} L${x + w - topInset} ${y + lidH} L${x + w - bottomInset} ${y + lidH + h} L${x + bottomInset} ${y + lidH + h} Z`}
         fill={BODY}
         stroke={outline}
         strokeWidth={outline ? 2.5 : 0}
       />
-      <path
-        d={`M${x + inset * 1.9} ${y + lidH + h * 0.16} L${x + w - inset * 1.9} ${y + lidH + h * 0.16} L${x + w - inset * 2.25} ${y + lidH + h * 0.52} L${x + inset * 2.25} ${y + lidH + h * 0.52} Z`}
+      <rect
+        x={x + bottomInset * 1.5}
+        y={y + lidH + h * 0.14}
+        width={w - bottomInset * 3}
+        height={h * 0.07}
+        rx={h * 0.03}
         fill={BODY_DARK}
-        opacity="0.55"
+        opacity="0.4"
       />
     </>
   );
