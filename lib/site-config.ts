@@ -37,7 +37,7 @@ export const siteConfig = {
   // Leave a platform empty to hide its icon — a dead link is worse than none.
   social: {
     facebook: "https://www.facebook.com/ToteRunnerGR",
-    instagram: "",
+    instagram: "https://www.instagram.com/toterunnergr/",
     tiktok: "",
   },
   // Placeholder referral terms — decide your real commission structure before launch.
