@@ -3,11 +3,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FAQ from "@/components/FAQ";
 import { siteConfig } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/faq",
   title: "Frequently Asked Questions",
   description: `Common questions about renting moving totes from ${siteConfig.name} — pricing, rental length, delivery, cleaning, and cancellations.`,
-};
+});
 
 export default function FAQPage() {
   return (

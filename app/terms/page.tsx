@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { siteConfig, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/terms",
   title: "Terms & Conditions",
   description: `The terms that apply to renting moving totes from ${siteConfig.name}.`,
-};
+});
 
 export default function TermsPage() {
   return (

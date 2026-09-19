@@ -25,7 +25,11 @@ export const metadata: Metadata = {
     description: `Reusable moving totes delivered and picked up across ${siteConfig.region}.`,
     images: ["/og-image.png"],
   },
-  alternates: { canonical: siteConfig.domain },
+  // NOTE: do NOT set `alternates.canonical` here. Next.js merges metadata
+  // shallowly, so every page that didn't define its own would inherit this one
+  // and declare the homepage as its canonical URL — which tells Google the
+  // other pages are duplicates and shouldn't be indexed separately.
+  // Each page sets its own canonical via pageMetadata() in lib/seo.ts.
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { siteConfig, packages } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/realtor-referral",
   title: "Realtor Referral Program",
   description: `Refer your clients to ${siteConfig.name} and earn a referral bonus on every booking — plus a discount for them. Free for West Michigan agents to join.`,
-};
+});
 
 const { commissionPerReferral, clientDiscount, payoutMethod, payoutTiming } = siteConfig.realtorReferral;
 

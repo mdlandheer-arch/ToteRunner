@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { siteConfig, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/rental-agreement",
   title: "Rental Agreement",
   description: `The rental terms customers agree to when booking moving totes from ${siteConfig.name}.`,
-};
+});
 
 // This is the customer-facing version of the rental agreement — the plain
 // summary people actually read and check a box against at booking. The fuller
