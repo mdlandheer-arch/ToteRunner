@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const {
       packageId, addOnQuantities, name, email, phone,
       address, pickupAddress, agreed, zip, pickupZip,
-      deliveryDate, pickupDate, honeypot,
+      deliveryDate, pickupDate, honeypot, notes,
     } = body;
 
     if (honeypot) {
@@ -46,7 +46,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "You must accept the rental agreement." }, { status: 400 });
     }
 
-    const pkg = packages.find((p) => p.id === packageId);
+    // "custom" isn't a real package — it means the customer didn't see a fit
+    // and wants a quote built around their notes instead. There's no fixed
+    // price to fall back on, so the estimate math below just treats it as $0
+    // and the owner works out real numbers from the notes field.
+    const isCustomRequest = packageId === "custom";
+    const pkg = isCustomRequest
+      ? { name: "Custom (see notes)", totes: 0, days: 14, price: 0, dailyRate: 0 }
+      : packages.find((p) => p.id === packageId);
     if (!pkg) {
       return NextResponse.json({ error: "Invalid package selected." }, { status: 400 });
     }
@@ -125,6 +132,7 @@ export async function POST(req: NextRequest) {
       sessionId: `req-${Date.now()}`,
       rentalDays,
       extraDays,
+      notes: typeof notes === "string" ? notes.slice(0, 2000).trim() : "",
     };
 
     // Both emails are best-effort and swallow their own errors — a mail

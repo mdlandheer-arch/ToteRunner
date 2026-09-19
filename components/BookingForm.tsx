@@ -16,6 +16,7 @@ type FormState = {
   deliveryDate: string;
   pickupDate: string;
   packageId: string;
+  notes: string;
   // Pickup is often the new home, so it's captured separately when it differs.
   pickupStreet: string;
   pickupCity: string;
@@ -35,6 +36,7 @@ const initialState: FormState = {
   deliveryDate: "",
   pickupDate: "",
   packageId: packages[1]?.id ?? packages[0].id,
+  notes: "",
   pickupStreet: "",
   pickupCity: "",
   pickupState: "",
@@ -438,7 +440,23 @@ export default function BookingForm() {
                   {p.name} — {p.totes} totes — ${p.price}
                 </option>
               ))}
+              <option value="custom">Not sure / need a custom quote</option>
             </select>
+          </div>
+
+          <div>
+            <label className={labelClass} htmlFor="notes">
+              Anything we should know?{" "}
+              <span className="font-normal text-steel">(optional)</span>
+            </label>
+            <textarea
+              id="notes"
+              rows={3}
+              className={inputClass}
+              placeholder="e.g. need more totes than the packages above, tight stairwell, specific drop-off time..."
+              value={form.notes}
+              onChange={(e) => setForm({ ...form, notes: e.target.value })}
+            />
           </div>
 
           <fieldset>
@@ -514,10 +532,17 @@ export default function BookingForm() {
           </div>
 
           <div className="rounded-md border border-crate bg-crate/5 p-4">
-            <div className="flex items-baseline justify-between">
-              <span className="text-sm font-semibold text-ink">Estimated total</span>
-              <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
-            </div>
+            {form.packageId === "custom" ? (
+              <p className="text-sm text-ink/80">
+                <span className="font-semibold text-ink">No estimate to show yet</span> — tell us
+                what you need in the notes above and we&apos;ll send a real quote when we reply.
+              </p>
+            ) : (
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm font-semibold text-ink">Estimated total</span>
+                <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
+              </div>
+            )}
             <div className="mt-2 space-y-1 text-sm text-ink/70">
               {selectedPackage && (
                 <div className="flex justify-between">

@@ -6,10 +6,10 @@ import { siteConfig } from "@/lib/site-config";
 // do when you're not hauling totes) are worth more here than polish.
 
 const badges = [
+  { icon: "👪", label: "Family owned & operated" },
   { icon: "♻️", label: "Hundreds of moves per tote" },
   { icon: "✨", label: "Scrubbed before every drop-off" },
   { icon: "🚚", label: "We handle both trips" },
-  { icon: "🏡", label: "Run from Grand Rapids" },
 ];
 
 export default function About() {
@@ -19,7 +19,7 @@ export default function About() {
         <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-center">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-crate">
-              Locally owned
+              Locally & family owned
             </p>
             <h2 className="mt-2 text-3xl font-bold text-ink">
               A better way to box up your move.
@@ -34,7 +34,7 @@ export default function About() {
               fill them, I come get them. That&apos;s it.
             </p>
             <p className="mt-3 text-ink/75">
-              No franchise behind this — just a local operation covering{" "}
+              No franchise, no call center — a family-owned operation covering{" "}
               {siteConfig.serviceAreas.length}+ West Michigan towns, which means when something
               needs sorting out, you&apos;re talking to the person who can sort it out.
             </p>

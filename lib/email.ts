@@ -23,6 +23,7 @@ export type BookingDetails = {
   sessionId: string;
   rentalDays?: number;
   extraDays?: number;
+  notes?: string;
 };
 
 function getClient(): Resend | null {
@@ -74,6 +75,7 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
         ${row("Distance from hub", b.distanceMiles ? `${b.distanceMiles} mi` : "—")}
         ${row("Delivery fee", `$${b.deliveryFee}`)}
         ${row("Estimated total", `$${b.amountTotal} (not charged)`)}
+        ${b.notes ? row("Customer notes", b.notes.replace(/\n/g, "<br/>")) : ""}
       </table>
       <p style="color:#999;font-size:12px;margin-top:16px;">Request ref: ${b.sessionId}</p>
     </div>`;

@@ -56,6 +56,18 @@ export default function Pricing() {
           <ToteCalculator />
         </div>
 
+        <div className="mt-10 rounded-lg border border-crate/30 bg-white/70 p-6 text-center sm:text-left">
+          <p className="font-bold text-ink">Don&apos;t see a fit?</p>
+          <p className="mt-1 text-sm text-ink/75">
+            Studio to full estate, we can put together a custom tote count and rental length for
+            whatever you&apos;re moving.{" "}
+            <a href="#booking" className="font-medium text-crate hover:underline">
+              Tell us what you need
+            </a>{" "}
+            and we&apos;ll build a quote around it.
+          </p>
+        </div>
+
         <div className="mt-10">
           <h3 className="text-lg font-bold text-ink">Optional add-ons</h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
