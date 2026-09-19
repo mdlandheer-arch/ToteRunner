@@ -34,7 +34,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:grid-cols-3">
         <div>
           <div className="flex items-center gap-2.5">
-            <LogoMark className="h-7 w-auto text-safety" />
+            <LogoMark className="h-7 w-auto text-safety" dark />
             <p className="text-lg font-bold">{siteConfig.name}</p>
           </div>
           <p className="mt-1 text-sm font-medium text-safety">{siteConfig.tagline}</p>
