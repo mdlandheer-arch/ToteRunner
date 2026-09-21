@@ -7,10 +7,10 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   path: "/realtor-referral",
   title: "Realtor Referral Program",
-  description: `Refer your clients to ${siteConfig.name} and earn a referral bonus on every booking — plus a discount for them. Free for West Michigan agents to join.`,
+  description: `Refer your clients to ${siteConfig.name} and earn a referral bonus on every completed booking. Free for West Michigan agents to join.`,
 });
 
-const { commissionPerReferral, clientDiscount, payoutMethod, payoutTiming } = siteConfig.realtorReferral;
+const { commissionPerReferral, payoutMethod, payoutTiming } = siteConfig.realtorReferral;
 
 // Both "get your code" buttons open the agent's email client with the subject
 // and a ready-to-send message already filled in, so signing up is one click and
@@ -27,6 +27,7 @@ const referralBody = [
   "  Brokerage:",
   "  Best phone:",
   "  Payout preference (Venmo, Zelle, or check):",
+  "  Pay me directly or through my brokerage?:",
   "",
   "I'll pass the code along to clients who are moving.",
   "",
@@ -49,7 +50,7 @@ const steps = [
   {
     n: "2",
     title: "Pass it along",
-    body: `Give it to clients when a closing date firms up. They enter it when they book and take $${clientDiscount} off — so you're handing them a discount, not a sales pitch.`,
+    body: "Give it to clients when a closing date firms up. They put your name or code on the booking request, and that's what ties the job back to you.",
   },
   {
     n: "3",
@@ -65,8 +66,8 @@ const steps = [
 
 const why = [
   {
-    title: "A closing gift that isn't a candle",
-    body: "Most closing gifts get used once and forgotten. This one shows up the week they actually need it and takes a real job off their list.",
+    title: "A recommendation that isn't a candle",
+    body: "Most closing gifts get used once and forgotten. A name they actually need the week they're packing takes a real job off their list.",
   },
   {
     title: "It makes your listings show better",
@@ -88,11 +89,19 @@ const faqs = [
     a: "No. There's no fee, no minimum, and no commitment — refer one client or fifty.",
   },
   {
-    q: "How do I know a referral was mine?",
-    a: "Your code is attached to the booking at checkout. We track them and send you a summary with your payout.",
+    q: "Does my client get a discount for using my code?",
+    a: "No. Your client pays our standard published pricing. The program pays you — it isn't a coupon for them.",
   },
   {
-    q: "What if my client books without the code?",
+    q: "Do I need to tell my client I'm paid for the referral?",
+    a: "Yes. Treat it like any other compensated referral: disclose it to your client and follow your brokerage's policy and the REALTOR® Code of Ethics. If your broker requires referral payments to run through the brokerage instead of to you directly, tell us and we'll pay it that way.",
+  },
+  {
+    q: "How do I know a referral was mine?",
+    a: "Your client puts your name or code in the notes box on the booking request. We log it and send you a summary with your payout.",
+  },
+  {
+    q: "What if my client books without mentioning me?",
     a: "Let us know and we'll credit it, as long as they confirm you sent them. We'd rather sort it out than lose you the referral.",
   },
   {
@@ -119,8 +128,8 @@ export default function RealtorReferralPage() {
             Your clients are moving anyway.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-ink/75">
-            Send them our way and earn ${commissionPerReferral} per booking — while they get $
-            {clientDiscount} off. Free to join, nothing to manage.
+            Send them our way and earn ${commissionPerReferral} on every completed booking. Free to
+            join, nothing to manage.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -158,6 +167,11 @@ export default function RealtorReferralPage() {
               a month and that&apos;s ${commissionPerReferral * 12} a year for forwarding a code —
               on top of clients who remember you made their move easier.
             </p>
+            <p className="mt-3 text-sm text-ink/70">
+              <span className="font-semibold text-ink">One housekeeping note:</span> this fee is paid
+              to you, not to your client, and your client pays our standard rates. Disclosing that to
+              them is on you, under your brokerage&apos;s policy and the REALTOR&reg; Code of Ethics.
+            </p>
           </div>
         </div>
       </section>
@@ -178,9 +192,10 @@ export default function RealtorReferralPage() {
 
       <section>
         <div className="mx-auto max-w-4xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">What your clients get</h2>
+          <h2 className="text-3xl font-bold text-ink">What they pay, what you earn</h2>
           <p className="mt-2 text-ink/75">
-            Totes, a rolling dolly, labels, and both trips — delivery and pickup — included.
+            Your clients pay our standard rates — totes, a rolling dolly, labels, and both trips
+            included. You earn the same ${commissionPerReferral} on any package they book.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {packages.map((pkg) => (
@@ -191,7 +206,7 @@ export default function RealtorReferralPage() {
                   {pkg.totes} totes · {pkg.days} days
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">
-                  ${clientDiscount} off with your code
+                  ${commissionPerReferral} to you
                 </p>
               </div>
             ))}

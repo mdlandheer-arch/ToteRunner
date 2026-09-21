@@ -40,10 +40,10 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/toterunnergr/",
     tiktok: "",
   },
-  // Placeholder referral terms — decide your real commission structure before launch.
+  // Referral terms. The agent earns a per-booking fee. The referred client does
+  // NOT receive a discount — they pay standard published pricing.
   realtorReferral: {
     commissionPerReferral: 15, // USD paid to the agent per completed booking
-    clientDiscount: 10, // USD off the client's booking when they use an agent's code
     payoutMethod: "Venmo, Zelle, or check — your pick", // confirm before launch
     payoutTiming: "the first week of the following month",
   },
