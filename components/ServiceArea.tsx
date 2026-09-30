@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, hubs } from "@/lib/site-config";
 import ServiceAreaChecker from "@/components/ServiceAreaChecker";
 
 export default function ServiceArea() {
@@ -20,7 +20,8 @@ export default function ServiceArea() {
               ))}
             </div>
             <p className="mt-6 text-sm text-ink/75">
-              Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles.
+              Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of{" "}
+              {hubs.map((h) => h.name).join(" or ")}.
               {siteConfig.perMileFeeBeyondRadius > 0 && (
                 <> A ${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies beyond that.</>
               )}

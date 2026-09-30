@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, hubs } from "@/lib/site-config";
 import ReserveButton from "@/components/ReserveButton";
 
 export default function Hero() {
@@ -29,7 +29,8 @@ export default function Hero() {
             </a>
           </div>
           <p className="mt-4 text-sm text-steel">
-            Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of {siteConfig.city}.
+            Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of{" "}
+            {hubs.map((h) => h.name).join(" or ")}.
           </p>
         </div>
 

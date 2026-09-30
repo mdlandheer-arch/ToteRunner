@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
-import { lookupZip, haversineMiles, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
+import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
 
 type FormState = {
@@ -58,8 +58,12 @@ export default function BookingForm() {
 
   const [zipStatus, setZipStatus] = useState<ZipStatus>("idle");
   const [zipInfo, setZipInfo] = useState<ZipInfo | null>(null);
+  // Distances are measured to whichever hub is nearest that address, so each
+  // leg also carries that hub's free radius — hubs can have different ones.
   const [distanceMiles, setDistanceMiles] = useState<number | null>(null);
+  const [distanceRadius, setDistanceRadius] = useState<number>(siteConfig.freeDeliveryRadiusMiles);
   const [pickupDistanceMiles, setPickupDistanceMiles] = useState<number | null>(null);
+  const [pickupRadius, setPickupRadius] = useState<number>(siteConfig.freeDeliveryRadiusMiles);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Verify the zip as the person types (debounced) and auto-fill city/state.
@@ -78,10 +82,7 @@ export default function BookingForm() {
 
     setZipStatus("checking");
     debounceRef.current = setTimeout(async () => {
-      const [customerZip, businessZip] = await Promise.all([
-        lookupZip(form.zip),
-        lookupZip(siteConfig.businessZip),
-      ]);
+      const customerZip = await lookupZip(form.zip);
 
       if (!customerZip) {
         setZipStatus("not-found");
@@ -94,15 +95,9 @@ export default function BookingForm() {
       setZipInfo(customerZip);
       setForm((f) => ({ ...f, city: customerZip.city, state: customerZip.stateAbbreviation }));
 
-      if (businessZip) {
-        const miles = haversineMiles(
-          customerZip.latitude,
-          customerZip.longitude,
-          businessZip.latitude,
-          businessZip.longitude
-        );
-        setDistanceMiles(miles);
-      }
+      const { hub, miles } = nearestHub(customerZip.latitude, customerZip.longitude);
+      setDistanceMiles(miles);
+      setDistanceRadius(hub.freeRadiusMiles);
     }, 500);
 
     return () => {
@@ -119,9 +114,11 @@ export default function BookingForm() {
     }
     let cancelled = false;
     const t = window.setTimeout(async () => {
-      const [pz, bz] = await Promise.all([lookupZip(form.pickupZip), lookupZip(siteConfig.businessZip)]);
-      if (cancelled || !pz || !bz) return;
-      setPickupDistanceMiles(haversineMiles(pz.latitude, pz.longitude, bz.latitude, bz.longitude));
+      const pz = await lookupZip(form.pickupZip);
+      if (cancelled || !pz) return;
+      const { hub, miles } = nearestHub(pz.latitude, pz.longitude);
+      setPickupDistanceMiles(miles);
+      setPickupRadius(hub.freeRadiusMiles);
     }, 500);
     return () => {
       cancelled = true;
@@ -133,11 +130,11 @@ export default function BookingForm() {
   // an address outside the free zone costs us the drive either way.
   const deliveryLegFee =
     distanceMiles !== null
-      ? calculateDeliveryFee(distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
+      ? calculateDeliveryFee(distanceMiles, distanceRadius, siteConfig.perMileFeeBeyondRadius)
       : 0;
   const pickupLegFee =
     pickupDistanceMiles !== null
-      ? calculateDeliveryFee(pickupDistanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius)
+      ? calculateDeliveryFee(pickupDistanceMiles, pickupRadius, siteConfig.perMileFeeBeyondRadius)
       : 0;
   const estimatedFee = deliveryLegFee + pickupLegFee;
 
@@ -339,11 +336,11 @@ export default function BookingForm() {
                 {distanceMiles !== null && (
                   <>
                     {" "}·{" "}
-                    {distanceMiles <= siteConfig.freeDeliveryRadiusMiles ? (
-                      <span className="text-ink/70">within our free {siteConfig.freeDeliveryRadiusMiles}-mile delivery zone</span>
+                    {distanceMiles <= distanceRadius ? (
+                      <span className="text-ink/70">within our free {distanceRadius}-mile delivery zone</span>
                     ) : (
                       <span className="text-ink/70">
-                        ~{Math.round(distanceMiles)} mi from our hub — an estimated ${estimatedFee.toFixed(2)} delivery fee applies
+                        ~{Math.round(distanceMiles)} mi from our nearest hub — an estimated ${estimatedFee.toFixed(2)} delivery fee applies
                       </span>
                     )}
                   </>

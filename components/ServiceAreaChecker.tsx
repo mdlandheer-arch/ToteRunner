@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { siteConfig } from "@/lib/site-config";
-import { lookupZip, haversineMiles, calculateDeliveryFee } from "@/lib/geo";
+import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 
 type Result =
   | { kind: "free"; city: string; state: string }
@@ -20,25 +20,17 @@ export default function ServiceAreaChecker() {
     setChecking(true);
     setResult(null);
 
-    const [customerZip, businessZip] = await Promise.all([
-      lookupZip(zip),
-      lookupZip(siteConfig.businessZip),
-    ]);
+    const customerZip = await lookupZip(zip);
 
-    if (!customerZip || !businessZip) {
+    if (!customerZip) {
       setResult({ kind: "not-found" });
       setChecking(false);
       return;
     }
 
-    const miles = haversineMiles(
-      customerZip.latitude,
-      customerZip.longitude,
-      businessZip.latitude,
-      businessZip.longitude
-    );
+    const { hub, miles } = nearestHub(customerZip.latitude, customerZip.longitude);
 
-    if (miles <= siteConfig.freeDeliveryRadiusMiles) {
+    if (miles <= hub.freeRadiusMiles) {
       setResult({ kind: "free", city: customerZip.city, state: customerZip.stateAbbreviation });
     } else {
       setResult({
@@ -46,7 +38,7 @@ export default function ServiceAreaChecker() {
         city: customerZip.city,
         state: customerZip.stateAbbreviation,
         miles,
-        fee: calculateDeliveryFee(miles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius),
+        fee: calculateDeliveryFee(miles, hub.freeRadiusMiles, siteConfig.perMileFeeBeyondRadius),
       });
     }
     setChecking(false);

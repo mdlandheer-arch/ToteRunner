@@ -4,6 +4,8 @@
 // If it becomes unreliable at scale, swap this for Google's Address
 // Validation API or the USPS Web Tools API (both need an API key/account).
 
+import { hubs, type Hub } from "./site-config";
+
 export type ZipInfo = {
   city: string;
   state: string;
@@ -43,6 +45,15 @@ export function haversineMiles(lat1: number, lon1: number, lat2: number, lon2: n
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
+}
+
+// Returns the closest hub to a point and the distance to it. Every delivery
+// and pickup leg is priced from whichever hub is nearest that address, so a
+// Grand Haven drop-off is measured from the lakeshore hub, not Grand Rapids.
+export function nearestHub(lat: number, lon: number): { hub: Hub; miles: number } {
+  return hubs
+    .map((hub) => ({ hub, miles: haversineMiles(lat, lon, hub.lat, hub.lon) }))
+    .reduce((closest, candidate) => (candidate.miles < closest.miles ? candidate : closest));
 }
 
 // Rounds up to the nearest whole mile beyond the free radius, then applies

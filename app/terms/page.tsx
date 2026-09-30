@@ -46,7 +46,7 @@ export default function TermsPage() {
           <h2>4. Pricing, payment, and delivery fees</h2>
           <p>
             Package prices are shown at checkout and include delivery and pickup within{" "}
-            {siteConfig.freeDeliveryRadiusMiles} miles of our hub. Addresses beyond that radius are
+            {siteConfig.freeDeliveryRadiusMiles} miles of our nearest hub. Addresses beyond that radius are
             charged an additional delivery fee of ${siteConfig.perMileFeeBeyondRadius.toFixed(2)} per
             mile beyond the free radius, calculated automatically at checkout based on the zip code
             you provide. Submitting a reservation request does not charge you — once we confirm

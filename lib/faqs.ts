@@ -16,6 +16,6 @@ export const faqs = [
   { q: "How much weight can a tote hold?", a: "Up to roughly 60 lbs per tote, comfortably." },
   { q: "Do I need to be home for delivery or pickup?", a: "Not necessarily — let us know a safe drop-off spot when you book, and we'll coordinate the rest by text or email." },
   { q: "What happens if it rains on moving day?", a: "Our totes have secure, weather-resistant lids, so your things stay dry and protected — unlike cardboard, which loses strength when wet." },
-  { q: "Do you deliver outside your free zone?", a: `Yes. Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of our hub. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies, calculated automatically at checkout. Use the zip checker in our service area section to see what applies to you.` },
+  { q: "Do you deliver outside your free zone?", a: `Yes. Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of our nearest hub. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies, calculated automatically at checkout. Use the zip checker in our service area section to see what applies to you.` },
   { q: "Do you pack or move my belongings?", a: "No — we're a tote rental service, not a moving company. We drop off clean totes, you pack, and we collect them once you're unpacked. Movers love our totes because they stack tight in the truck." },
 ];

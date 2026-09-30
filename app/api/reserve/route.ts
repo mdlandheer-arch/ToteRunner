@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
-import { lookupZip, haversineMiles, calculateDeliveryFee } from "@/lib/geo";
+import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 import { sendOwnerNotification, sendCustomerConfirmation, type BookingDetails } from "@/lib/email";
 
 // Reservation REQUEST endpoint — no payment is taken here.
@@ -69,30 +69,25 @@ export async function POST(req: NextRequest) {
 
     // Recompute the estimate server-side so the owner's email shows real
     // numbers rather than whatever the browser calculated.
-    const businessZip = await lookupZip(siteConfig.businessZip);
     let deliveryFee = 0;
     let distanceMiles: number | null = null;
 
     const customerZip = await lookupZip(zip);
-    if (customerZip && businessZip) {
-      distanceMiles = haversineMiles(
-        customerZip.latitude, customerZip.longitude,
-        businessZip.latitude, businessZip.longitude
-      );
+    if (customerZip) {
+      const { hub, miles } = nearestHub(customerZip.latitude, customerZip.longitude);
+      distanceMiles = miles;
       deliveryFee = calculateDeliveryFee(
-        distanceMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius
+        miles, hub.freeRadiusMiles, siteConfig.perMileFeeBeyondRadius
       );
     }
 
     let pickupFee = 0;
-    if (/^\d{5}$/.test(String(pickupZip ?? "")) && businessZip) {
+    if (/^\d{5}$/.test(String(pickupZip ?? ""))) {
       const pz = await lookupZip(String(pickupZip));
       if (pz) {
-        const pickupMiles = haversineMiles(
-          pz.latitude, pz.longitude, businessZip.latitude, businessZip.longitude
-        );
+        const { hub, miles } = nearestHub(pz.latitude, pz.longitude);
         pickupFee = calculateDeliveryFee(
-          pickupMiles, siteConfig.freeDeliveryRadiusMiles, siteConfig.perMileFeeBeyondRadius
+          miles, hub.freeRadiusMiles, siteConfig.perMileFeeBeyondRadius
         );
       }
     }

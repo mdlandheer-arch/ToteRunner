@@ -26,10 +26,20 @@ export const siteConfig = {
     "Coopersville",
     "Cutlerville",
     "Allendale",
+    // Lakeshore hub
+    "Muskegon",
+    "North Muskegon",
+    "Norton Shores",
+    "Roosevelt Park",
+    "Fruitport",
+    "Spring Lake",
+    "Ferrysburg",
+    "Grand Haven",
+    "Nunica",
   ],
   freeDeliveryRadiusMiles: 15, // adjust to your real service radius
   perMileFeeBeyondRadius: 1.5, // USD per mile beyond the free radius — set to 0 to disable
-  businessZip: "49544", // origin point for the delivery-distance calculation
+  businessZip: "49544", // primary hub — also used for structured data / schema.org
   email: "hello@toterunnergr.com",
   phone: "(616) 402-8504",
   gaMeasurementId: "G-0HVFL5SYZD",
@@ -62,6 +72,41 @@ export const siteConfig = {
     "Business & bulk rentals",
   ],
 };
+
+export type Hub = {
+  id: string;
+  name: string; // shown to customers in copy — keep it a place name
+  zip: string;
+  lat: number;
+  lon: number;
+  freeRadiusMiles: number;
+};
+
+// Delivery distance is measured to the NEAREST hub, so adding a hub widens
+// the free zone rather than moving it. Coordinates are hardcoded on purpose:
+// they never change, and it saves a Zippopotam call on every zip check.
+//
+// VERIFY these before launch — they are approximate zip centroids:
+//   curl -s https://api.zippopotam.us/us/49544 | python3 -m json.tool
+//   curl -s https://api.zippopotam.us/us/49441 | python3 -m json.tool
+export const hubs: Hub[] = [
+  {
+    id: "grand-rapids",
+    name: "Grand Rapids",
+    zip: "49544",
+    lat: 43.0281,
+    lon: -85.7156,
+    freeRadiusMiles: 15,
+  },
+  {
+    id: "lakeshore",
+    name: "Muskegon",
+    zip: "49441",
+    lat: 43.1911,
+    lon: -86.2645,
+    freeRadiusMiles: 15,
+  },
+];
 
 export type Package = {
   id: string;
