@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
+import { siteConfig, hubs, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -29,7 +29,7 @@ const sections = [
     icon: "📅",
     title: "Rental period",
     body: [
-      `Every package includes ${packages[0]?.days ?? 14} days, starting on your delivery date. If you keep the totes longer, we charge a per-day rate based on your package size (shown at checkout before you pay).`,
+      `Every package includes ${packages[0]?.days ?? 14} days, starting on your delivery date. If you keep the totes longer, we charge a per-day rate based on your package size (listed on our pricing page and shown in the estimate on your reservation request).`,
       "If totes aren't returned or made available for pickup after your rental period ends, daily charges continue until pickup is completed.",
     ],
   },
@@ -38,7 +38,7 @@ const sections = [
     title: "Payment",
     body: [
       "Submitting a request doesn't charge you. Once we confirm your dates we'll send payment details, and your reservation is held when payment is received.",
-      `Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of our nearest hub. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies and is calculated at checkout before payment.`,
+      `Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of ${hubs.map((h) => h.name).join(" or ")}. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies. It is estimated on your reservation request and confirmed before you pay.`,
     ],
   },
   {
@@ -98,7 +98,7 @@ export default function RentalAgreementPage() {
       <Header />
       <div className="mx-auto max-w-3xl px-5 py-16">
         <h1 className="text-3xl font-bold text-ink">Rental Agreement</h1>
-        <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
+        <p className="mt-2 text-sm text-ink/70">Last updated: {legalLastUpdated}</p>
         <p className="mt-4 text-ink/75">
           These are the terms you agree to when you book totes with us. We&apos;ve kept it in plain
           English — if anything here is unclear, call {siteConfig.phone} and ask before you book.

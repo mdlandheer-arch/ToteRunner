@@ -4,7 +4,7 @@ import ReserveButton from "@/components/ReserveButton";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-line bg-paper">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <Link href="/" className="shrink-0" aria-label="ToteRunner home">
           <Logo />

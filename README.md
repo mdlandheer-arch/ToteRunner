@@ -1,4 +1,4 @@
-# CrateHaul — reusable moving tote rental site
+# ToteRunner — reusable moving tote rental site
 
 Next.js 15 (App Router) + TypeScript + Tailwind v4. Same business model as the
 reference (reusable tote delivery/pickup for moves), original branding and copy.

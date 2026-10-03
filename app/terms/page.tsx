@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
+import { siteConfig, hubs, packages, cancellationPolicy, damageFees, legalLastUpdated } from "@/lib/site-config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -16,7 +16,7 @@ export default function TermsPage() {
       <Header />
       <div className="mx-auto max-w-3xl px-5 py-16">
         <h1 className="text-3xl font-bold text-ink">Terms & Conditions</h1>
-        <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
+        <p className="mt-2 text-sm text-ink/70">Last updated: {legalLastUpdated}</p>
 
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Agreement to these terms</h2>
@@ -38,18 +38,19 @@ export default function TermsPage() {
           <p>
             Each package includes a base rental period of {packages[0]?.days ?? 14} days. Rentals
             longer than the base period are charged a per-day rate that varies by package size and is
-            shown at checkout before payment. Totes not returned or made available for pickup by the
+            listed on our pricing page and shown in the estimate on your reservation request. Totes not returned or made available for pickup by the
             end of the rental period (including any paid extension) may continue to accrue charges at
             our posted daily rate until pickup is completed.
           </p>
 
           <h2>4. Pricing, payment, and delivery fees</h2>
           <p>
-            Package prices are shown at checkout and include delivery and pickup within{" "}
-            {siteConfig.freeDeliveryRadiusMiles} miles of our nearest hub. Addresses beyond that radius are
+            Package prices are listed on our pricing page and shown on your reservation request, and
+            include delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of{" "}
+            {hubs.map((h) => h.name).join(" or ")}. Addresses beyond that radius are
             charged an additional delivery fee of ${siteConfig.perMileFeeBeyondRadius.toFixed(2)} per
-            mile beyond the free radius, calculated automatically at checkout based on the zip code
-            you provide. Submitting a reservation request does not charge you — once we confirm
+            mile beyond the free radius, estimated on your reservation request from the zip code you
+            provide and confirmed before you pay. Submitting a reservation request does not charge you — once we confirm
             availability we'll send payment details, and your dates are held when payment is received.
           </p>
 

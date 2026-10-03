@@ -22,7 +22,7 @@ export function LocalBusinessSchema() {
     email: siteConfig.email,
     slogan: siteConfig.tagline,
     image: `${siteConfig.domain}/og-image.png`,
-    logo: `${siteConfig.domain}/og-image.png`,
+    logo: `${siteConfig.domain}/brand/toterunner-mark.png`,
     // Links the site to your social profiles so Google can connect this page,
     // your Facebook Page, and your Google Business Profile as one entity.
     sameAs: [

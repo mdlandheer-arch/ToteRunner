@@ -2,21 +2,18 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --paper: #fbfaf6;
-  --ink: #152420;
-  --crate-green: #1a6848;
-  --crate-green-dark: #114832;
-  --safety-yellow: #f5a524;
-  --clay: #a8431f;      /* warm accent for secondary highlights */
-  --sky: #2d6e8f;       /* cool accent, keeps the palette from reading one-note */
+  /* Brand palette — exact values from the ToteRunner brand guide (§2). Use only these. */
+  --paper: #F7F4ED;          /* Paper — default background */
+  --ink: #14211C;            /* Ink — text, dark backgrounds */
+  --crate-green: #1F7A55;    /* Crate green — accent, buttons, headers */
+  --crate-green-dark: #14211C; /* button hover = Ink (no off-palette darker green) */
+  --safety-yellow: #F5A524;  /* Safety yellow — highlights, prices on dark */
 
-  /* Section tints. Only two alternate down the page, so the site reads as one
-     palette rather than a color transition. Both verified >=4.5:1 against ink,
-     steel, crate, clay and sky. */
-  --tint-green: #eef5f1;
-  --tint-sand: #fdf7ea;
-  --steel: #525c64;
-  --line: #e5e0d4;
+  /* Section bands alternate Paper and White (both in the palette).
+     Muted text uses Ink at 70% opacity (5.9:1 on Paper, 6.2:1 on White). */
+  --tint-green: #FFFFFF;
+  --tint-sand: #FFFFFF;
+  --line: #E6E1D3;           /* Calendar tile — borders and dividers */
 }
 
 @theme inline {
@@ -25,11 +22,8 @@
   --color-crate: var(--crate-green);
   --color-crate-dark: var(--crate-green-dark);
   --color-safety: var(--safety-yellow);
-  --color-clay: var(--clay);
-  --color-sky: var(--sky);
   --color-tint-green: var(--tint-green);
   --color-tint-sand: var(--tint-sand);
-  --color-steel: var(--steel);
   --color-line: var(--line);
   --font-display: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

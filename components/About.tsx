@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 
 // Rewrite this copy in your own voice before launch — the placeholders below
@@ -35,7 +36,7 @@ export default function About() {
             </p>
             <p className="mt-3 text-ink/75">
               No franchise, no call center — a family-owned operation covering{" "}
-              {siteConfig.serviceAreas.length}+ West Michigan towns, which means when something
+              {siteConfig.serviceAreas.length}+ towns across {siteConfig.region}, which means when something
               needs sorting out, you&apos;re talking to the person who can sort it out.
             </p>
 
@@ -51,25 +52,15 @@ export default function About() {
             </div>
           </div>
 
-          {/* Swap this placeholder for a real photo of you with the totes —
-              it's the single highest-impact image on the whole site. */}
-          <div className="rounded-lg border border-dashed border-line bg-white/70 p-10 text-center">
-            <svg viewBox="0 0 200 200" className="mx-auto h-28 w-28" role="img" aria-label="Stack of moving totes">
-              <rect x="22" y="122" width="156" height="15" rx="7" fill="#f5a524" />
-              <path d="M28 137 L172 137 L156 180 L44 180 Z" fill="#23292c" />
-              <path d="M48 149 L152 149 L145 168 L55 168 Z" fill="#161b1e" opacity="0.5" />
-
-              <rect x="46" y="68" width="108" height="13" rx="6" fill="#f5a524" />
-              <path d="M51 81 L149 81 L138 118 L62 118 Z" fill="#23292c" />
-              <path d="M68 92 L132 92 L127 109 L73 109 Z" fill="#161b1e" opacity="0.5" />
-
-              <rect x="68" y="20" width="64" height="11" rx="5" fill="#f5a524" />
-              <path d="M72 31 L128 31 L121 64 L79 64 Z" fill="#23292c" />
-            </svg>
-            <p className="mt-4 text-sm font-medium text-ink/70">Your photo goes here</p>
-            <p className="mt-1 text-sm text-steel">
-              A shot of you with a stack of totes builds more trust than anything else on this page.
-            </p>
+          <div className="flex items-center justify-center rounded-lg border border-line bg-white p-10">
+            <Image
+              src="/brand/toterunner-mark.svg"
+              alt="ToteRunner logo: two stacked moving totes"
+              width={423}
+              height={348}
+              unoptimized
+              className="h-auto w-56"
+            />
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ export default function PrivacyPage() {
       <Header />
       <div className="mx-auto max-w-3xl px-5 py-16">
         <h1 className="text-3xl font-bold text-ink">Privacy Policy</h1>
-        <p className="mt-2 text-sm text-steel">Last updated: {legalLastUpdated}</p>
+        <p className="mt-2 text-sm text-ink/70">Last updated: {legalLastUpdated}</p>
 
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Who this policy covers</h2>
@@ -33,8 +33,8 @@ export default function PrivacyPage() {
               address (street, city, state, zip), delivery and pickup dates, and package/add-on
               selections.</li>
             <li><strong>Payment information:</strong> we don't collect payment through this website.
-              Once we confirm your reservation, we arrange payment separately. [Update this section to
-              describe whichever payment method you settle on.]</li>
+              Once we confirm your reservation, we send payment details and arrange payment with you
+              directly. We don't store card or bank details on this website.</li>
             <li><strong>Address verification data:</strong> when you enter a zip code, we send it to a
               third-party zip-lookup service to confirm the city/state and estimate delivery distance.
               No account or persistent identifier is created with that service.</li>
@@ -63,7 +63,9 @@ export default function PrivacyPage() {
               only the zip code you enter, to verify it and estimate distance.</li>
             <li><strong>Google Analytics</strong> — receives anonymized usage data, only if you accept
               analytics cookies.</li>
-            <li><strong>[Your hosting provider]</strong> — hosts the website and processes requests to
+            <li><strong>Resend</strong> — sends the reservation confirmation email to you and the
+              booking notification to us, so it receives the details in your request.</li>
+            <li><strong>Vercel</strong> — hosts the website and processes requests to
               serve pages; standard server logs (IP address, timestamp, page requested) may be
               retained briefly for security purposes.</li>
           </ul>

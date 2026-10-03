@@ -46,8 +46,8 @@ function ownerAddress(): string {
 
 function row(label: string, value: string): string {
   return `<tr>
-    <td style="padding:8px 12px;border-bottom:1px solid #e5e5e5;font-weight:600;color:#1b1f23;">${label}</td>
-    <td style="padding:8px 12px;border-bottom:1px solid #e5e5e5;color:#333;">${value}</td>
+    <td style="padding:8px 12px;border-bottom:1px solid #E6E1D3;font-weight:600;color:#14211C;">${label}</td>
+    <td style="padding:8px 12px;border-bottom:1px solid #E6E1D3;color:#14211C;">${value}</td>
   </tr>`;
 }
 
@@ -60,8 +60,8 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;">
-      <h2 style="color:#1a6848;margin-bottom:4px;">New reservation request — ${b.name}</h2>
-      <p style="color:#666;margin-top:0;">No payment taken. Confirm availability, then arrange payment.</p>
+      <h2 style="color:#1F7A55;margin-bottom:4px;">New reservation request — ${b.name}</h2>
+      <p style="color:#14211C;opacity:.7;margin-top:0;">No payment taken. Confirm availability, then arrange payment.</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         ${row("Customer", b.name)}
         ${row("Email", b.email)}
@@ -77,7 +77,7 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
         ${row("Estimated total", `$${b.amountTotal} (not charged)`)}
         ${b.notes ? row("Customer notes", b.notes.replace(/\n/g, "<br/>")) : ""}
       </table>
-      <p style="color:#999;font-size:12px;margin-top:16px;">Request ref: ${b.sessionId}</p>
+      <p style="color:#14211C;opacity:.6;font-size:12px;margin-top:16px;">Request ref: ${b.sessionId}</p>
     </div>`;
 
   try {
@@ -102,8 +102,8 @@ export async function sendCustomerConfirmation(b: BookingDetails): Promise<void>
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;">
-      <h2 style="color:#1a6848;margin-bottom:4px;">Got it, ${b.name.split(" ")[0]}!</h2>
-      <p style="color:#333;">We've received your reservation request. Nothing has been charged yet — we'll confirm availability and follow up with payment details shortly. Here's what you sent:</p>
+      <h2 style="color:#1F7A55;margin-bottom:4px;">Got it, ${b.name.split(" ")[0]}!</h2>
+      <p style="color:#14211C;">We've received your reservation request. Nothing has been charged yet — we'll confirm availability and follow up with payment details shortly. Here's what you sent:</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         ${row("Package", `${b.packageName} (${b.totes} totes)`)}
         ${row("Add-ons", b.addOnSummary || "None")}
@@ -113,12 +113,12 @@ export async function sendCustomerConfirmation(b: BookingDetails): Promise<void>
         ${b.pickupAddress && b.pickupAddress !== b.address ? row("Pickup address", b.pickupAddress) : ""}
         ${row("Estimated total", `$${b.amountTotal} (not charged)`)}
       </table>
-      <p style="color:#333;margin-top:16px;">
+      <p style="color:#14211C;margin-top:16px;">
         <strong>This isn't a confirmed booking yet.</strong> We'll reply within one business day to
         confirm your dates and send payment details. Need to change something in the meantime? Just
         reply to this email or call ${siteConfig.phone}.
       </p>
-      <p style="color:#999;font-size:12px;margin-top:24px;">
+      <p style="color:#14211C;opacity:.6;font-size:12px;margin-top:24px;">
         ${siteConfig.name} · ${siteConfig.email} · ${siteConfig.phone}
       </p>
     </div>`;

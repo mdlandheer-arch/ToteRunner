@@ -10,7 +10,7 @@ const points = [
 
 export default function EcoImpact() {
   return (
-    <section id="eco" className="bg-tint-green">
+    <section id="eco" className="border-t border-line bg-tint-green">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-crate">The greener move</p>
         <h2 className="mt-2 max-w-xl text-3xl font-bold text-ink">

@@ -238,7 +238,7 @@ export default function BookingForm() {
               we&apos;ll get back to you within one business day to confirm your dates and sort out
               payment. Nothing has been charged.
             </p>
-            <p className="mt-4 text-sm text-steel">
+            <p className="mt-4 text-sm text-ink/70">
               Need it sooner? Call {siteConfig.phone}.
             </p>
           </div>
@@ -326,7 +326,7 @@ export default function BookingForm() {
           </div>
 
           <div className="text-sm">
-            {zipStatus === "checking" && <p className="text-steel">Checking zip code…</p>}
+            {zipStatus === "checking" && <p className="text-ink/70">Checking zip code…</p>}
             {zipStatus === "not-found" && (
               <p className="text-red-600">We couldn&apos;t verify that zip code — double check it.</p>
             )}
@@ -366,7 +366,7 @@ export default function BookingForm() {
 
           <div className="rounded-md border border-line bg-white/70 p-4">
             <p className="font-medium text-ink">Where should we pick the empties up?</p>
-<p className="mt-0.5 text-sm text-steel">Usually the new place.</p>
+<p className="mt-0.5 text-sm text-ink/70">Usually the new place.</p>
             <button
               type="button"
               onClick={() =>
@@ -444,7 +444,7 @@ export default function BookingForm() {
           <div>
             <label className={labelClass} htmlFor="notes">
               Anything we should know?{" "}
-              <span className="font-normal text-steel">(optional)</span>
+              <span className="font-normal text-ink/70">(optional)</span>
             </label>
             <textarea
               id="notes"
@@ -467,7 +467,7 @@ export default function BookingForm() {
                   <div key={a.id} className="flex items-center justify-between rounded-md border border-line px-3 py-2">
                     <div className="text-sm">
                       <span className="text-ink/80">{a.name}</span>
-                      <span className="ml-2 text-steel">
+                      <span className="ml-2 text-ink/70">
                         ${a.price} {a.unit !== "flat" ? a.unit : ""}
                       </span>
                     </div>
@@ -580,7 +580,7 @@ export default function BookingForm() {
                   {pickupDistanceMiles === null ? "Enter zip" : pickupLegFee > 0 ? `$${pickupLegFee.toFixed(2)}` : "Free"}
                 </span>
               </div>
-              <p className="mt-3 border-t border-crate/20 pt-3 text-xs text-steel">
+              <p className="mt-3 border-t border-crate/20 pt-3 text-xs text-ink/70">
                 Estimate only — we&apos;ll confirm the final amount when we reply.
               </p>
             </div>
@@ -593,7 +593,7 @@ export default function BookingForm() {
           >
             {submitting ? "Sending…" : "Request these dates"}
           </button>
-          <p className="text-xs text-steel">
+          <p className="text-xs text-ink/70">
 Submitting a request doesn&apos;t charge you or lock in your dates — we&apos;ll confirm availability first.
           </p>
         </form>

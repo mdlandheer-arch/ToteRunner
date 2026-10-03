@@ -29,7 +29,7 @@ export default function Hero() {
               See pricing
             </a>
           </div>
-          <p className="mt-4 text-sm text-steel">
+          <p className="mt-4 text-sm text-ink/70">
             Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of{" "}
             {hubs.map((h) => h.name).join(" or ")}.
           </p>

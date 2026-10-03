@@ -7,7 +7,7 @@ export default function ServiceArea() {
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="text-3xl font-bold text-ink">Serving {siteConfig.region}</h2>
         <p className="mt-2 max-w-xl text-ink/70">
-          We deliver across {siteConfig.city} and the surrounding area, including:
+          Towns we deliver to include:
         </p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">

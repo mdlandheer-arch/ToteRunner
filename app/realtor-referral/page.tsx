@@ -202,8 +202,8 @@ export default function RealtorReferralPage() {
               <div key={pkg.id} className="rounded-lg border border-line bg-white/70 p-5">
                 <p className="font-bold text-ink">{pkg.name}</p>
                 <p className="mt-2 text-2xl font-extrabold text-ink">${discounted(pkg.price)}</p>
-                <p className="text-sm text-steel line-through">${pkg.price}</p>
-                <p className="mt-1 text-sm text-steel">
+                <p className="text-sm text-ink/70 line-through">${pkg.price}</p>
+                <p className="mt-1 text-sm text-ink/70">
                   {pkg.totes} totes · {pkg.days} days
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">

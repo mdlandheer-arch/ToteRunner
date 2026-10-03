@@ -199,7 +199,7 @@ export const addOns: AddOn[] = [
 // Set from the owner's decisions — confirm with your attorney that these are
 // enforceable as liquidated damages under Michigan consumer law.
 // Shown on the legal pages. Bump this whenever you change legal copy.
-export const legalLastUpdated = "September 12, 2026";
+export const legalLastUpdated = "October 3, 2026";
 
 export const damageFees = {
   perTote: 15,

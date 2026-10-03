@@ -118,7 +118,7 @@ export default function AddressAutocomplete({ value, onChange, onAddressSelected
         autoComplete={ready ? "off" : "address-line1"}
       />
       {ready && (
-        <p className="mt-1 text-xs text-steel">Start typing and pick your address to fill the rest automatically.</p>
+        <p className="mt-1 text-xs text-ink/70">Start typing and pick your address to fill the rest automatically.</p>
       )}
     </>
   );

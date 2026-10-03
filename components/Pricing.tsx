@@ -14,7 +14,7 @@ export default function Pricing() {
               <div
                 key={pkg.id}
                 className={`relative rounded-lg border p-6 ${
-                  pkg.popular ? "border-crate shadow-md" : "border-line"
+                  pkg.popular ? "border-2 border-crate" : "border-line"
                 }`}
               >
                 {pkg.popular && (
@@ -24,10 +24,10 @@ export default function Pricing() {
                 )}
                 <h3 className="text-lg font-bold text-ink">{pkg.name}</h3>
                 <p className="mt-3 text-3xl font-extrabold text-ink">${pkg.price}</p>
-                <p className="mt-1 text-sm text-steel">
+                <p className="mt-1 text-sm text-ink/70">
                   {pkg.totes} totes · {pkg.days}-day rental
                 </p>
-                <p className="mt-1 text-sm text-steel">
+                <p className="mt-1 text-sm text-ink/70">
                   Need longer? ${pkg.dailyRate}/day after that.
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">

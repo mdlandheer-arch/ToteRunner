@@ -52,7 +52,7 @@ export default function ToteCalculator() {
         </a>
       </div>
 
-      <p className="mt-3 text-sm text-steel">14 days included. Need longer? Just pick later dates.</p>
+      <p className="mt-3 text-sm text-ink/70">14 days included. Need longer? Just pick later dates.</p>
     </div>
   );
 }
