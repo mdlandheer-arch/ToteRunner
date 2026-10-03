@@ -7,7 +7,7 @@ export const siteConfig = {
   descriptor: "Reusable moving totes, delivered and picked up.",
   domain: "https://www.toterunnergr.com",
   city: "Grand Rapids",
-  region: "Greater Grand Rapids",
+  region: "Grand Rapids & the Lakeshore",
   serviceAreas: [
     "Grand Rapids",
     "Wyoming",
@@ -50,12 +50,11 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/toterunnergr/",
     tiktok: "",
   },
-  // Referral terms. The agent earns a per-booking fee. The referred client does
-  // NOT receive a discount — they pay standard published pricing.
+  // Referral terms. The agent is NOT paid. A client referred by a participating
+  // agent gets this percent off the base package price (applied by hand when
+  // the reservation is confirmed — there is no online payment).
   realtorReferral: {
-    commissionPerReferral: 15, // USD paid to the agent per completed booking
-    payoutMethod: "Venmo, Zelle, or check — your pick", // confirm before launch
-    payoutTiming: "the first week of the following month",
+    clientDiscountPercent: 10,
   },
   // Owner story shown in the About section — rewrite this in your own voice.
   // Local trust matters more than polish for this kind of business.

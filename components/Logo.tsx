@@ -1,79 +1,38 @@
-// ToteRunner logo — matches the mark used on the Facebook page.
-// Black tote bodies with yellow lids, which is what the real inventory looks
-// like; the green is brand accent only, never the tote itself.
+// ToteRunner logo mark. Uses the approved master tote (BRAND-GUIDELINES.md):
+// ink body #14211C, shade #1B2620, yellow lid #F5A524, spec viewBox "0 0 70 70".
+// Two stacked totes plus three motion lines (the lines belong to the full logo only).
 //
-// Inline SVG rather than an image file so it stays crisp at any size and
-// picks up the site's color tokens.
+// Inline SVG so it stays crisp at any size. Pass `dark` on dark backgrounds to add a
+// faint light edge so the ink bodies stay visible.
 
-const BODY = "#23292c";
-const BODY_DARK = "#161b1e";
-const LID = "#f5a524";
+const BODY = "#14211C";
+const SHADE = "#1B2620";
+const LID = "#F5A524";
 
-function Tote({
-  x, y, w, h, lidH, outline,
-}: { x: number; y: number; w: number; h: number; lidH: number; outline?: string }) {
-  // Gentle taper (Facebook mark's totes are nearly straight-sided, not a wide
-  // wedge) and a thin seam line near the top of the body rather than a big
-  // interior block — the block read as a broken "window" cut into the tote.
-  const topInset = w * 0.02;
-  const bottomInset = w * 0.08;
+const BODY_PATH =
+  "M9,28L61,28Q64,28 63.25,30.9L58.25,50.1Q57.5,53 54.5,53L15.5,53Q12.5,53 11.75,50.1L6.75,30.9Q6,28 9,28Z";
+
+function Tote({ y, outline }: { y: number; outline?: string }) {
+  // Spec coordinates: lid x3..67 / y18..28, body to y53. Shift so lid-left = 0.
   return (
-    <>
-      <rect x={x} y={y} width={w} height={lidH} rx={w * 0.028} fill={LID} />
-      <path
-        d={`M${x + topInset} ${y + lidH} L${x + w - topInset} ${y + lidH} L${x + w - bottomInset} ${y + lidH + h} L${x + bottomInset} ${y + lidH + h} Z`}
-        fill={BODY}
-        stroke={outline}
-        strokeWidth={outline ? 2.5 : 0}
-      />
-      <rect
-        x={x + bottomInset * 1.5}
-        y={y + lidH + h * 0.14}
-        width={w - bottomInset * 3}
-        height={h * 0.07}
-        rx={h * 0.03}
-        fill={BODY_DARK}
-        opacity="0.4"
-      />
-    </>
+    <g transform={`translate(-3 ${y - 18})`}>
+      <path d={BODY_PATH} fill={BODY} stroke={outline} strokeWidth={outline ? 1.1 : 0} strokeLinejoin="round" />
+      <path d="M17,33L53,33L51,46L19,46Z" fill={SHADE} />
+      <rect x="3" y="18" width="64" height="10" rx="3" fill={LID} />
+    </g>
   );
 }
 
-/**
- * Icon-only mark — motion lines plus two stacked totes.
- *
- * Matches the approved brand mark (the one used on Facebook/Instagram):
- * two totes stacked, real-inventory proportions (wider/shorter than a
- * single storage bin actually is), with three accent lines trailing to
- * the left, brightest at the seam between the totes.
- *
- * The tote body is a near-black fill (matches the real inventory), which
- * disappears against a dark background — that's the header/light-background
- * default. Pass `dark` on any dark background (the footer, a dark hero) to
- * add a faint light edge around each body so it stays visible.
- */
 export function LogoMark({ className, dark }: { className?: string; dark?: boolean }) {
-  const outline = dark ? "rgba(255,255,255,0.35)" : undefined;
-  // One tote's proportions, matched to the approved mark: lid height to body
-  // height is roughly 2:5, and the whole tote is noticeably wider than it is
-  // tall — closer to what a real moving tote looks like than a tall bin.
-  const toteW = 106;
-  const lidH = 16;
-  const bodyH = 40;
-  const toteH = lidH + bodyH; // 56
-  const gap = 2; // small gap between the stacked totes, matching the mark
-  const top1 = 28;
-  const top2 = top1 + toteH + gap; // 86
-
+  const outline = dark ? "rgba(247,244,237,0.55)" : undefined;
   return (
-    <svg viewBox="0 0 160 170" className={className} role="img" aria-label="ToteRunner">
-      {/* Accent trail, brightest at the seam between the two totes */}
-      <rect x="4" y="58" width="22" height="5" rx="2.5" fill="currentColor" opacity="0.4" />
-      <rect x="0" y="83" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.6" />
-      <rect x="8" y="106" width="18" height="5" rx="2.5" fill="currentColor" opacity="0.4" />
-
-      <Tote x={40} y={top1} w={toteW} h={bodyH} lidH={lidH} outline={outline} />
-      <Tote x={40} y={top2} w={toteW} h={bodyH} lidH={lidH} outline={outline} />
+    <svg viewBox="-26 -1 91 73.5" className={className} role="img" aria-label="ToteRunner">
+      {/* Motion lines: brightest at the seam between the two totes */}
+      <rect x="-21.8" y="18.1" width="13.1" height="3.2" rx="1.6" fill="currentColor" opacity="0.45" />
+      <rect x="-24.3" y="32.8" width="18.1" height="3.2" rx="1.6" fill="currentColor" opacity="0.85" />
+      <rect x="-19.3" y="47" width="10.6" height="3.2" rx="1.6" fill="currentColor" opacity="0.45" />
+      <Tote y={18} outline={outline} />
+      <Tote y={54.5} outline={outline} />
     </svg>
   );
 }
