@@ -35,7 +35,9 @@ export default function Footer() {
         <div>
           <div className="flex items-center gap-2.5">
             <LogoMark className="h-7 w-auto text-safety" dark />
-            <p className="text-lg font-bold">{siteConfig.name}</p>
+            <p className="text-lg font-bold text-white">
+              Tote<span className="text-safety">Runner</span>
+            </p>
           </div>
           <p className="mt-1 text-sm font-medium text-safety">{siteConfig.tagline}</p>
           <p className="mt-2 text-sm text-paper/70">

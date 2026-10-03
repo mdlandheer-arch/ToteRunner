@@ -13,7 +13,7 @@ const BODY_PATH =
   "M9,28L61,28Q64,28 63.25,30.9L58.25,50.1Q57.5,53 54.5,53L15.5,53Q12.5,53 11.75,50.1L6.75,30.9Q6,28 9,28Z";
 
 function Tote({ y, outline }: { y: number; outline?: string }) {
-  // Spec coordinates: lid x3..67 / y18..28, body to y53. Shift so lid-left = 0.
+  // Spec coordinates: lid x3..67 / y18..28, body to y53. `y` is where the lid top lands; lid-left lands at x=0.
   return (
     <g transform={`translate(-3 ${y - 18})`}>
       <path d={BODY_PATH} fill={BODY} stroke={outline} strokeWidth={outline ? 1.1 : 0} strokeLinejoin="round" />
@@ -31,8 +31,8 @@ export function LogoMark({ className, dark }: { className?: string; dark?: boole
       <rect x="-21.8" y="18.1" width="13.1" height="3.2" rx="1.6" fill="currentColor" opacity="0.45" />
       <rect x="-24.3" y="32.8" width="18.1" height="3.2" rx="1.6" fill="currentColor" opacity="0.85" />
       <rect x="-19.3" y="47" width="10.6" height="3.2" rx="1.6" fill="currentColor" opacity="0.45" />
-      <Tote y={18} outline={outline} />
-      <Tote y={54.5} outline={outline} />
+      <Tote y={0} outline={outline} />
+      <Tote y={36.5} outline={outline} />
     </svg>
   );
 }
