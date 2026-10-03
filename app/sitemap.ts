@@ -22,7 +22,7 @@ const contentLastUpdated = "2026-09-19";
 const legalLastUpdatedISO = new Date(legalLastUpdated).toISOString().split("T")[0];
 
 const routes: { path: string; lastModified: string }[] = [
-  { path: "", lastModified: contentLastUpdated },
+  { path: "", lastModified: "2026-10-03" },
   { path: "/faq", lastModified: contentLastUpdated },
   { path: "/realtor-referral", lastModified: contentLastUpdated },
   { path: "/rental-agreement", lastModified: legalLastUpdatedISO },
