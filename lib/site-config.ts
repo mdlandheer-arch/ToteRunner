@@ -210,5 +210,5 @@ export const damageFees = {
 export const cancellationPolicy = {
   freeCancellationHours: 48,
   lateCancellationFee: 25, // USD, inside the free window
-  postDeliveryRestockingFee: 49, // USD, if totes already delivered
+  postDeliveryRestockingFee: 49, // USD, if totes already delivered. Public wording: "fee to cover the delivery and return trip". Only one cancellation fee applies (not $25 + $49).
 };
