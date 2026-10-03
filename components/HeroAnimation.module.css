@@ -1,0 +1,103 @@
+/*
+  ToteRunner hero loop — 7s cycle (1% = 70ms)
+  0–2s     full stack at rest (also the reduced-motion still frame)
+  2–3s     stack + dolly roll out right
+  3–4s     empty dolly rolls in from left
+  4–5.6s   totes drop in 0.6s apart, small squash on landing, then hold
+*/
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.dolly {
+  animation: dolly 7s linear infinite;
+}
+
+.wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wheel 7s linear infinite;
+}
+
+.tote {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation-duration: 7s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.tote0 { animation-name: tote0; }
+.tote1 { animation-name: tote1; }
+.tote2 { animation-name: tote2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dolly,
+  .wheel,
+  .tote {
+    animation: none;
+  }
+}
+
+/* Dolly: roll out (ease-in), jump off left, roll in (ease-out) */
+@keyframes dolly {
+  0% { transform: translateX(0); }
+  28.571% { transform: translateX(0); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  42.857% { transform: translateX(330px); }
+  42.858% { transform: translateX(-330px); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  57.143% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
+
+/* Wheels: 330 units / (2π × 10) ≈ 5.25 turns ≈ 1891deg */
+@keyframes wheel {
+  0% { transform: rotate(0deg); }
+  28.571% { transform: rotate(0deg); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  42.857% { transform: rotate(1891deg); }
+  42.858% { transform: rotate(-1891deg); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  57.143% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Totes: ride out with the dolly, wait above the frame, drop in (ease-in), squash, hold */
+@keyframes tote0 {
+  0% { transform: translate(0, 0); }
+  28.571% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  42.857% { transform: translate(330px, 0); }
+  42.858% { transform: translate(0, -420px); }
+  57.142% { transform: translate(0, -420px); }
+  57.143% { transform: translate(0, -260px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  62.143% { transform: translate(0, 0) scale(1, 1); }
+  63.286% { transform: translate(0, 0) scale(1.042, 0.93); }
+  64.429% { transform: translate(0, 0) scale(1, 1); }
+  100% { transform: translate(0, 0) scale(1, 1); }
+}
+
+@keyframes tote1 {
+  0% { transform: translate(0, 0); }
+  28.571% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  42.857% { transform: translate(330px, 0); }
+  42.858% { transform: translate(0, -420px); }
+  65.713% { transform: translate(0, -420px); }
+  65.714% { transform: translate(0, -260px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  70.714% { transform: translate(0, 0) scale(1, 1); }
+  71.857% { transform: translate(0, 0) scale(1.042, 0.93); }
+  73% { transform: translate(0, 0) scale(1, 1); }
+  100% { transform: translate(0, 0) scale(1, 1); }
+}
+
+@keyframes tote2 {
+  0% { transform: translate(0, 0); }
+  28.571% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  42.857% { transform: translate(330px, 0); }
+  42.858% { transform: translate(0, -420px); }
+  74.285% { transform: translate(0, -420px); }
+  74.286% { transform: translate(0, -260px); animation-timing-function: cubic-bezier(0.32, 0, 0.67, 0); }
+  79.286% { transform: translate(0, 0) scale(1, 1); }
+  80.429% { transform: translate(0, 0) scale(1.042, 0.93); }
+  81.571% { transform: translate(0, 0) scale(1, 1); }
+  100% { transform: translate(0, 0) scale(1, 1); }
+}
