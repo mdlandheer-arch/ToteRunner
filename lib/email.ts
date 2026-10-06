@@ -20,6 +20,7 @@ export type BookingDetails = {
   deliveryFee: string;
   distanceMiles: string;
   amountTotal: string;
+  promoSummary?: string;
   sessionId: string;
   rentalDays?: number;
   extraDays?: number;
@@ -74,6 +75,7 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
         ${row("Add-ons", b.addOnSummary || "None")}
         ${row("Distance from hub", b.distanceMiles ? `${b.distanceMiles} mi` : "—")}
         ${row("Delivery fee", `$${b.deliveryFee}`)}
+        ${b.promoSummary ? row("Promo code", b.promoSummary) : ""}
         ${row("Estimated total", `$${b.amountTotal} (not charged)`)}
         ${b.notes ? row("Customer notes", b.notes.replace(/\n/g, "<br/>")) : ""}
       </table>
@@ -111,6 +113,7 @@ export async function sendCustomerConfirmation(b: BookingDetails): Promise<void>
         ${row("Pickup date", b.pickupDate)}
         ${row("Delivery address", b.address)}
         ${b.pickupAddress && b.pickupAddress !== b.address ? row("Pickup address", b.pickupAddress) : ""}
+        ${b.promoSummary ? row("Promo code", b.promoSummary) : ""}
         ${row("Estimated total", `$${b.amountTotal} (not charged)`)}
       </table>
       <p style="color:#14211C;margin-top:16px;">

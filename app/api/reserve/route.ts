@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 import { sendOwnerNotification, sendCustomerConfirmation, type BookingDetails } from "@/lib/email";
+import { findPromo, promoDiscount } from "@/lib/promo";
+import { promoCodes } from "@/lib/promo-codes";
 
 // Reservation REQUEST endpoint — no payment is taken here.
 //
@@ -36,7 +38,7 @@ export async function POST(req: NextRequest) {
     const {
       packageId, addOnQuantities, name, email, phone,
       address, pickupAddress, agreed, zip, pickupZip,
-      deliveryDate, pickupDate, honeypot, notes,
+      deliveryDate, pickupDate, honeypot, notes, promoCode,
     } = body;
 
     if (honeypot) {
@@ -110,8 +112,22 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Promo: re-checked here so the browser can't send its own discount.
+    // A code that's invalid or expired by submit time is dropped, not an error.
+    let promoLine = "";
+    let promoSavings = 0;
+    if (promoCode) {
+      const result = findPromo(promoCodes, promoCode);
+      if (result.ok) {
+        promoSavings = promoDiscount(result.promo, pkg.price);
+        promoLine = isCustomRequest
+          ? `${result.promo.code}: ${result.promo.label} (apply to custom quote)`
+          : `${result.promo.code}: ${result.promo.label} (−$${promoSavings.toFixed(2)})`;
+      }
+    }
+
     const estimate =
-      pkg.price + extraDays * pkg.dailyRate + addOnTotal + deliveryFee + pickupFee;
+      pkg.price + extraDays * pkg.dailyRate + addOnTotal + deliveryFee + pickupFee - promoSavings;
 
     const details: BookingDetails = {
       name, email, phone,
@@ -124,6 +140,7 @@ export async function POST(req: NextRequest) {
       deliveryFee: (deliveryFee + pickupFee).toFixed(2),
       distanceMiles: distanceMiles !== null ? distanceMiles.toFixed(1) : "",
       amountTotal: estimate.toFixed(2),
+      promoSummary: promoLine,
       sessionId: `req-${Date.now()}`,
       rentalDays,
       extraDays,

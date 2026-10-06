@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
+import { promoDiscount, type AppliedPromo } from "@/lib/promo";
 
 type FormState = {
   name: string;
@@ -50,6 +51,12 @@ export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
   const [agreed, setAgreed] = useState(false);
+
+  // Promo code: checked by /api/promo, re-checked on submit by /api/reserve.
+  const [promoInput, setPromoInput] = useState("");
+  const [promo, setPromo] = useState<AppliedPromo | null>(null);
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const [promoChecking, setPromoChecking] = useState(false);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -163,7 +170,45 @@ export default function BookingForm() {
     return a && qty > 0 ? sum + a.price * qty : sum;
   }, 0);
   const extraDaysTotal = (selectedPackage?.dailyRate ?? 0) * extraDays;
-  const estimatedTotal = (selectedPackage?.price ?? 0) + extraDaysTotal + addOnTotal + estimatedFee;
+  // Promo comes off the base package price only, so it recalculates if the
+  // customer switches packages after applying a code.
+  const promoSavings = promo && selectedPackage ? promoDiscount(promo, selectedPackage.price) : 0;
+  const subtotalBeforePromo = (selectedPackage?.price ?? 0) + extraDaysTotal + addOnTotal + estimatedFee;
+  const estimatedTotal = subtotalBeforePromo - promoSavings;
+
+  async function applyPromo() {
+    setPromoError(null);
+    if (!promoInput.trim()) {
+      setPromoError("Enter a promo code.");
+      return;
+    }
+    setPromoChecking(true);
+    try {
+      const res = await fetch("/api/promo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: promoInput }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setPromo(data.promo);
+        setPromoInput(data.promo.code);
+      } else {
+        setPromo(null);
+        setPromoError(data.error ?? "That code isn't valid.");
+      }
+    } catch {
+      setPromoError("Couldn't check that code. Try again.");
+    } finally {
+      setPromoChecking(false);
+    }
+  }
+
+  function removePromo() {
+    setPromo(null);
+    setPromoInput("");
+    setPromoError(null);
+  }
 
   function validate(): boolean {
     const next: Record<string, string> = {};
@@ -204,7 +249,7 @@ export default function BookingForm() {
       const res = await fetch("/api/reserve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty }),
+        body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty, promoCode: promo?.code ?? "" }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -499,6 +544,52 @@ export default function BookingForm() {
             </div>
           </fieldset>
 
+          <div>
+            <label className={labelClass} htmlFor="promoCode">Promo code (optional)</label>
+            {promo ? (
+              <div className="mt-1 flex items-center justify-between rounded-md border border-crate bg-white px-3 py-2 text-sm">
+                <span className="text-ink">
+                  <span className="font-semibold">{promo.code}</span>
+                  <span className="text-ink/70"> applied: {promo.label}</span>
+                </span>
+                <button type="button" onClick={removePromo} className="font-medium text-crate hover:underline">
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <div className="mt-1 flex gap-2">
+                <input
+                  id="promoCode"
+                  className={`${inputClass} mt-0 uppercase`}
+                  value={promoInput}
+                  autoComplete="off"
+                  onChange={(e) => {
+                    setPromoInput(e.target.value);
+                    setPromoError(null);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      applyPromo();
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={applyPromo}
+                  disabled={promoChecking}
+                  className="shrink-0 rounded-md border border-crate px-4 text-sm font-semibold text-crate hover:bg-crate/5 disabled:opacity-60"
+                >
+                  {promoChecking ? "Checking…" : "Apply"}
+                </button>
+              </div>
+            )}
+            {promoError && <p className={errorClass}>{promoError}</p>}
+            {promo && form.packageId === "custom" && (
+              <p className="mt-1 text-xs text-ink/70">We&apos;ll apply this code to your custom quote when we reply.</p>
+            )}
+          </div>
+
           {serverError && <p className="text-sm text-red-600">{serverError}</p>}
 
           <div>
@@ -537,7 +628,12 @@ export default function BookingForm() {
             ) : (
               <div className="flex items-baseline justify-between">
                 <span className="text-sm font-semibold text-ink">Estimated total</span>
-                <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
+                <span className="text-right">
+                  {promoSavings > 0 && (
+                    <span className="mr-2 text-sm text-ink/70 line-through">${subtotalBeforePromo.toFixed(2)}</span>
+                  )}
+                  <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
+                </span>
               </div>
             )}
             <div className="mt-2 space-y-1 text-sm text-ink/70">
@@ -568,6 +664,12 @@ export default function BookingForm() {
                   </div>
                 );
               })}
+              {promoSavings > 0 && (
+                <div className="flex justify-between gap-3 font-medium text-crate">
+                  <span>Promo {promo?.code}</span>
+                  <span className="whitespace-nowrap">−${promoSavings.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span>Delivery trip</span>
                 <span>
