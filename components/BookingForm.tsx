@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import Spinner from "@/components/Spinner";
@@ -116,6 +117,7 @@ function FieldError({ id, msg }: { id: string; msg?: string }) {
 }
 
 export default function BookingForm() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
   const [agreed, setAgreed] = useState(false);
@@ -354,8 +356,10 @@ export default function BookingForm() {
         setSubmitting(false);
         return;
       }
+      // Success: hand off to the thank-you page. The button stays disabled meanwhile,
+      // so a slow navigation can't turn into a second submission.
       setSubmitted(true);
-      window.scrollTo({ top: document.getElementById("booking")?.offsetTop ?? 0, behavior: "smooth" });
+      router.push("/thank-you");
     } catch {
       setServerError("Network error — please try again.");
       submittingRef.current = false;
@@ -375,15 +379,12 @@ export default function BookingForm() {
         <p className="mt-2 text-ink/75">Send a request and we&apos;ll get back to you within one business day. No payment now.</p>
 
         {submitted ? (
-          <div className="mt-8 rounded-lg border border-crate bg-white/70 p-8 text-center">
+          // Normally replaced by /thank-you within a moment; the link is a fallback if navigation stalls.
+          <div role="status" className="mt-8 rounded-lg border border-crate bg-white/70 p-8 text-center">
             <p className="text-2xl font-bold text-ink">Request sent</p>
             <p className="mx-auto mt-3 max-w-md text-ink/75">
-              Thanks, {form.name.split(" ")[0]}. We&apos;ve emailed a copy to {form.email} and
-              we&apos;ll get back to you within one business day to confirm your dates and sort out
-              payment. Nothing has been charged.
-            </p>
-            <p className="mt-4 text-sm text-ink/70">
-              Need it sooner? Call {siteConfig.phone}.
+              Taking you to your confirmation…{" "}
+              <a href="/thank-you" className="font-medium text-crate underline">Tap here if nothing happens.</a>
             </p>
           </div>
         ) : (
