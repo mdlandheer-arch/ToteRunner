@@ -3,6 +3,12 @@
 export const siteConfig = {
   name: "ToteRunner",
   tagline: "We run the totes. You run the move.",
+  // Signature block at the bottom of customer emails (lib/email.ts). Edit here to change it.
+  // Gmail's own signature can't be added automatically — these emails are sent by Resend, not Gmail.
+  emailSignature: {
+    name: "Mitchell Landheer",
+    title: "Owner",
+  },
   // Plain description used where a tagline would be too clever (meta tags, SEO)
   descriptor: "Reusable moving totes, delivered and picked up.",
   domain: "https://www.toterunnergr.com",
