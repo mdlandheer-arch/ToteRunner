@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import Spinner from "@/components/Spinner";
+import DateRangePicker from "@/components/DateRangePicker";
 import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
 import { promoDiscount, type AppliedPromo } from "@/lib/promo";
 
@@ -91,10 +92,11 @@ function computeErrors(form: FormState, zipStatus: ZipStatus, agreed: boolean): 
   else if (zipStatus !== "verified") e.zip = "We're still checking this zip code. Wait a second, then try again.";
 
   const today = todayISO();
-  if (!form.deliveryDate) e.deliveryDate = "Pick the day you want the totes delivered.";
+  if (!form.deliveryDate && !form.pickupDate) e.deliveryDate = "Open the calendar, tap your delivery day, then tap your pickup day.";
+  else if (!form.deliveryDate) e.deliveryDate = "Pick the day you want the totes delivered.";
   else if (form.deliveryDate < today) e.deliveryDate = "That date has already passed. Pick today or a later date.";
 
-  if (!form.pickupDate) e.pickupDate = "Pick the day you want the empty totes picked up.";
+  if (!form.pickupDate) { if (form.deliveryDate) e.pickupDate = "Now tap the day you want the empty totes picked up."; }
   else if (form.deliveryDate && form.pickupDate < form.deliveryDate)
     e.pickupDate = `Pickup can't be before delivery. Pick ${formatDate(form.deliveryDate)} or later.`;
 
@@ -314,7 +316,8 @@ export default function BookingForm() {
     `${inputClass}${extra}${errors[name] ? " border-red-600! bg-red-50/40" : ""}`;
 
   function focusField(name: string) {
-    const el = document.getElementById(name);
+    // Both date errors live on the single date-range button, whose id is "deliveryDate".
+    const el = document.getElementById(name === "pickupDate" ? "deliveryDate" : name);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.focus({ preventScroll: true });
@@ -492,19 +495,23 @@ export default function BookingForm() {
             )}
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label className={labelClass} htmlFor="deliveryDate">Delivery date</label>
-              <input id="deliveryDate" {...fp("deliveryDate")} type="date" className={cls("deliveryDate")} value={form.deliveryDate}
-                onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })} />
-              <FieldError id="deliveryDate" msg={errors.deliveryDate} />
-            </div>
-            <div>
-              <label className={labelClass} htmlFor="pickupDate">Pickup date</label>
-              <input id="pickupDate" {...fp("pickupDate")} type="date" className={cls("pickupDate")} value={form.pickupDate}
-                onChange={(e) => setForm({ ...form, pickupDate: e.target.value })} />
-              <FieldError id="pickupDate" msg={errors.pickupDate} />
-            </div>
+          <div>
+            <label className={labelClass} htmlFor="deliveryDate">Delivery and pickup dates</label>
+            <DateRangePicker
+              id="deliveryDate"
+              delivery={form.deliveryDate}
+              pickup={form.pickupDate}
+              onChange={(deliveryDate, pickupDate) => setForm((f) => ({ ...f, deliveryDate, pickupDate }))}
+              onClose={() => setTouched((t) => ({ ...t, deliveryDate: true, pickupDate: true }))}
+              invalid={Boolean(errors.deliveryDate || errors.pickupDate)}
+              describedBy={
+                [errors.deliveryDate && "deliveryDate-error", errors.pickupDate && "pickupDate-error"]
+                  .filter(Boolean)
+                  .join(" ") || undefined
+              }
+            />
+            <FieldError id="deliveryDate" msg={errors.deliveryDate} />
+            <FieldError id="pickupDate" msg={errors.pickupDate} />
           </div>
 
           <div className="rounded-md border border-line bg-white/70 p-4">

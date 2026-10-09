@@ -61,3 +61,19 @@ h1, h2, h3, h4 {
     scroll-behavior: auto !important;
   }
 }
+
+/* Booking-form calendar (react-day-picker). Brand palette only; the library's
+   range ends use a hard-stop fill, not a visible gradient. */
+.tr-calendar.rdp-root {
+  --rdp-accent-color: var(--crate-green);
+  --rdp-accent-background-color: rgb(31 122 85 / 0.12);
+  --rdp-today-color: var(--ink);
+  --rdp-range_start-color: var(--paper);
+  --rdp-range_end-color: var(--paper);
+  --rdp-day-width: 40px;
+  --rdp-day-height: 44px;
+  --rdp-day_button-width: 38px;
+  --rdp-day_button-height: 42px;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
