@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Submission rejected." }, { status: 400 });
     }
     if (agreed !== true) {
-      return NextResponse.json({ error: "You must accept the rental agreement." }, { status: 400 });
+      return NextResponse.json({ error: "Check the box to accept the rental agreement, terms, and privacy policy.", field: "agreed" }, { status: 400 });
     }
 
     // "custom" isn't a real package — it means the customer didn't see a fit
@@ -63,10 +63,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing required booking details." }, { status: 400 });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
+      return NextResponse.json({ error: "That email looks incomplete. Use the format name@example.com.", field: "email" }, { status: 400 });
     }
     if (!/^\d{5}$/.test(zip)) {
-      return NextResponse.json({ error: "Invalid zip code." }, { status: 400 });
+      return NextResponse.json({ error: "Enter a 5-digit zip code, like 49544.", field: "zip" }, { status: 400 });
     }
 
     // Recompute the estimate server-side so the owner's email shows real

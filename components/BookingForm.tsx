@@ -48,6 +48,73 @@ const initialState: FormState = {
 
 type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 
+// Order matches the page top-to-bottom, so the first error here is the first
+// one the person meets when we scroll/focus to it.
+const FIELD_ORDER = [
+  "name", "email", "phone", "street", "city", "state", "zip",
+  "deliveryDate", "pickupDate",
+  "pickupStreet", "pickupCity", "pickupState", "pickupZip", "agreed",
+] as const;
+
+function todayISO(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function formatDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+// Every message says what's wrong AND how to fix it.
+function computeErrors(form: FormState, zipStatus: ZipStatus, agreed: boolean): Record<string, string> {
+  const e: Record<string, string> = {};
+  const phoneDigits = form.phone.replace(/\D/g, "");
+
+  if (form.name.trim().length < 2) e.name = "Enter your full name so we know who to look for at delivery.";
+
+  if (!form.email.trim()) e.email = "Enter your email — we'll send your confirmation there.";
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+    e.email = "That email looks incomplete. Use the format name@example.com.";
+
+  if (!form.phone.trim()) e.phone = "Enter a phone number we can call or text about your delivery.";
+  else if (!(phoneDigits.length === 10 || (phoneDigits.length === 11 && phoneDigits.startsWith("1"))))
+    e.phone = "Enter a 10-digit phone number with area code, like 616-555-0100.";
+
+  if (!form.street.trim()) e.street = "Enter the street address where we should deliver, like 123 Main St.";
+  if (!form.city.trim()) e.city = "Enter the city we're delivering to.";
+  if (!/^[A-Za-z]{2}$/.test(form.state.trim())) e.state = "Use the 2-letter state code, like MI.";
+
+  if (!/^\d{5}$/.test(form.zip)) e.zip = "Enter a 5-digit zip code, like 49544.";
+  else if (zipStatus === "not-found") e.zip = "We couldn't find that zip code. Check it for a typo and try again.";
+  else if (zipStatus !== "verified") e.zip = "We're still checking this zip code. Wait a second, then try again.";
+
+  const today = todayISO();
+  if (!form.deliveryDate) e.deliveryDate = "Pick the day you want the totes delivered.";
+  else if (form.deliveryDate < today) e.deliveryDate = "That date has already passed. Pick today or a later date.";
+
+  if (!form.pickupDate) e.pickupDate = "Pick the day you want the empty totes picked up.";
+  else if (form.deliveryDate && form.pickupDate < form.deliveryDate)
+    e.pickupDate = `Pickup can't be before delivery. Pick ${formatDate(form.deliveryDate)} or later.`;
+
+  if (!form.pickupStreet.trim()) e.pickupStreet = "Enter the street address for pickup. Tap \"Same as delivery address\" if it's the same.";
+  if (!form.pickupCity.trim()) e.pickupCity = "Enter the pickup city.";
+  if (!/^[A-Za-z]{2}$/.test(form.pickupState.trim())) e.pickupState = "Use the 2-letter state code, like MI.";
+  if (!/^\d{5}$/.test(form.pickupZip)) e.pickupZip = "Enter a 5-digit zip code, like 49544.";
+
+  if (!agreed) e.agreed = "Check this box to confirm you've read the rental agreement, terms, and privacy policy.";
+  return e;
+}
+
+function FieldError({ id, msg }: { id: string; msg?: string }) {
+  if (!msg) return null;
+  return (
+    <p id={`${id}-error`} className="mt-1 text-sm text-red-700">
+      {msg}
+    </p>
+  );
+}
+
 export default function BookingForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
@@ -59,7 +126,13 @@ export default function BookingForm() {
   const [promoError, setPromoError] = useState<string | null>(null);
   const [promoChecking, setPromoChecking] = useState(false);
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // Errors are derived from what's typed, never stored, so they update as the person
+  // fixes a field and nothing they typed is ever cleared. A field's error shows once
+  // they leave it (touched) or after the first submit attempt.
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [attempted, setAttempted] = useState(false);
+  // Field-specific problem reported by the server; hidden again once that field is edited.
+  const [serverField, setServerField] = useState<{ field: string; msg: string; value: string } | null>(null);
   const [submitting, setSubmitting] = useState(false);
   // Refs block a second click/Enter in the same tick, before React re-renders
   // the disabled button.
@@ -185,7 +258,7 @@ export default function BookingForm() {
     if (promoCheckingRef.current) return;
     setPromoError(null);
     if (!promoInput.trim()) {
-      setPromoError("Enter a promo code.");
+      setPromoError("Enter your promo code first, then tap Apply.");
       return;
     }
     promoCheckingRef.current = true;
@@ -202,7 +275,7 @@ export default function BookingForm() {
         setPromoInput(data.promo.code);
       } else {
         setPromo(null);
-        setPromoError(data.error ?? "That code isn't valid.");
+        setPromoError((data.error ?? "That code isn't valid.") + (data.error ? "" : " Check the spelling and try again."));
       }
     } catch {
       setPromoError("Couldn't check that code. Try again.");
@@ -218,38 +291,45 @@ export default function BookingForm() {
     setPromoError(null);
   }
 
-  function validate(): boolean {
-    const next: Record<string, string> = {};
-    if (!form.name.trim()) next.name = "Name is required.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = "Enter a valid email.";
-    if (!/^[\d\s()+-]{7,}$/.test(form.phone)) next.phone = "Enter a valid phone number.";
-    if (!form.street.trim()) next.street = "Street address is required.";
-    if (!/^\d{5}$/.test(form.zip)) next.zip = "Enter a 5-digit zip code.";
-    else if (zipStatus === "not-found") next.zip = "We couldn't verify this zip code.";
-    else if (zipStatus !== "verified") next.zip = "Still verifying — wait a moment and try again.";
-    if (!form.city.trim()) next.city = "City is required.";
-    if (!form.state.trim()) next.state = "State is required.";
-    if (!form.deliveryDate) next.deliveryDate = "Pick a delivery date.";
-    if (!form.pickupDate) next.pickupDate = "Pick a pickup date.";
-    if (form.deliveryDate && form.pickupDate && form.pickupDate < form.deliveryDate) {
-      next.pickupDate = "Pickup date must be on or after delivery date.";
-    }
-    {
-      if (!form.pickupStreet.trim()) next.pickupStreet = "Pickup street address is required.";
-      if (!form.pickupCity.trim()) next.pickupCity = "Pickup city is required.";
-      if (!form.pickupState.trim()) next.pickupState = "Pickup state is required.";
-      if (!/^\d{5}$/.test(form.pickupZip)) next.pickupZip = "Enter a 5-digit zip code.";
-    }
-    if (!agreed) next.agreed = "Please review and accept the rental agreement.";
-    setErrors(next);
-    return Object.keys(next).length === 0;
+  const valueOf = (k: string): string => (k === "agreed" ? String(agreed) : (form as Record<string, string>)[k] ?? "");
+  const rawErrors = computeErrors(form, zipStatus, agreed);
+  const errors: Record<string, string> = {};
+  for (const k of FIELD_ORDER) {
+    if (rawErrors[k] && (attempted || touched[k])) errors[k] = rawErrors[k];
+  }
+  if (serverField && valueOf(serverField.field) === serverField.value && !errors[serverField.field]) {
+    errors[serverField.field] = serverField.msg;
+  }
+  const errorCount = Object.keys(rawErrors).length;
+
+  // Props every validated control shares: red state, screen-reader link to its message, mark touched on blur.
+  const fp = (name: string) => ({
+    "aria-invalid": errors[name] ? (true as const) : undefined,
+    "aria-describedby": errors[name] ? `${name}-error` : undefined,
+    onBlur: () => setTouched((t) => (t[name] ? t : { ...t, [name]: true })),
+  });
+  const cls = (name: string, extra = "") =>
+    `${inputClass}${extra}${errors[name] ? " border-red-600! bg-red-50/40" : ""}`;
+
+  function focusField(name: string) {
+    const el = document.getElementById(name);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.focus({ preventScroll: true });
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (submittingRef.current) return;
     setServerError(null);
-    if (!validate()) return;
+    setServerField(null);
+    setAttempted(true);
+    const found = computeErrors(form, zipStatus, agreed);
+    const first = FIELD_ORDER.find((k) => found[k]);
+    if (first) {
+      focusField(first);
+      return;
+    }
 
     submittingRef.current = true;
     setSubmitting(true);
@@ -263,7 +343,13 @@ export default function BookingForm() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setServerError(data.error ?? "Something went wrong. Please try again.");
+        if (data.field && (FIELD_ORDER as readonly string[]).includes(data.field)) {
+          // The server flagged a specific field: show it there, keep everything typed.
+          setServerField({ field: data.field, msg: data.error, value: valueOf(data.field) });
+          focusField(data.field);
+        } else {
+          setServerError(data.error ?? "Something went wrong. Please try again.");
+        }
         submittingRef.current = false;
         setSubmitting(false);
         return;
@@ -280,7 +366,7 @@ export default function BookingForm() {
   // min-h-11 = 44px tap target; text-base on phones stops iOS Safari zooming in on focus.
   const inputClass = "mt-1 min-h-11 w-full rounded-md border border-line bg-white px-3 py-2 text-base text-ink focus:border-crate sm:text-sm";
   const labelClass = "text-sm font-medium text-ink/80";
-  const errorClass = "mt-1 text-xs text-red-600";
+  
 
   return (
     <section id="booking" className="bg-tint-green">
@@ -317,30 +403,31 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className={labelClass} htmlFor="name">Full name</label>
-              <input id="name" autoComplete="name" className={inputClass} value={form.name}
+              <input id="name" {...fp("name")} autoComplete="name" className={cls("name")} value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} />
-              {errors.name && <p className={errorClass}>{errors.name}</p>}
+              <FieldError id="name" msg={errors.name} />
             </div>
             <div>
               <label className={labelClass} htmlFor="email">Email</label>
-              <input id="email" type="email" autoComplete="email" className={inputClass} value={form.email}
+              <input id="email" {...fp("email")} type="email" autoComplete="email" className={cls("email")} value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              {errors.email && <p className={errorClass}>{errors.email}</p>}
+              <FieldError id="email" msg={errors.email} />
             </div>
           </div>
 
           <div>
             <label className={labelClass} htmlFor="phone">Phone</label>
-            <input id="phone" type="tel" autoComplete="tel" className={inputClass} value={form.phone}
+            <input id="phone" {...fp("phone")} type="tel" autoComplete="tel" className={cls("phone")} value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-            {errors.phone && <p className={errorClass}>{errors.phone}</p>}
+            <FieldError id="phone" msg={errors.phone} />
           </div>
 
           <div>
             <label className={labelClass} htmlFor="street">Street address</label>
             <AddressAutocomplete
               id="street"
-              className={inputClass}
+              className={cls("street")}
+              inputProps={fp("street")}
               value={form.street}
               onChange={(street) => setForm({ ...form, street })}
               onAddressSelected={(addr: ParsedAddress) =>
@@ -353,41 +440,38 @@ export default function BookingForm() {
                 }))
               }
             />
-            {errors.street && <p className={errorClass}>{errors.street}</p>}
+            <FieldError id="street" msg={errors.street} />
           </div>
 
           <div className="grid gap-5 sm:grid-cols-[1fr_5rem_7rem]">
             <div>
               <label className={labelClass} htmlFor="city">City</label>
-              <input id="city" autoComplete="address-level2" className={inputClass} value={form.city}
+              <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })} />
-              {errors.city && <p className={errorClass}>{errors.city}</p>}
+              <FieldError id="city" msg={errors.city} />
             </div>
             {/* State and zip share a row on mobile instead of stacking as
                 narrow orphans; they sit inline with city from sm up. */}
             <div className="grid grid-cols-2 gap-5 sm:contents">
               <div>
                 <label className={labelClass} htmlFor="state">State</label>
-                <input id="state" maxLength={2} autoComplete="address-level1"
-                  className={`${inputClass} uppercase`} value={form.state}
+                <input id="state" {...fp("state")} maxLength={2} autoComplete="address-level1"
+                  className={cls("state", " uppercase")} value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
-                {errors.state && <p className={errorClass}>{errors.state}</p>}
+                <FieldError id="state" msg={errors.state} />
               </div>
               <div>
                 <label className={labelClass} htmlFor="zip">Zip code</label>
-                <input id="zip" inputMode="numeric" maxLength={5} autoComplete="postal-code"
-                  className={inputClass} value={form.zip}
+                <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={5} autoComplete="postal-code"
+                  className={cls("zip")} value={form.zip}
                   onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
-                {errors.zip && <p className={errorClass}>{errors.zip}</p>}
+                <FieldError id="zip" msg={errors.zip} />
               </div>
             </div>
           </div>
 
           <div className="text-sm">
             {zipStatus === "checking" && <p className="text-ink/70">Checking zip code…</p>}
-            {zipStatus === "not-found" && (
-              <p className="text-red-600">We couldn&apos;t verify that zip code — double check it.</p>
-            )}
             {zipStatus === "verified" && zipInfo && (
               <p className="text-crate">
                 ✓ Verified: {zipInfo.city}, {zipInfo.stateAbbreviation}
@@ -410,15 +494,15 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className={labelClass} htmlFor="deliveryDate">Delivery date</label>
-              <input id="deliveryDate" type="date" className={inputClass} value={form.deliveryDate}
+              <input id="deliveryDate" {...fp("deliveryDate")} type="date" className={cls("deliveryDate")} value={form.deliveryDate}
                 onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })} />
-              {errors.deliveryDate && <p className={errorClass}>{errors.deliveryDate}</p>}
+              <FieldError id="deliveryDate" msg={errors.deliveryDate} />
             </div>
             <div>
               <label className={labelClass} htmlFor="pickupDate">Pickup date</label>
-              <input id="pickupDate" type="date" className={inputClass} value={form.pickupDate}
+              <input id="pickupDate" {...fp("pickupDate")} type="date" className={cls("pickupDate")} value={form.pickupDate}
                 onChange={(e) => setForm({ ...form, pickupDate: e.target.value })} />
-              {errors.pickupDate && <p className={errorClass}>{errors.pickupDate}</p>}
+              <FieldError id="pickupDate" msg={errors.pickupDate} />
             </div>
           </div>
 
@@ -444,29 +528,29 @@ export default function BookingForm() {
             <div className="mt-4 space-y-4 border-t border-line pt-4">
               <div>
                 <label className={labelClass} htmlFor="pickupStreet">Pickup street address</label>
-                <input id="pickupStreet" autoComplete="off" className={inputClass} value={form.pickupStreet}
+                <input id="pickupStreet" {...fp("pickupStreet")} autoComplete="off" className={cls("pickupStreet")} value={form.pickupStreet}
                   onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
-                {errors.pickupStreet && <p className={errorClass}>{errors.pickupStreet}</p>}
+                <FieldError id="pickupStreet" msg={errors.pickupStreet} />
               </div>
               <div className="grid gap-4 sm:grid-cols-[1fr_5rem_7rem]">
                 <div>
                   <label className={labelClass} htmlFor="pickupCity">City</label>
-                  <input id="pickupCity" className={inputClass} value={form.pickupCity}
+                  <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
                     onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
-                  {errors.pickupCity && <p className={errorClass}>{errors.pickupCity}</p>}
+                  <FieldError id="pickupCity" msg={errors.pickupCity} />
                 </div>
                 <div className="grid grid-cols-2 gap-4 sm:contents">
                   <div>
                     <label className={labelClass} htmlFor="pickupState">State</label>
-                    <input id="pickupState" maxLength={2} className={`${inputClass} uppercase`} value={form.pickupState}
+                    <input id="pickupState" {...fp("pickupState")} maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
                       onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
-                    {errors.pickupState && <p className={errorClass}>{errors.pickupState}</p>}
+                    <FieldError id="pickupState" msg={errors.pickupState} />
                   </div>
                   <div>
                     <label className={labelClass} htmlFor="pickupZip">Zip code</label>
-                    <input id="pickupZip" inputMode="numeric" maxLength={5} className={inputClass} value={form.pickupZip}
+                    <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={5} className={cls("pickupZip")} value={form.pickupZip}
                       onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
-                    {errors.pickupZip && <p className={errorClass}>{errors.pickupZip}</p>}
+                    <FieldError id="pickupZip" msg={errors.pickupZip} />
                   </div>
                 </div>
               </div>
@@ -573,7 +657,9 @@ export default function BookingForm() {
               <div className="mt-1 flex gap-2">
                 <input
                   id="promoCode"
-                  className={`${inputClass} mt-0 uppercase`}
+                  aria-invalid={promoError ? true : undefined}
+                  aria-describedby={promoError ? "promoCode-error" : undefined}
+                  className={`${inputClass} mt-0 uppercase${promoError ? " border-red-600! bg-red-50/40" : ""}`}
                   value={promoInput}
                   autoComplete="off"
                   onChange={(e) => {
@@ -599,17 +685,19 @@ export default function BookingForm() {
                 </button>
               </div>
             )}
-            {promoError && <p className={errorClass}>{promoError}</p>}
+            <FieldError id="promoCode" msg={promoError ?? undefined} />
             {promo && form.packageId === "custom" && (
               <p className="mt-1 text-xs text-ink/70">We&apos;ll apply this code to your custom quote when we reply.</p>
             )}
           </div>
 
-          {serverError && <p className="text-sm text-red-600">{serverError}</p>}
+          {serverError && <p role="alert" className="text-sm text-red-700">{serverError}</p>}
 
           <div>
             <label className="flex cursor-pointer items-start gap-3">
               <input
+                id="agreed"
+                {...fp("agreed")}
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
@@ -631,7 +719,7 @@ export default function BookingForm() {
                 .
               </span>
             </label>
-            {errors.agreed && <p className={errorClass}>{errors.agreed}</p>}
+            <FieldError id="agreed" msg={errors.agreed} />
           </div>
 
           <div className="rounded-md border border-crate bg-crate/5 p-4">
@@ -702,6 +790,12 @@ export default function BookingForm() {
               </p>
             </div>
           </div>
+
+          {attempted && errorCount > 0 && (
+            <p role="alert" className="text-sm font-medium text-red-700">
+              {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`} — they&apos;re marked in red above. Everything else you entered is saved.
+            </p>
+          )}
 
           <button
             type="submit"

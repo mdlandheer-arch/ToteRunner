@@ -28,6 +28,8 @@ type Props = {
   onAddressSelected: (addr: ParsedAddress) => void;
   className?: string;
   id?: string;
+  /** Extra attributes for the input, e.g. aria-invalid / onBlur from the parent form. */
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
 declare global {
@@ -54,7 +56,7 @@ function loadGoogleMaps(apiKey: string): Promise<void> {
   return window.__toterunnerMapsLoading;
 }
 
-export default function AddressAutocomplete({ value, onChange, onAddressSelected, className, id }: Props) {
+export default function AddressAutocomplete({ value, onChange, onAddressSelected, className, id, inputProps }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [ready, setReady] = useState(false);
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -109,6 +111,7 @@ export default function AddressAutocomplete({ value, onChange, onAddressSelected
   return (
     <>
       <input
+        {...inputProps}
         id={id}
         ref={inputRef}
         className={className}
