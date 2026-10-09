@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/privacy",
-  title: "Privacy Policy",
+  title: "Privacy Policy and Data Practices",
   description: `How ${siteConfig.name} collects, uses, and protects your information.`,
 });
 

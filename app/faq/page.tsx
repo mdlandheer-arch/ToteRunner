@@ -7,7 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/faq",
-  title: "Frequently Asked Questions",
+  title: "Moving Tote Rental FAQs: Pricing & Delivery",
   description: `Common questions about renting moving totes from ${siteConfig.name} — pricing, rental length, delivery, cleaning, and cancellations.`,
 });
 

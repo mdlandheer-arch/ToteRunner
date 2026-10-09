@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/realtor-referral",
-  title: "Realtor Referral Program",
+  title: "Realtor Referral Program for Tote Rentals",
   description: `Give your clients ${siteConfig.realtorReferral.clientDiscountPercent}% off their ${siteConfig.name} tote rental. Free for Grand Rapids and Lakeshore agents to join.`,
 });
 

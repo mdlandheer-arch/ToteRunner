@@ -28,6 +28,8 @@ type PageMetaArgs = {
 
 export function pageMetadata({ path, title, description }: PageMetaArgs): Metadata {
   const url = absoluteUrl(path);
+  // Social cards don't go through the layout's title template, so add the brand here.
+  const socialTitle = `${title} | ${siteConfig.name}`;
 
   return {
     title,
@@ -38,7 +40,7 @@ export function pageMetadata({ path, title, description }: PageMetaArgs): Metada
     // openGraph is also shallow-merged, so a page that sets only title and
     // description would otherwise inherit the homepage's og:url and og:title.
     openGraph: {
-      title,
+      title: socialTitle,
       description,
       url,
       siteName: siteConfig.name,
@@ -50,7 +52,7 @@ export function pageMetadata({ path, title, description }: PageMetaArgs): Metada
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: socialTitle,
       description,
       images: ["/og-image.png"],
     },

@@ -6,12 +6,12 @@ import CookieConsent from "@/components/CookieConsent";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   title: {
-    default: `${siteConfig.name} | Reusable Moving Tote Rental in ${siteConfig.city}`,
+    default: `Reusable Moving Tote Rental in ${siteConfig.city} | ${siteConfig.name}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: `${siteConfig.name} delivers reusable moving totes across ${siteConfig.region}. Skip the cardboard — we drop off, you pack, we pick up.`,
   openGraph: {
-    title: `${siteConfig.name} | Reusable Moving Tote Rental`,
+    title: `Reusable Moving Tote Rental in ${siteConfig.city} | ${siteConfig.name}`,
     description: `Reusable moving totes delivered and picked up across ${siteConfig.region}. No cardboard, no tape, no landfill.`,
     url: siteConfig.domain,
     siteName: siteConfig.name,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} | Reusable Moving Tote Rental`,
+    title: `Reusable Moving Tote Rental in ${siteConfig.city} | ${siteConfig.name}`,
     description: `Reusable moving totes delivered and picked up across ${siteConfig.region}.`,
     images: ["/og-image.png"],
   },

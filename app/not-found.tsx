@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const metadata = { title: "Page not found" };
+export const metadata = { title: "Page Not Found" };
 
 export default function NotFound() {
   return (

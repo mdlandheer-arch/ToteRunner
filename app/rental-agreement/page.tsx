@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/rental-agreement",
-  title: "Rental Agreement",
+  title: "Tote Rental Agreement and Rental Terms",
   description: `The rental terms customers agree to when booking moving totes from ${siteConfig.name}.`,
 });
 
