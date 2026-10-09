@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Spinner from "@/components/Spinner";
 import { siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 
@@ -15,16 +16,30 @@ export default function ServiceAreaChecker() {
   const [checking, setChecking] = useState(false);
   const [result, setResult] = useState<Result>(null);
 
+  // Blocks a second click or Enter in the same tick, before the button re-renders disabled.
+  const checkingRef = useRef(false);
+
   async function check() {
-    if (!/^\d{5}$/.test(zip)) return;
+    if (checkingRef.current || !/^\d{5}$/.test(zip)) return;
+    checkingRef.current = true;
     setChecking(true);
     setResult(null);
 
+    try {
+      await runCheck();
+    } catch {
+      setResult({ kind: "not-found" });
+    } finally {
+      checkingRef.current = false;
+      setChecking(false);
+    }
+  }
+
+  async function runCheck() {
     const customerZip = await lookupZip(zip);
 
     if (!customerZip) {
       setResult({ kind: "not-found" });
-      setChecking(false);
       return;
     }
 
@@ -41,7 +56,6 @@ export default function ServiceAreaChecker() {
         fee: calculateDeliveryFee(miles, hub.freeRadiusMiles, siteConfig.perMileFeeBeyondRadius),
       });
     }
-    setChecking(false);
   }
 
   return (
@@ -65,8 +79,10 @@ export default function ServiceAreaChecker() {
         <button
           onClick={check}
           disabled={checking || !/^\d{5}$/.test(zip)}
-          className="min-h-11 rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark disabled:opacity-50"
+          aria-busy={checking}
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
+          {checking && <Spinner className="h-3.5 w-3.5" />}
           {checking ? "Checking…" : "Check"}
         </button>
       </div>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { packages, addOns, siteConfig } from "@/lib/site-config";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
+import Spinner from "@/components/Spinner";
 import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
 import { promoDiscount, type AppliedPromo } from "@/lib/promo";
 
@@ -60,6 +61,10 @@ export default function BookingForm() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  // Refs block a second click/Enter in the same tick, before React re-renders
+  // the disabled button.
+  const submittingRef = useRef(false);
+  const promoCheckingRef = useRef(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
@@ -177,11 +182,13 @@ export default function BookingForm() {
   const estimatedTotal = subtotalBeforePromo - promoSavings;
 
   async function applyPromo() {
+    if (promoCheckingRef.current) return;
     setPromoError(null);
     if (!promoInput.trim()) {
       setPromoError("Enter a promo code.");
       return;
     }
+    promoCheckingRef.current = true;
     setPromoChecking(true);
     try {
       const res = await fetch("/api/promo", {
@@ -200,6 +207,7 @@ export default function BookingForm() {
     } catch {
       setPromoError("Couldn't check that code. Try again.");
     } finally {
+      promoCheckingRef.current = false;
       setPromoChecking(false);
     }
   }
@@ -239,9 +247,11 @@ export default function BookingForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (submittingRef.current) return;
     setServerError(null);
     if (!validate()) return;
 
+    submittingRef.current = true;
     setSubmitting(true);
     try {
       const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
@@ -254,6 +264,7 @@ export default function BookingForm() {
       const data = await res.json();
       if (!res.ok) {
         setServerError(data.error ?? "Something went wrong. Please try again.");
+        submittingRef.current = false;
         setSubmitting(false);
         return;
       }
@@ -261,6 +272,7 @@ export default function BookingForm() {
       window.scrollTo({ top: document.getElementById("booking")?.offsetTop ?? 0, behavior: "smooth" });
     } catch {
       setServerError("Network error — please try again.");
+      submittingRef.current = false;
       setSubmitting(false);
     }
   }
@@ -289,7 +301,7 @@ export default function BookingForm() {
             </p>
           </div>
         ) : (
-        <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} noValidate aria-busy={submitting} className="mt-8 space-y-5">
           {/* Honeypot — hidden from real users via CSS, invisible to screen readers */}
           <div aria-hidden="true" className="hidden">
             <label htmlFor="company">Company</label>
@@ -579,8 +591,10 @@ export default function BookingForm() {
                   type="button"
                   onClick={applyPromo}
                   disabled={promoChecking}
-                  className="min-h-11 shrink-0 rounded-md border border-crate px-4 text-sm font-semibold text-crate hover:bg-crate/5 disabled:opacity-60"
+                  aria-busy={promoChecking}
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-md border border-crate px-4 text-sm font-semibold text-crate hover:bg-crate/5 disabled:cursor-not-allowed disabled:opacity-60"
                 >
+                  {promoChecking && <Spinner className="h-3.5 w-3.5" />}
                   {promoChecking ? "Checking…" : "Apply"}
                 </button>
               </div>
@@ -692,8 +706,10 @@ export default function BookingForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark disabled:opacity-60"
+            aria-busy={submitting}
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark disabled:cursor-not-allowed disabled:opacity-60"
           >
+            {submitting && <Spinner />}
             {submitting ? "Sending…" : "Request these dates"}
           </button>
           <p className="text-xs text-ink/70">
