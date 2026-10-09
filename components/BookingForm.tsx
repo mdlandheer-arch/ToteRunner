@@ -53,9 +53,9 @@ type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 // Order matches the page top-to-bottom, so the first error here is the first
 // one the person meets when we scroll/focus to it.
 const FIELD_ORDER = [
-  "name", "email", "phone", "street", "city", "state", "zip",
+  "name", "email", "phone", "street", "zip", "city", "state",
   "deliveryDate", "pickupDate",
-  "pickupStreet", "pickupCity", "pickupState", "pickupZip", "agreed",
+  "pickupStreet", "pickupZip", "pickupCity", "pickupState", "agreed",
 ] as const;
 
 function todayISO(): string {
@@ -155,6 +155,12 @@ export default function BookingForm() {
   const [pickupRadius, setPickupRadius] = useState<number>(siteConfig.freeDeliveryRadiusMiles);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // City/state fill themselves from the zip, but only where the person hasn't typed
+  // their own: a field is overwritten only if it's empty or still holds the value we
+  // filled in last time. These refs remember what we filled.
+  const autoFilled = useRef({ city: "", state: "", pickupCity: "", pickupState: "" });
+  const mine = (current: string, auto: string) => current.trim() === "" || current === auto;
+
   // Verify the zip as the person types (debounced) and auto-fill city/state.
   // This is a live estimate for the person's benefit — the actual delivery
   // fee is always recalculated server-side at checkout, since a client-side
@@ -182,7 +188,13 @@ export default function BookingForm() {
 
       setZipStatus("verified");
       setZipInfo(customerZip);
-      setForm((f) => ({ ...f, city: customerZip.city, state: customerZip.stateAbbreviation }));
+      const prev = autoFilled.current;
+      autoFilled.current = { ...prev, city: customerZip.city, state: customerZip.stateAbbreviation };
+      setForm((f) => ({
+        ...f,
+        city: mine(f.city, prev.city) ? customerZip.city : f.city,
+        state: mine(f.state, prev.state) ? customerZip.stateAbbreviation : f.state,
+      }));
 
       const { hub, miles } = nearestHub(customerZip.latitude, customerZip.longitude);
       setDistanceMiles(miles);
@@ -205,6 +217,13 @@ export default function BookingForm() {
     const t = window.setTimeout(async () => {
       const pz = await lookupZip(form.pickupZip);
       if (cancelled || !pz) return;
+      const prev = autoFilled.current;
+      autoFilled.current = { ...prev, pickupCity: pz.city, pickupState: pz.stateAbbreviation };
+      setForm((f) => ({
+        ...f,
+        pickupCity: mine(f.pickupCity, prev.pickupCity) ? pz.city : f.pickupCity,
+        pickupState: mine(f.pickupState, prev.pickupState) ? pz.stateAbbreviation : f.pickupState,
+      }));
       const { hub, miles } = nearestHub(pz.latitude, pz.longitude);
       setPickupDistanceMiles(miles);
       setPickupRadius(hub.freeRadiusMiles);
@@ -434,42 +453,42 @@ export default function BookingForm() {
               inputProps={fp("street")}
               value={form.street}
               onChange={(street) => setForm({ ...form, street })}
-              onAddressSelected={(addr: ParsedAddress) =>
+              onAddressSelected={(addr: ParsedAddress) => {
+                autoFilled.current = { ...autoFilled.current, city: addr.city || autoFilled.current.city, state: addr.state || autoFilled.current.state };
                 setForm((f) => ({
                   ...f,
                   street: addr.street || f.street,
                   city: addr.city || f.city,
                   state: addr.state || f.state,
                   zip: addr.zip || f.zip,
-                }))
-              }
+                }));
+              }}
             />
             <FieldError id="street" msg={errors.street} />
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-[1fr_5rem_7rem]">
+          {/* Zip comes first: once it verifies, city and state fill themselves in. */}
+          <div className="grid gap-5 sm:grid-cols-[7rem_1fr_5rem]">
             <div>
-              <label className={labelClass} htmlFor="city">City</label>
-              <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
-                onChange={(e) => setForm({ ...form, city: e.target.value })} />
-              <FieldError id="city" msg={errors.city} />
+              <label className={labelClass} htmlFor="zip">Zip code</label>
+              <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={5} autoComplete="postal-code"
+                className={cls("zip")} value={form.zip}
+                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
+              <FieldError id="zip" msg={errors.zip} />
             </div>
-            {/* State and zip share a row on mobile instead of stacking as
-                narrow orphans; they sit inline with city from sm up. */}
-            <div className="grid grid-cols-2 gap-5 sm:contents">
+            <div className="grid grid-cols-[1fr_5rem] gap-5 sm:contents">
+              <div>
+                <label className={labelClass} htmlFor="city">City</label>
+                <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
+                  onChange={(e) => setForm({ ...form, city: e.target.value })} />
+                <FieldError id="city" msg={errors.city} />
+              </div>
               <div>
                 <label className={labelClass} htmlFor="state">State</label>
                 <input id="state" {...fp("state")} maxLength={2} autoComplete="address-level1"
                   className={cls("state", " uppercase")} value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
                 <FieldError id="state" msg={errors.state} />
-              </div>
-              <div>
-                <label className={labelClass} htmlFor="zip">Zip code</label>
-                <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={5} autoComplete="postal-code"
-                  className={cls("zip")} value={form.zip}
-                  onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
-                <FieldError id="zip" msg={errors.zip} />
               </div>
             </div>
           </div>
@@ -519,15 +538,17 @@ export default function BookingForm() {
 <p className="mt-0.5 text-sm text-ink/70">Usually the new place.</p>
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
+                // Copied values count as "filled by us", so changing the pickup zip later refreshes them.
+                autoFilled.current = { ...autoFilled.current, pickupCity: form.city, pickupState: form.state };
                 setForm((f) => ({
                   ...f,
                   pickupStreet: f.street,
                   pickupCity: f.city,
                   pickupState: f.state,
                   pickupZip: f.zip,
-                }))
-              }
+                }));
+              }}
               className="mt-3 min-h-11 rounded-md border border-crate px-3 py-1.5 text-sm font-medium text-crate hover:bg-crate/5"
             >
               Same as delivery address
@@ -540,25 +561,25 @@ export default function BookingForm() {
                   onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
                 <FieldError id="pickupStreet" msg={errors.pickupStreet} />
               </div>
-              <div className="grid gap-4 sm:grid-cols-[1fr_5rem_7rem]">
+              <div className="grid gap-4 sm:grid-cols-[7rem_1fr_5rem]">
                 <div>
-                  <label className={labelClass} htmlFor="pickupCity">City</label>
-                  <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
-                    onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
-                  <FieldError id="pickupCity" msg={errors.pickupCity} />
+                  <label className={labelClass} htmlFor="pickupZip">Zip code</label>
+                  <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={5} className={cls("pickupZip")} value={form.pickupZip}
+                    onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
+                  <FieldError id="pickupZip" msg={errors.pickupZip} />
                 </div>
-                <div className="grid grid-cols-2 gap-4 sm:contents">
+                <div className="grid grid-cols-[1fr_5rem] gap-4 sm:contents">
+                  <div>
+                    <label className={labelClass} htmlFor="pickupCity">City</label>
+                    <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
+                      onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
+                    <FieldError id="pickupCity" msg={errors.pickupCity} />
+                  </div>
                   <div>
                     <label className={labelClass} htmlFor="pickupState">State</label>
                     <input id="pickupState" {...fp("pickupState")} maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
                       onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
                     <FieldError id="pickupState" msg={errors.pickupState} />
-                  </div>
-                  <div>
-                    <label className={labelClass} htmlFor="pickupZip">Zip code</label>
-                    <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={5} className={cls("pickupZip")} value={form.pickupZip}
-                      onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
-                    <FieldError id="pickupZip" msg={errors.pickupZip} />
                   </div>
                 </div>
               </div>
