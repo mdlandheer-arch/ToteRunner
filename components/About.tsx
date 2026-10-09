@@ -55,7 +55,7 @@ export default function About() {
           <div className="flex items-center justify-center rounded-lg border border-line bg-white p-10">
             <Image
               src="/brand/toterunner-mark.svg"
-              alt="ToteRunner logo: two stacked moving totes"
+              alt="ToteRunner logo: two stacked black moving totes with yellow lids and green motion lines"
               width={423}
               height={348}
               unoptimized

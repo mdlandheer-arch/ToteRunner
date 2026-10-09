@@ -45,7 +45,7 @@ export function pageMetadata({ path, title, description }: PageMetaArgs): Metada
       url,
       siteName: siteConfig.name,
       images: [
-        { url: "/og-image.png", width: 1200, height: 630, alt: `${siteConfig.name} moving totes` },
+        { url: "/og-image.png", width: 1200, height: 630, alt: `${siteConfig.name} logo with two stacked moving totes and the tagline "${siteConfig.tagline}"` },
       ],
       locale: "en_US",
       type: "website",

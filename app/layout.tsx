@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     description: `Reusable moving totes delivered and picked up across ${siteConfig.region}. No cardboard, no tape, no landfill.`,
     url: siteConfig.domain,
     siteName: siteConfig.name,
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: `${siteConfig.name} moving totes` }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: `${siteConfig.name} logo with two stacked moving totes and the tagline "${siteConfig.tagline}"` }],
     locale: "en_US",
     type: "website",
   },
