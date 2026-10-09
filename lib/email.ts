@@ -84,15 +84,21 @@ const tel = () => siteConfig.phone.replace(/[^0-9+]/g, "");
 // shown next to the subject in the inbox list.
 function shell(preheader: string, content: string, opts: { signature: boolean }): string {
   const logo = `${siteConfig.domain}/brand/toterunner-lockup.png`;
+  const { facebook, instagram } = siteConfig.social;
+  const link = (href: string, label: string, bold = false) =>
+    `<a href="${esc(href)}" style="color:#1F7A55;text-decoration:none;${bold ? "font-weight:bold;" : ""}">${esc(label)}</a>`;
+  const sep = ` <span style="color:#14211C;">&nbsp;|&nbsp;</span> `;
   const sig = opts.signature
-    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:28px;border-top:1px solid #E6E1D3;width:100%;"><tr><td style="font-family:${FONT};font-size:14px;line-height:1.5;color:#14211C;padding-top:16px;">
-        <strong>${esc(siteConfig.emailSignature.name)}</strong><br/>
-        ${esc(siteConfig.emailSignature.title)}, ${esc(siteConfig.name)}<br/>
-        <a href="tel:${tel()}" style="color:#1F7A55;text-decoration:none;">${esc(siteConfig.phone)}</a> ·
-        <a href="mailto:${esc(siteConfig.email)}" style="color:#1F7A55;text-decoration:none;">${esc(siteConfig.email)}</a><br/>
-        <a href="${esc(siteConfig.domain)}" style="color:#1F7A55;text-decoration:none;">${esc(siteConfig.domain.replace(/^https?:\/\//, ""))}</a><br/>
-        <span style="color:#14211C;opacity:.7;">${esc(siteConfig.tagline)}</span>
-      </td></tr></table>`
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:28px;"><tr>
+        <td style="width:4px;background:#F5A524;font-size:0;line-height:0;">&nbsp;</td>
+        <td style="padding:2px 0 2px 14px;font-family:${FONT};font-size:15px;line-height:1.5;color:#14211C;">
+          <div style="font-size:20px;font-weight:bold;">${esc(siteConfig.emailSignature.name)}</div>
+          <div style="font-weight:bold;color:#1F7A55;">${esc(siteConfig.emailSignature.title)}, ${esc(siteConfig.name)}</div>
+          <div style="font-style:italic;margin-top:6px;">${esc(siteConfig.tagline)}</div>
+          <div style="margin-top:8px;">${link(`tel:${tel()}`, siteConfig.phone).replace("color:#1F7A55;", "color:#14211C;")}${sep}${link(`mailto:${siteConfig.email}`, siteConfig.email).replace("color:#1F7A55;", "color:#14211C;")}</div>
+          <div>${[link(siteConfig.domain, siteConfig.domain.replace(/^https?:\/\/(www\.)?/, ""), true), facebook && link(facebook, "Facebook"), instagram && link(instagram, "Instagram")].filter(Boolean).join(sep)}</div>
+          <div style="font-size:13px;color:#14211C;opacity:.7;margin-top:8px;">Reusable moving tote rentals · ${esc(siteConfig.region)}</div>
+        </td></tr></table>`
     : "";
   return `<!doctype html><html><body style="margin:0;padding:0;background:#F7F4ED;">
   <span style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${esc(preheader)}</span>
@@ -204,9 +210,10 @@ export function buildCustomerEmail(b: BookingDetails): { subject: string; html: 
     "--",
     siteConfig.emailSignature.name,
     `${siteConfig.emailSignature.title}, ${siteConfig.name}`,
-    `${siteConfig.phone} · ${siteConfig.email}`,
-    siteConfig.domain.replace(/^https?:\/\//, ""),
     siteConfig.tagline,
+    `${siteConfig.phone}  |  ${siteConfig.email}`,
+    [siteConfig.domain.replace(/^https?:\/\/(www\.)?/, ""), siteConfig.social.facebook && "Facebook", siteConfig.social.instagram && "Instagram"].filter(Boolean).join("  |  "),
+    `Reusable moving tote rentals · ${siteConfig.region}`,
   ].join("\n");
 
   return { subject: `We got your ${siteConfig.name} reservation request`, html, text };
