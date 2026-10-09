@@ -38,19 +38,19 @@ export default function Footer() {
           <p className="mt-2 text-sm text-paper/70">
             No boxes. No tape. No cardboard in the landfill. Heavy-duty totes, delivered.
           </p>
-          <div className="mt-4 flex gap-3">
+          <div className="-ml-3 mt-2 flex">
             {facebook && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-paper/70 hover:text-paper">
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="inline-flex h-11 w-11 items-center justify-center text-paper/70 hover:text-paper">
                 <FacebookIcon />
               </a>
             )}
             {instagram && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-paper/70 hover:text-paper">
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="inline-flex h-11 w-11 items-center justify-center text-paper/70 hover:text-paper">
                 <InstagramIcon />
               </a>
             )}
             {tiktok && (
-              <a href={tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="text-paper/70 hover:text-paper">
+              <a href={tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="inline-flex h-11 w-11 items-center justify-center text-paper/70 hover:text-paper">
                 <TikTokIcon />
               </a>
             )}
@@ -58,22 +58,22 @@ export default function Footer() {
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-paper/60">Quick links</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li><a href="/#how-it-works" className="hover:underline">How it works</a></li>
-            <li><a href="/#pricing" className="hover:underline">Pricing</a></li>
-            <li><a href="/#eco" className="hover:underline">Eco impact</a></li>
-            <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
-            <li><Link href="/realtor-referral" className="hover:underline">Realtor referral program</Link></li>
-            <li><Link href="/rental-agreement" className="hover:underline">Rental agreement</Link></li>
-            <li><Link href="/privacy" className="hover:underline">Privacy policy</Link></li>
-            <li><Link href="/terms" className="hover:underline">Terms & conditions</Link></li>
+          <ul className="mt-2 text-sm">
+            <li><a href="/#how-it-works" className="inline-block py-3 hover:underline">How it works</a></li>
+            <li><a href="/#pricing" className="inline-block py-3 hover:underline">Pricing</a></li>
+            <li><a href="/#eco" className="inline-block py-3 hover:underline">Eco impact</a></li>
+            <li><Link href="/faq" className="inline-block py-3 hover:underline">FAQ</Link></li>
+            <li><Link href="/realtor-referral" className="inline-block py-3 hover:underline">Realtor referral program</Link></li>
+            <li><Link href="/rental-agreement" className="inline-block py-3 hover:underline">Rental agreement</Link></li>
+            <li><Link href="/privacy" className="inline-block py-3 hover:underline">Privacy policy</Link></li>
+            <li><Link href="/terms" className="inline-block py-3 hover:underline">Terms & conditions</Link></li>
           </ul>
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-paper/60">Contact</p>
-          <ul className="mt-3 space-y-2 text-sm">
-            <li><a href={`mailto:${siteConfig.email}`} className="hover:underline">{siteConfig.email}</a></li>
-            <li><a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`} className="hover:underline">{siteConfig.phone}</a></li>
+          <ul className="mt-2 text-sm">
+            <li><a href={`mailto:${siteConfig.email}`} className="inline-block py-3 hover:underline">{siteConfig.email}</a></li>
+            <li><a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`} className="inline-block py-3 hover:underline">{siteConfig.phone}</a></li>
           </ul>
         </div>
       </div>

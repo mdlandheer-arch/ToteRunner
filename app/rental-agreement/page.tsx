@@ -125,7 +125,7 @@ export default function RentalAgreementPage() {
         <div className="mt-8 space-y-4">
           {sections.map((sec) => (
             <details key={sec.title} open className="group rounded-lg border border-line bg-white/70 p-5">
-              <summary className="flex cursor-pointer list-none items-center gap-3 font-bold text-ink">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 font-bold text-ink">
                 <span aria-hidden="true" className="text-xl">{sec.icon}</span>
                 {sec.title}
                 <span className="ml-auto text-crate transition-transform group-open:rotate-45">+</span>

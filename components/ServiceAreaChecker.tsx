@@ -60,12 +60,12 @@ export default function ServiceAreaChecker() {
           onKeyDown={(e) => e.key === "Enter" && check()}
           placeholder="49544"
           aria-label="Zip code"
-          className="w-32 rounded-md border border-line bg-white px-3 py-2 text-sm text-ink focus:border-crate"
+          className="min-h-11 w-32 rounded-md border border-line bg-white px-3 py-2 text-base text-ink sm:text-sm focus:border-crate"
         />
         <button
           onClick={check}
           disabled={checking || !/^\d{5}$/.test(zip)}
-          className="rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark disabled:opacity-50"
+          className="min-h-11 rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark disabled:opacity-50"
         >
           {checking ? "Checking…" : "Check"}
         </button>
@@ -77,7 +77,7 @@ export default function ServiceAreaChecker() {
             Yes — we deliver to {result.city}, {result.state}.
           </p>
           <p className="mt-1 text-ink/70">Free delivery and pickup included.</p>
-          <a href="#booking" className="mt-3 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
+          <a href="#booking" className="mt-3 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
             Request your totes
           </a>
         </div>
@@ -91,7 +91,7 @@ export default function ServiceAreaChecker() {
           <p className="mt-1 text-ink/70">
             ~{Math.round(result.miles)} mi out — about ${result.fee.toFixed(2)} for delivery.
           </p>
-          <a href="#booking" className="mt-3 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
+          <a href="#booking" className="mt-3 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
             Request your totes
           </a>
         </div>

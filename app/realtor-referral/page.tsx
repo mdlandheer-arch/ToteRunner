@@ -221,7 +221,7 @@ export default function RealtorReferralPage() {
           <div className="mt-6 divide-y divide-line border-y border-line">
             {faqs.map((f) => (
               <details key={f.q} className="group py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-ink">
+                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between font-medium text-ink">
                   {f.q}
                   <span className="ml-4 text-crate transition-transform group-open:rotate-45">+</span>
                 </summary>

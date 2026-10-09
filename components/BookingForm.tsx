@@ -265,7 +265,8 @@ export default function BookingForm() {
     }
   }
 
-  const inputClass = "mt-1 w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-ink focus:border-crate";
+  // min-h-11 = 44px tap target; text-base on phones stops iOS Safari zooming in on focus.
+  const inputClass = "mt-1 min-h-11 w-full rounded-md border border-line bg-white px-3 py-2 text-base text-ink focus:border-crate sm:text-sm";
   const labelClass = "text-sm font-medium text-ink/80";
   const errorClass = "mt-1 text-xs text-red-600";
 
@@ -423,7 +424,7 @@ export default function BookingForm() {
                   pickupZip: f.zip,
                 }))
               }
-              className="mt-3 rounded-md border border-crate px-3 py-1.5 text-sm font-medium text-crate hover:bg-crate/5"
+              className="mt-3 min-h-11 rounded-md border border-crate px-3 py-1.5 text-sm font-medium text-crate hover:bg-crate/5"
             >
               Same as delivery address
             </button>
@@ -522,7 +523,7 @@ export default function BookingForm() {
                         onClick={() => setQty(qty - 1)}
                         disabled={qty === 0}
                         aria-label={`Remove one ${a.name}`}
-                        className="h-9 w-9 rounded-md border border-line text-lg leading-none text-ink disabled:opacity-30"
+                        className="h-11 w-11 rounded-md border border-line text-lg leading-none text-ink disabled:opacity-30"
                       >
                         −
                       </button>
@@ -533,7 +534,7 @@ export default function BookingForm() {
                         type="button"
                         onClick={() => setQty(qty + 1)}
                         aria-label={`Add one ${a.name}`}
-                        className="h-9 w-9 rounded-md border border-line text-lg leading-none text-ink"
+                        className="h-11 w-11 rounded-md border border-line text-lg leading-none text-ink"
                       >
                         +
                       </button>
@@ -552,7 +553,7 @@ export default function BookingForm() {
                   <span className="font-semibold">{promo.code}</span>
                   <span className="text-ink/70"> applied: {promo.label}</span>
                 </span>
-                <button type="button" onClick={removePromo} className="font-medium text-crate hover:underline">
+                <button type="button" onClick={removePromo} className="min-h-11 px-2 font-medium text-crate hover:underline">
                   Remove
                 </button>
               </div>
@@ -578,7 +579,7 @@ export default function BookingForm() {
                   type="button"
                   onClick={applyPromo}
                   disabled={promoChecking}
-                  className="shrink-0 rounded-md border border-crate px-4 text-sm font-semibold text-crate hover:bg-crate/5 disabled:opacity-60"
+                  className="min-h-11 shrink-0 rounded-md border border-crate px-4 text-sm font-semibold text-crate hover:bg-crate/5 disabled:opacity-60"
                 >
                   {promoChecking ? "Checking…" : "Apply"}
                 </button>

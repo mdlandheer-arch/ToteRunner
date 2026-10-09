@@ -45,7 +45,7 @@ export default function Pricing() {
                 </ul>
                 <a
                   href={`#booking`}
-                  className="mt-5 block rounded-md bg-crate px-4 py-2 text-center text-sm font-semibold text-paper hover:bg-crate-dark"
+                  className="mt-5 flex min-h-11 items-center justify-center rounded-md bg-crate px-4 py-2 text-center text-sm font-semibold text-paper hover:bg-crate-dark"
                 >
                   Request this package
                 </a>

@@ -25,7 +25,7 @@ export default function ToteCalculator() {
           <button
             key={opt.label}
             onClick={() => setSelected(i)}
-            className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`min-h-11 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
               i === selected
                 ? "border-crate bg-crate text-paper"
                 : "border-line text-ink/70 hover:border-crate/50"
@@ -46,7 +46,7 @@ export default function ToteCalculator() {
         </p>
         <a
           href="#booking"
-          className="mt-4 inline-block rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark"
+          className="mt-4 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark"
         >
           Request this package
         </a>
