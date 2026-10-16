@@ -46,7 +46,7 @@ const sections = [
     icon: "🔄",
     title: "Cancellations",
     body: [
-      `Cancel at least ${cancellationPolicy.freeCancellationHours} hours before your scheduled delivery for a full refund. Within that window, a $${cancellationPolicy.lateCancellationFee} cancellation fee applies. If the totes have already been delivered, a $${cancellationPolicy.postDeliveryRestockingFee} restocking fee applies.`,
+      `Cancel at least ${cancellationPolicy.freeCancellationHours} hours before your scheduled delivery and there's no charge. Cancel inside that window and a $${cancellationPolicy.lateCancellationFee} fee applies. If we've already delivered the totes, a $${cancellationPolicy.postDeliveryRestockingFee} fee applies to cover the delivery and return trip. Only one cancellation fee applies.`,
       "Need to change your dates? Contact us as early as you can and we'll accommodate it if we're able.",
     ],
   },

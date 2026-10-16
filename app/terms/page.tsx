@@ -63,15 +63,13 @@ export default function TermsPage() {
 
           <h2>5. Cancellations and changes</h2>
           <p>
-            Cancellations made at least {cancellationPolicy.freeCancellationHours} hours before the
-            scheduled delivery are fully refundable. Cancellations made within{" "}
-            {cancellationPolicy.freeCancellationHours} hours of delivery are subject to a $
-            {cancellationPolicy.lateCancellationFee} cancellation fee. If the Equipment has already
-            been delivered, a $
-            {cancellationPolicy.postDeliveryRestockingFee} restocking fee applies. To request a date
-            change, contact us as early as possible; changes are accommodated subject to
-            availability. [Confirm these amounts with your attorney and keep them consistent with the
-            cancellation policy published on your website.]
+            Cancel at least {cancellationPolicy.freeCancellationHours} hours before your scheduled
+            delivery and there is no charge. Cancel within {cancellationPolicy.freeCancellationHours}{" "}
+            hours of delivery and a ${cancellationPolicy.lateCancellationFee} fee applies. If the
+            Equipment has already been delivered, a ${cancellationPolicy.postDeliveryRestockingFee}{" "}
+            fee applies to cover the delivery and return trip. Only one cancellation fee applies to
+            a reservation. To request a date change, contact us as early as possible; changes are
+            accommodated subject to availability.
           </p>
 
           <h2>6. Condition, weight limits, and prohibited items</h2>
