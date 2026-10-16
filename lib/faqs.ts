@@ -1,8 +1,9 @@
 // Single source of truth for FAQ content — used by /faq and its JSON-LD schema.
-import { cancellationPolicy, damageFees, siteConfig } from "./site-config";
+import { cancellationPolicy, customPackage, damageFees, siteConfig } from "./site-config";
 
 export const faqs = [
   { q: "How many totes will I need?", a: "As a rough guide: studio/1BR ≈ 15 totes, 2BR ≈ 25, 3BR ≈ 40, 4+BR ≈ 60. Use the calculator in our pricing section, and when in doubt, size up slightly." },
+  { q: "Can I build my own package?", a: `Yes. Use the builder in our pricing section to pick the number of totes (${customPackage.minTotes}–${customPackage.maxTotes}) and 1–${customPackage.maxWeeks} weeks, and the price updates as you go. At 15, 25, 40 or 60 totes for 2 weeks it costs the same as the matching package. Dollies, labels, delivery and pickup are included.` },
   { q: "How long should I rent for?", a: "Every package includes a 14-day rental, which covers most moves. Just pick your delivery and pickup dates — if you need longer than 14 days, we add a modest daily rate for the extra days and show you the total before you pay. Most people need 2–4 weeks once you count packing and unpacking." },
   { q: "Do I have to clean the totes?", a: "No — every tote is vacuumed, sanitized inside and out, and inspected between rentals before it reaches you. Just return them free of food debris and liquids." },
   { q: "What's included in each package?", a: "Every package includes the totes, at least one dolly, a matching set of labels, and free delivery and pickup within our service area." },

@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { packages, addOns, siteConfig } from "@/lib/site-config";
+import { packages, addOns, siteConfig, customPackage } from "@/lib/site-config";
+import { customQuote, clampTotes } from "@/lib/pricing";
+import { BUILD_EVENT } from "@/components/CustomPackageBuilder";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import Spinner from "@/components/Spinner";
 import DateRangePicker from "@/components/DateRangePicker";
@@ -55,8 +57,15 @@ type ZipStatus = "idle" | "checking" | "verified" | "not-found";
 const FIELD_ORDER = [
   "name", "email", "phone", "street", "zip", "city", "state",
   "deliveryDate", "pickupDate",
-  "pickupStreet", "pickupZip", "pickupCity", "pickupState", "agreed",
+  "pickupStreet", "pickupZip", "pickupCity", "pickupState", "customTotes", "agreed",
 ] as const;
+
+// yyyy-mm-dd plus n days, in UTC so daylight-saving shifts can't move the date.
+function addDays(dateStr: string, n: number): string {
+  const d = new Date(`${dateStr}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
 
 function todayISO(): string {
   const d = new Date();
@@ -69,7 +78,13 @@ function formatDate(iso: string): string {
 }
 
 // Every message says what's wrong AND how to fix it.
-function computeErrors(form: FormState, zipStatus: ZipStatus, agreed: boolean): Record<string, string> {
+// customTotes is null unless "Build your own package" is selected.
+function computeErrors(
+  form: FormState,
+  zipStatus: ZipStatus,
+  agreed: boolean,
+  customTotes: number | null = null
+): Record<string, string> {
   const e: Record<string, string> = {};
   const phoneDigits = form.phone.replace(/\D/g, "");
 
@@ -105,6 +120,12 @@ function computeErrors(form: FormState, zipStatus: ZipStatus, agreed: boolean): 
   if (!/^[A-Za-z]{2}$/.test(form.pickupState.trim())) e.pickupState = "Use the 2-letter state code, like MI.";
   if (!/^\d{5}$/.test(form.pickupZip)) e.pickupZip = "Enter a 5-digit zip code, like 49544.";
 
+  if (
+    customTotes !== null &&
+    (!Number.isInteger(customTotes) || customTotes < customPackage.minTotes || customTotes > customPackage.maxTotes)
+  )
+    e.customTotes = `Enter a tote count between ${customPackage.minTotes} and ${customPackage.maxTotes}.`;
+
   if (!agreed) e.agreed = "Check this box to confirm you've read the rental agreement, terms, and privacy policy.";
   return e;
 }
@@ -122,6 +143,10 @@ export default function BookingForm() {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialState);
   const [addOnQty, setAddOnQty] = useState<Record<string, number>>({});
+  // "Build your own package" choices. Weeks only seeds the pickup date; once
+  // both dates are set, the dates decide the billed weeks.
+  const [customTotes, setCustomTotes] = useState(30);
+  const [customWeeks, setCustomWeeks] = useState(2);
   const [agreed, setAgreed] = useState(false);
 
   // Promo code: checked by /api/promo, re-checked on submit by /api/reserve.
@@ -263,9 +288,15 @@ export default function BookingForm() {
           )
         )
       : null;
+  const isBuild = form.packageId === "build";
   const includedDays = selectedPackage?.days ?? 14;
+  // A custom build is priced in whole weeks, so it never has "extra days".
   const extraDays =
-    rentalDays !== null && rentalDays > includedDays ? rentalDays - includedDays : 0;
+    !isBuild && rentalDays !== null && rentalDays > includedDays ? rentalDays - includedDays : 0;
+  const billedWeeks =
+    rentalDays !== null && rentalDays > 0 ? Math.max(1, Math.ceil(rentalDays / 7)) : customWeeks;
+  const buildQuote = isBuild ? customQuote(customTotes, billedWeeks) : null;
+  const basePrice = buildQuote ? buildQuote.price : selectedPackage?.price ?? 0;
   const addOnTotal = Object.entries(addOnQty).reduce((sum, [id, qty]) => {
     const a = addOns.find((x) => x.id === id);
     return a && qty > 0 ? sum + a.price * qty : sum;
@@ -273,8 +304,8 @@ export default function BookingForm() {
   const extraDaysTotal = (selectedPackage?.dailyRate ?? 0) * extraDays;
   // Promo comes off the base package price only, so it recalculates if the
   // customer switches packages after applying a code.
-  const promoSavings = promo && selectedPackage ? promoDiscount(promo, selectedPackage.price) : 0;
-  const subtotalBeforePromo = (selectedPackage?.price ?? 0) + extraDaysTotal + addOnTotal + estimatedFee;
+  const promoSavings = promo && basePrice > 0 ? promoDiscount(promo, basePrice) : 0;
+  const subtotalBeforePromo = basePrice + extraDaysTotal + addOnTotal + estimatedFee;
   const estimatedTotal = subtotalBeforePromo - promoSavings;
 
   async function applyPromo() {
@@ -314,8 +345,26 @@ export default function BookingForm() {
     setPromoError(null);
   }
 
+  // The builder in the pricing section hands its choices to this form.
+  useEffect(() => {
+    function onBuild(e: Event) {
+      const d = (e as CustomEvent<{ totes: number; weeks: number; addOnQty: Record<string, number> }>).detail;
+      if (!d) return;
+      setCustomTotes(clampTotes(d.totes));
+      setCustomWeeks(d.weeks);
+      setAddOnQty(d.addOnQty ?? {});
+      setForm((f) => ({
+        ...f,
+        packageId: "build",
+        pickupDate: f.deliveryDate ? addDays(f.deliveryDate, 7 * d.weeks) : f.pickupDate,
+      }));
+    }
+    window.addEventListener(BUILD_EVENT, onBuild);
+    return () => window.removeEventListener(BUILD_EVENT, onBuild);
+  }, []);
+
   const valueOf = (k: string): string => (k === "agreed" ? String(agreed) : (form as Record<string, string>)[k] ?? "");
-  const rawErrors = computeErrors(form, zipStatus, agreed);
+  const rawErrors = computeErrors(form, zipStatus, agreed, isBuild ? customTotes : null);
   const errors: Record<string, string> = {};
   for (const k of FIELD_ORDER) {
     if (rawErrors[k] && (attempted || touched[k])) errors[k] = rawErrors[k];
@@ -348,7 +397,7 @@ export default function BookingForm() {
     setServerError(null);
     setServerField(null);
     setAttempted(true);
-    const found = computeErrors(form, zipStatus, agreed);
+    const found = computeErrors(form, zipStatus, agreed, isBuild ? customTotes : null);
     const first = FIELD_ORDER.find((k) => found[k]);
     if (first) {
       focusField(first);
@@ -363,7 +412,7 @@ export default function BookingForm() {
       const res = await fetch("/api/reserve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty, promoCode: promo?.code ?? "" }),
+        body: JSON.stringify({ ...form, address, pickupAddress, agreed, addOnQuantities: addOnQty, customTotes, promoCode: promo?.code ?? "" }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -588,7 +637,12 @@ export default function BookingForm() {
 
           {rentalDays !== null && rentalDays > 0 && (
             <div className="rounded-md border border-line bg-white/70 p-3 text-sm">
-              {extraDays === 0 ? (
+              {isBuild ? (
+                <p className="text-ink/80">
+                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> — billed as{" "}
+                  {billedWeeks} week{billedWeeks > 1 ? "s" : ""}.
+                </p>
+              ) : extraDays === 0 ? (
 <p className="text-ink/80"><span className="font-semibold text-crate">{rentalDays}-day rental</span> — included.</p>
               ) : (
 <p className="text-ink/80">
@@ -608,9 +662,55 @@ export default function BookingForm() {
                   {p.name} — {p.totes} totes — ${p.price}
                 </option>
               ))}
+              <option value="build">Build your own package</option>
               <option value="custom">Not sure / need a custom quote</option>
             </select>
           </div>
+
+          {isBuild && (
+            <div className="grid gap-5 rounded-md border border-line bg-white/70 p-4 sm:grid-cols-2">
+              <div>
+                <label className={labelClass} htmlFor="customTotes">
+                  Number of totes ({customPackage.minTotes}–{customPackage.maxTotes})
+                </label>
+                <input
+                  id="customTotes"
+                  type="number"
+                  inputMode="numeric"
+                  min={customPackage.minTotes}
+                  max={customPackage.maxTotes}
+                  {...fp("customTotes")}
+                  className={cls("customTotes")}
+                  value={customTotes}
+                  onChange={(e) => setCustomTotes(Math.round(Number(e.target.value)) || 0)}
+                  onBlur={() => setCustomTotes(clampTotes(customTotes))}
+                />
+                <FieldError id="customTotes" msg={errors.customTotes} />
+              </div>
+              <div>
+                <label className={labelClass} htmlFor="customWeeks">Rental length</label>
+                <select
+                  id="customWeeks"
+                  className={inputClass}
+                  value={Math.min(billedWeeks, customPackage.maxWeeks)}
+                  onChange={(e) => {
+                    const w = Number(e.target.value);
+                    setCustomWeeks(w);
+                    if (form.deliveryDate) setForm({ ...form, pickupDate: addDays(form.deliveryDate, 7 * w) });
+                  }}
+                >
+                  {Array.from({ length: customPackage.maxWeeks }, (_, i) => i + 1).map((w) => (
+                    <option key={w} value={w}>{w} week{w > 1 ? "s" : ""}</option>
+                  ))}
+                </select>
+              </div>
+              <p className="text-xs text-ink/70 sm:col-span-2">
+                Changing the rental length moves your pickup date. You can also pick the dates
+                yourself; we bill in whole weeks.
+                {buildQuote && ` Includes ${buildQuote.dollies} 4-wheel ${buildQuote.dollies > 1 ? "dollies" : "dolly"}.`}
+              </p>
+            </div>
+          )}
 
           <div>
             <label className={labelClass} htmlFor="notes">
@@ -630,7 +730,7 @@ export default function BookingForm() {
           <fieldset>
             <legend className={labelClass}>Add-ons (optional)</legend>
             <div className="mt-2 space-y-2">
-              {addOns.map((a) => {
+              {addOns.filter((a) => !(isBuild && a.id === "extra-tote")).map((a) => {
                 const qty = addOnQty[a.id] ?? 0;
                 const setQty = (n: number) =>
                   setAddOnQty({ ...addOnQty, [a.id]: Math.min(20, Math.max(0, n)) });
@@ -769,11 +869,20 @@ export default function BookingForm() {
               </div>
             )}
             <div className="mt-2 space-y-1 text-sm text-ink/70">
-              {selectedPackage && (
+              {buildQuote ? (
                 <div className="flex justify-between">
-                  <span>{selectedPackage.name} ({selectedPackage.totes} totes)</span>
-                  <span>${selectedPackage.price.toFixed(2)}</span>
+                  <span>
+                    Custom: {buildQuote.totes} totes, {buildQuote.weeks} week{buildQuote.weeks > 1 ? "s" : ""}
+                  </span>
+                  <span>${buildQuote.price.toFixed(2)}</span>
                 </div>
+              ) : (
+                selectedPackage && (
+                  <div className="flex justify-between">
+                    <span>{selectedPackage.name} ({selectedPackage.totes} totes)</span>
+                    <span>${selectedPackage.price.toFixed(2)}</span>
+                  </div>
+                )
               )}
               {extraDays > 0 && (
                 <div className="flex justify-between">

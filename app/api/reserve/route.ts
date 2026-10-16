@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { packages, addOns, siteConfig } from "@/lib/site-config";
+import { packages, addOns, siteConfig, customPackage } from "@/lib/site-config";
+import { customQuote } from "@/lib/pricing";
 import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 import { sendOwnerNotification, sendCustomerConfirmation, type BookingDetails } from "@/lib/email";
 import { findPromo, promoDiscount } from "@/lib/promo";
@@ -38,7 +39,7 @@ export async function POST(req: NextRequest) {
     const {
       packageId, addOnQuantities, name, email, phone,
       address, pickupAddress, agreed, zip, pickupZip,
-      deliveryDate, pickupDate, honeypot, notes, promoCode,
+      deliveryDate, pickupDate, honeypot, notes, promoCode, customTotes,
     } = body;
 
     if (honeypot) {
@@ -53,9 +54,28 @@ export async function POST(req: NextRequest) {
     // price to fall back on, so the estimate math below just treats it as $0
     // and the owner works out real numbers from the notes field.
     const isCustomRequest = packageId === "custom";
-    const pkg = isCustomRequest
+    const isBuild = packageId === "build";
+    let buildTotes = 0;
+    if (isBuild) {
+      buildTotes = Number(customTotes);
+      if (
+        !Number.isInteger(buildTotes) ||
+        buildTotes < customPackage.minTotes ||
+        buildTotes > customPackage.maxTotes
+      ) {
+        return NextResponse.json(
+          { error: `Enter a tote count between ${customPackage.minTotes} and ${customPackage.maxTotes}.`, field: "customTotes" },
+          { status: 400 }
+        );
+      }
+    }
+    // A build is priced below, once the rental length is known; this
+    // placeholder just lets the shared checks that follow run.
+    let pkg = isCustomRequest
       ? { name: "Custom (see notes)", totes: 0, days: 14, price: 0, dailyRate: 0 }
-      : packages.find((p) => p.id === packageId);
+      : isBuild
+        ? { name: "Build your own", totes: buildTotes, days: 14, price: 0, dailyRate: 0 }
+        : packages.find((p) => p.id === packageId);
     if (!pkg) {
       return NextResponse.json({ error: "Invalid package selected." }, { status: 400 });
     }
@@ -98,6 +118,17 @@ export async function POST(req: NextRequest) {
       0,
       Math.round((new Date(pickupDate).getTime() - new Date(deliveryDate).getTime()) / 86_400_000)
     );
+    if (isBuild) {
+      // Whole weeks, same rule as the form: ceil(days / 7), at least 1.
+      const q = customQuote(buildTotes, Math.max(1, Math.ceil(rentalDays / 7)));
+      pkg = {
+        name: `Build your own, ${q.weeks} week${q.weeks > 1 ? "s" : ""}, ${q.dollies} ${q.dollies > 1 ? "dollies" : "dolly"}`,
+        totes: q.totes,
+        days: rentalDays, // weeks are already in the price, so no extra days
+        price: q.price,
+        dailyRate: 0,
+      };
+    }
     const extraDays = Math.min(60, Math.max(0, rentalDays > pkg.days ? rentalDays - pkg.days : 0));
 
     let addOnTotal = 0;

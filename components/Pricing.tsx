@@ -1,5 +1,6 @@
 import { packages, addOns } from "@/lib/site-config";
 import ToteCalculator from "@/components/ToteCalculator";
+import CustomPackageBuilder from "@/components/CustomPackageBuilder";
 
 export default function Pricing() {
   return (
@@ -56,17 +57,15 @@ export default function Pricing() {
           <ToteCalculator />
         </div>
 
-        <div className="mt-10 rounded-lg border border-crate/30 bg-white/70 p-6 text-center sm:text-left">
-          <p className="font-bold text-ink">Don&apos;t see a fit?</p>
-          <p className="mt-1 text-sm text-ink/75">
-            Studio to full estate, we can put together a custom tote count and rental length for
-            whatever you&apos;re moving.{" "}
-            <a href="#booking" className="font-medium text-crate hover:underline">
-              Tell us what you need
-            </a>{" "}
-            and we&apos;ll build a quote around it.
-          </p>
-        </div>
+        <CustomPackageBuilder />
+
+        <p className="mt-4 text-sm text-ink/75">
+          Need something the builder doesn&apos;t cover?{" "}
+          <a href="#booking" className="font-medium text-crate hover:underline">
+            Tell us what you need
+          </a>{" "}
+          and we&apos;ll put together a quote.
+        </p>
 
         <div className="mt-10">
           <h3 className="text-lg font-bold text-ink">Optional add-ons</h3>

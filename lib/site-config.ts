@@ -117,6 +117,7 @@ export type Package = {
   id: string;
   name: string;
   totes: number;
+  dollies: number; // 4-wheel dollies bundled with the package
   days: number;
   price: number; // USD — covers the full base rental period
   dailyRate: number; // USD per day beyond the base rental period
@@ -147,6 +148,7 @@ export const packages: Package[] = [
     id: "studio",
     name: "Studio / 1 Bedroom",
     totes: 15,
+    dollies: 1,
     days: 14,
     price: 69,
     dailyRate: 4,
@@ -157,6 +159,7 @@ export const packages: Package[] = [
     id: "two-bedroom",
     name: "2 Bedroom",
     totes: 25,
+    dollies: 1,
     days: 14,
     price: 99,
     dailyRate: 6,
@@ -168,6 +171,7 @@ export const packages: Package[] = [
     id: "three-bedroom",
     name: "3 Bedroom",
     totes: 40,
+    dollies: 2,
     days: 14,
     price: 149,
     dailyRate: 9,
@@ -178,6 +182,7 @@ export const packages: Package[] = [
     id: "four-bedroom",
     name: "4+ Bedroom",
     totes: 60,
+    dollies: 3,
     days: 14,
     price: 199,
     dailyRate: 13,
@@ -185,6 +190,18 @@ export const packages: Package[] = [
     includes: ["3 dollies", "60 labels", "Delivery + pickup"],
   },
 ];
+
+// "Build your own package" rules. Prices are NOT set here: lib/pricing.ts blends
+// between the four package prices above, so a custom build at 15/25/40/60 totes
+// for 2 weeks costs exactly what the matching package does. Change a package
+// price and the builder follows.
+export const customPackage = {
+  minTotes: 5, // owner can change; below the 15-tote Studio size
+  maxTotes: 60, // full inventory — never raise this without buying totes
+  minWeeks: 1,
+  maxWeeks: 8, // builder limit; longer rentals are quoted by hand
+  oneWeekFactor: 0.75, // a 1-week rental costs 75% of the 2-week price
+};
 
 export type AddOn = {
   id: string;
