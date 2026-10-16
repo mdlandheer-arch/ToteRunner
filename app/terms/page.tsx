@@ -113,41 +113,34 @@ export default function TermsPage() {
             efforts to reschedule as soon as conditions allow.
           </p>
 
-          <h2>11. Limitation of liability</h2>
-          <p>
-            [Add your liability limitation language here — consult your attorney on an appropriate cap,
-            e.g. limiting liability to the amount paid for the rental, and excluding indirect or
-            consequential damages, subject to what Michigan law allows for consumer contracts.]
-          </p>
-
-          <h2>12. Assumption of risk</h2>
+          <h2>11. Assumption of risk</h2>
           <p>
             You&apos;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.name}{" "}
             is not responsible for injury resulting from improper lifting, stacking, or transport of
             totes by you or others assisting with your move.
           </p>
 
-          <h2>13. Indemnification</h2>
+          <h2>12. Indemnification</h2>
           <p>
             You agree to reimburse {siteConfig.name} for any loss, claim, or damage arising from your
             misuse of the totes or violation of these terms, to the extent permitted by Michigan law.
           </p>
 
-          <h2>14. Dispute resolution and governing law</h2>
+          <h2>13. Dispute resolution and governing law</h2>
           <p>
             These terms are governed by the laws of the State of Michigan. [Add your preferred dispute
             resolution process — for example, informal resolution first, followed by small claims
             court or arbitration, and specify the venue/county.]
           </p>
 
-          <h2>15. Changes to these terms</h2>
+          <h2>14. Changes to these terms</h2>
           <p>
             We may update these terms from time to time; the &quot;Last updated&quot; date above
             reflects the latest version. Continuing to use our services after a change means you
             accept the updated terms.
           </p>
 
-          <h2>16. Contact</h2>
+          <h2>15. Contact</h2>
           <p>
             Questions about these terms? Email{" "}
             <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> or call{" "}
