@@ -30,6 +30,7 @@ const sections = [
     title: "Rental period",
     body: [
       `Every package includes ${packages[0]?.days ?? 14} days, starting on your delivery date. If you keep the totes longer, we charge a per-day rate based on your package size (listed on our pricing page and shown in the estimate on your reservation request).`,
+      "If you build your own package, you choose the number of totes and the rental length. Custom packages are billed in whole weeks, so a partial week counts as a full week.",
       "If totes aren't returned or made available for pickup after your rental period ends, daily charges continue until pickup is completed.",
     ],
   },

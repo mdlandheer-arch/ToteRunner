@@ -42,6 +42,11 @@ export default function TermsPage() {
             end of the rental period (including any paid extension) may continue to accrue charges at
             our posted daily rate until pickup is completed.
           </p>
+          <p>
+            If you build your own package, you choose the number of totes and the rental length. A
+            custom package is billed in whole weeks, so a partial week counts as a full week, and
+            the price is shown in the estimate on your reservation request.
+          </p>
 
           <h2>4. Pricing, payment, and delivery fees</h2>
           <p>
@@ -52,6 +57,8 @@ export default function TermsPage() {
             mile beyond the free radius, estimated on your reservation request from the zip code you
             provide and confirmed before you pay. Submitting a reservation request does not charge you — once we confirm
             availability we'll send payment details, and your dates are held when payment is received.
+            Custom packages include the same delivery, pickup, labels, and dollies as our standard
+            packages, with the number of dollies set by the tote count.
           </p>
 
           <h2>5. Cancellations and changes</h2>
