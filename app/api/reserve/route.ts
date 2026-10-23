@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { packages, addOns, siteConfig, customPackage } from "@/lib/site-config";
+import { bookablePackages, addOns, siteConfig, customPackage } from "@/lib/site-config";
 import { customQuote } from "@/lib/pricing";
 import { lookupZip, nearestHub, calculateDeliveryFee } from "@/lib/geo";
 import { sendOwnerNotification, sendCustomerConfirmation, type BookingDetails } from "@/lib/email";
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       ? { name: "Custom (see notes)", totes: 0, days: 14, price: 0, dailyRate: 0 }
       : isBuild
         ? { name: "Build your own", totes: buildTotes, days: 14, price: 0, dailyRate: 0 }
-        : packages.find((p) => p.id === packageId);
+        : bookablePackages.find((p) => p.id === packageId);
     if (!pkg) {
       return NextResponse.json({ error: "Invalid package selected." }, { status: 400 });
     }

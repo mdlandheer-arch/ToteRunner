@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { packages, addOns, siteConfig, customPackage } from "@/lib/site-config";
+import { packages, bookablePackages, eventPackage, addOns, siteConfig, customPackage } from "@/lib/site-config";
 import { customQuote, clampTotes } from "@/lib/pricing";
 import { BUILD_EVENT } from "@/components/CustomPackageBuilder";
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
@@ -273,7 +273,7 @@ export default function BookingForm() {
 
   // Running total shown as an estimate. The server recalculates it for the
   // owner's email; nothing here is a charge.
-  const selectedPackage = packages.find((p) => p.id === form.packageId);
+  const selectedPackage = bookablePackages.find((p) => p.id === form.packageId);
 
   // Rental length comes from the dates the customer picked — the dates are the
   // single source of truth, so there's nothing for them to keep in sync. Any
@@ -344,6 +344,14 @@ export default function BookingForm() {
     setPromoInput("");
     setPromoError(null);
   }
+
+  // /events links here with ?package=event so the Event Package is preselected.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("package");
+    if (wanted && bookablePackages.some((p) => p.id === wanted)) {
+      setForm((f) => ({ ...f, packageId: wanted }));
+    }
+  }, []);
 
   // The builder in the pricing section hands its choices to this form.
   useEffect(() => {
@@ -662,6 +670,9 @@ export default function BookingForm() {
                   {p.name} — {p.totes} totes — ${p.price}
                 </option>
               ))}
+              <option value={eventPackage.id}>
+                {eventPackage.name} (weddings &amp; events) — {eventPackage.totes} totes, {eventPackage.days} days — ${eventPackage.price}
+              </option>
               <option value="build">Build your own package</option>
               <option value="custom">Not sure / need a custom quote</option>
             </select>

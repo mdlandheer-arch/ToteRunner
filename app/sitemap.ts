@@ -25,6 +25,7 @@ const routes: { path: string; lastModified: string }[] = [
   { path: "", lastModified: "2026-10-03" },
   { path: "/faq", lastModified: contentLastUpdated },
   { path: "/realtor-referral", lastModified: contentLastUpdated },
+  { path: "/events", lastModified: "2026-10-23" },
   { path: "/rental-agreement", lastModified: legalLastUpdatedISO },
   { path: "/terms", lastModified: legalLastUpdatedISO },
   { path: "/privacy", lastModified: legalLastUpdatedISO },

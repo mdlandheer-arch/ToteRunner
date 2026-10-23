@@ -46,11 +46,17 @@ export default function WhyUs() {
         <div className="mt-6 rounded-lg border border-line p-6">
           <h3 className="font-bold text-ink">Also great for</h3>
           <div className="mt-3 flex flex-wrap gap-2">
-            {siteConfig.otherUseCases.map((useCase) => (
-              <span key={useCase} className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80">
-                {useCase}
-              </span>
-            ))}
+            {siteConfig.otherUseCases.map((useCase) =>
+              useCase === "Weddings & events" ? (
+                <a key={useCase} href="/events" className="rounded-full border border-crate bg-white/70 px-4 py-1.5 text-sm font-medium text-crate hover:bg-crate/5">
+                  {useCase} →
+                </a>
+              ) : (
+                <span key={useCase} className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80">
+                  {useCase}
+                </span>
+              )
+            )}
           </div>
         </div>
       </div>

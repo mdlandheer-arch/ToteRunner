@@ -1,5 +1,5 @@
 // Single source of truth for FAQ content — used by /faq and its JSON-LD schema.
-import { cancellationPolicy, customPackage, damageFees, siteConfig } from "./site-config";
+import { cancellationPolicy, customPackage, damageFees, eventPackage, siteConfig } from "./site-config";
 
 export const faqs = [
   { q: "How many totes will I need?", a: "As a rough guide: studio/1BR ≈ 15 totes, 2BR ≈ 25, 3BR ≈ 40, 4+BR ≈ 60. Use the calculator in our pricing section, and when in doubt, size up slightly." },
@@ -18,5 +18,6 @@ export const faqs = [
   { q: "Do I need to be home for delivery or pickup?", a: "Not necessarily — let us know a safe drop-off spot when you book, and we'll coordinate the rest by text or email." },
   { q: "What happens if it rains on moving day?", a: "Our totes have secure, weather-resistant lids, so your things stay dry and protected — unlike cardboard, which loses strength when wet." },
   { q: "Do you deliver outside your free zone?", a: `Yes. Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of our Grand Rapids or Muskegon hub. Beyond that, a $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile fee applies, estimated from your zip code on the booking request. Use the zip checker in our service area section to see what applies to you.` },
+  { q: "Can I rent totes for a wedding or event?", a: `Yes. Our Event Package is ${eventPackage.totes} totes, a dolly and labels for ${eventPackage.days} days for $${eventPackage.price}, with free delivery and pickup within ${siteConfig.freeDeliveryRadiusMiles} miles of Grand Rapids or Muskegon. See toterunnergr.com/events for details.` },
   { q: "Do you pack or move my belongings?", a: "No — we're a tote rental service, not a moving company. We drop off clean totes, you pack, and we collect them once you're unpacked. Movers love our totes because they stack tight in the truck." },
 ];

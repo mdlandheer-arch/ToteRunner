@@ -75,6 +75,7 @@ export const siteConfig = {
     "Office relocations",
     "Renovation & decluttering",
     "Business & bulk rentals",
+    "Weddings & events", // links to /events (see components/WhyUs.tsx)
   ],
 };
 
@@ -190,6 +191,27 @@ export const packages: Package[] = [
     includes: ["3 dollies", "60 labels", "Delivery + pickup"],
   },
 ];
+
+// Event Package — for weddings, showers, grad parties. Kept OUT of `packages`
+// on purpose: the moving pricing grid, the tote calculator, the custom-build
+// price curve (lib/pricing.ts) and the realtor page all read `packages`, and
+// this shouldn't show up in any of them. It's bookable through the form via
+// `bookablePackages`, and has its own page at /events.
+// dailyRate matches the Studio package (same 15 totes) for days past the 7.
+export const eventPackage: Package = {
+  id: "event",
+  name: "Event Package",
+  totes: 15,
+  dollies: 1,
+  days: 7,
+  price: 59,
+  dailyRate: 4,
+  blurb: "Weddings, showers, grad parties — haul decor to the venue and back.",
+  includes: ["1 dolly", "15 labels", "Delivery + pickup"],
+};
+
+// Everything the booking form and /api/reserve accept by id.
+export const bookablePackages: Package[] = [...packages, eventPackage];
 
 // "Build your own package" rules. Prices are NOT set here: lib/pricing.ts blends
 // between the four package prices above, so a custom build at 15/25/40/60 totes

@@ -1,4 +1,4 @@
-import { packages, addOns } from "@/lib/site-config";
+import { packages, addOns, eventPackage } from "@/lib/site-config";
 import ToteCalculator from "@/components/ToteCalculator";
 import CustomPackageBuilder from "@/components/CustomPackageBuilder";
 
@@ -56,6 +56,13 @@ export default function Pricing() {
 
           <ToteCalculator />
         </div>
+
+        <p className="mt-6 rounded-md border border-line bg-white/70 px-4 py-3 text-sm text-ink/80">
+          Planning a wedding or event?{" "}
+          <a href="/events" className="font-semibold text-crate hover:underline">
+            See our ${eventPackage.price} Event Package →
+          </a>
+        </p>
 
         <CustomPackageBuilder />
 
