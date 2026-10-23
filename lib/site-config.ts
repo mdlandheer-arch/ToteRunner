@@ -206,7 +206,7 @@ export const eventPackage: Package = {
   days: 7,
   price: 59,
   dailyRate: 4,
-  blurb: "Weddings, showers, grad parties — haul decor to the venue and back.",
+  blurb: "Weddings, showers, grad parties — delivered to and picked up from your home.",
   includes: ["1 dolly", "15 labels", "Delivery + pickup"],
 };
 
