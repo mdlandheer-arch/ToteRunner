@@ -25,6 +25,13 @@ export const promoCodes: PromoCode[] = [
     value: 69,
     active: true, // added Oct 5, 2026 — no end date
   },
+  {
+    code: "DEERING10",
+    label: "10% off your package",
+    type: "percent",
+    value: 10,
+    active: true, // Deering Team clients, added Oct 27, 2026 — no end date
+  },
   // Percent example:
   // {
   //   code: "WELCOME10",
