@@ -56,6 +56,21 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/toterunnergr/",
     tiktok: "",
   },
+  // Link customers use to leave a Google review (Google Business Profile).
+  googleReviewUrl: "https://g.page/r/CaRhO6_85IgsEBI/review",
+  // Real customer reviews shown on the homepage. Exact wording only, no edits.
+  // Add one only after the customer has said we can use it. `url` is optional.
+  reviews: [
+    {
+      name: "Nancy C.",
+      town: "East Grand Rapids",
+      package: "4+BR (60 totes)",
+      rating: 5,
+      text: "Great experience! Brand-new totes, delivered on time and picked up on time. I would do this again!",
+      source: "Google review",
+      url: "",
+    },
+  ] as { name: string; town: string; package: string; rating: number; text: string; source: string; url?: string }[],
   // Referral terms. The agent is NOT paid. A client referred by a participating
   // agent gets this percent off the base package price (applied by hand when
   // the reservation is confirmed — there is no online payment).

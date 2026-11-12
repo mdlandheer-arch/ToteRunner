@@ -7,6 +7,7 @@ import WhyUs from "@/components/WhyUs";
 import EcoImpact from "@/components/EcoImpact";
 import About from "@/components/About";
 import ServiceArea from "@/components/ServiceArea";
+import Reviews from "@/components/Reviews";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -33,6 +34,7 @@ export default function Home() {
       <Reveal><EcoImpact /></Reveal>
       <Reveal><About /></Reveal>
       <Reveal><ServiceArea /></Reveal>
+      <Reveal><Reviews /></Reveal>
       <Reveal><BookingForm /></Reveal>
       <Footer />
     </main>
