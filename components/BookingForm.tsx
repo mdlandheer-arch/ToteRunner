@@ -528,9 +528,9 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-[7rem_1fr_5rem]">
             <div>
               <label className={labelClass} htmlFor="zip">Zip code</label>
-              <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={5} autoComplete="postal-code"
+              <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={10} autoComplete="postal-code"
                 className={cls("zip")} value={form.zip}
-                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "") })} />
+                onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
               <FieldError id="zip" msg={errors.zip} />
             </div>
             <div className="grid grid-cols-[1fr_5rem] gap-5 sm:contents">
@@ -621,8 +621,8 @@ export default function BookingForm() {
               <div className="grid gap-4 sm:grid-cols-[7rem_1fr_5rem]">
                 <div>
                   <label className={labelClass} htmlFor="pickupZip">Zip code</label>
-                  <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={5} className={cls("pickupZip")} value={form.pickupZip}
-                    onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "") })} />
+                  <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={10} className={cls("pickupZip")} value={form.pickupZip}
+                    onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
                   <FieldError id="pickupZip" msg={errors.pickupZip} />
                 </div>
                 <div className="grid grid-cols-[1fr_5rem] gap-4 sm:contents">

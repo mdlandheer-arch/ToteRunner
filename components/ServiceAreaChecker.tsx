@@ -77,10 +77,10 @@ export default function ServiceAreaChecker() {
       <div className="mt-4 flex gap-2">
         <input
           inputMode="numeric"
-          maxLength={5}
+          maxLength={10}
           value={zip}
           onChange={(e) => {
-            setZip(e.target.value.replace(/\D/g, ""));
+            setZip(e.target.value.replace(/\D/g, "").slice(0, 5));
             setResult(null);
           }}
           onKeyDown={(e) => e.key === "Enter" && check()}
