@@ -87,7 +87,7 @@ const why = [
 const faqs = [
   {
     q: "Is there any cost to join?",
-    a: "No. There's no fee, no minimum, and no commitment — refer one client or fifty.",
+    a: "No. There's no fee, no minimum and no commitment. Refer one client or fifty.",
   },
   {
     q: "What does my client get?",
@@ -107,7 +107,7 @@ const faqs = [
   },
   {
     q: "Can I refer buyers as well as sellers?",
-    a: "Absolutely — buyers are moving too, and they often need totes longer since they're unpacking on the other end.",
+    a: "Yes. Buyers are moving too, and they can need the totes longer because they unpack on the other end.",
   },
   {
     q: "Do you work with brokerages?",
@@ -164,12 +164,12 @@ export default function RealtorReferralPage() {
 
           <div className="mt-10 rounded-lg border border-line bg-tint-sand p-6">
             <p className="text-sm text-ink/80">
-              <span className="font-semibold text-ink">Worth doing the math:</span> {clientDiscountPercent}%
+              <span className="font-semibold text-ink">Example:</span> {clientDiscountPercent}%
               off is ${discounted(packages[0].price)} instead of ${packages[0].price} on a studio
-              package — a real saving, from a name you gave them.
+              package.
             </p>
             <p className="mt-3 text-sm text-ink/70">
-              <span className="font-semibold text-ink">One housekeeping note:</span> the discount
+              <span className="font-semibold text-ink">Note:</span> the discount
               applies to the base package price only. We don&apos;t pay agents for referrals.
             </p>
           </div>

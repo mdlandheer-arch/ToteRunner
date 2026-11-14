@@ -2,22 +2,22 @@ const steps = [
   {
     n: "1",
     title: "We deliver",
-    body: "Book online and we'll drop a stack of clean, sturdy totes at your door before moving day.",
+    body: "Request your dates online. We drop the totes and a dolly at your door before moving day.",
   },
   {
     n: "2",
     title: "You pack",
-    body: "Fill the stackable totes instead of wrestling with cardboard and tape. Keep each tote under about 60 lbs.",
+    body: "Fill the totes. No boxes to build and no tape. Keep each one under about 60 lbs.",
   },
   {
     n: "3",
     title: "You move",
-    body: "Totes stack tight in the truck, keeping things organized and protected the whole way.",
+    body: "The totes stack tight in the truck and everything stays together.",
   },
   {
     n: "4",
     title: "We pick up",
-    body: "Once you're unpacked, we collect the empties. No recycling runs, no cardboard pile in the garage.",
+    body: "When you're unpacked, we come get the empties. No cardboard to break down or haul away.",
   },
 ];
 
@@ -25,7 +25,7 @@ export default function HowItWorks() {
   return (
     <section id="how-it-works">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="text-3xl font-bold text-ink">Moving made simple in four steps</h2>
+        <h2 className="text-3xl font-bold text-ink">How it works</h2>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
             <div key={s.n} className="border-l-2 border-crate pl-4">

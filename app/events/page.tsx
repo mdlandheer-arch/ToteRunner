@@ -16,7 +16,7 @@ const bookHref = `/?package=${eventPackage.id}#booking`;
 
 const steps = [
   { n: "1", title: "We drop off at your home", body: `${eventPackage.totes} clean totes, a dolly and labels, delivered to your house before the event.` },
-  { n: "2", title: "You pack and haul", body: "Load centerpieces, candles, signs and favors. Everything stacks, so it fits in one trip to the venue — and back home after." },
+  { n: "2", title: "You pack and haul", body: "Load centerpieces, candles, signs and favors. Everything stacks, so it all fits in one trip to the venue and back home after." },
   { n: "3", title: "We pick up from your home", body: "Once you're unpacked and the totes are empty, we pick them up from your house." },
 ];
 
@@ -33,7 +33,7 @@ const faqs = [
   },
   {
     q: "Can you deliver to the venue?",
-    a: "No — we drop off and pick up at your home, not the venue. That way you can pack ahead of time, take the totes to the venue yourself, and bring everything home after without racing a pickup window.",
+    a: "No. We drop off and pick up at your home, not the venue. You can pack ahead, take the totes to the venue yourself, and bring everything home after without racing a pickup window.",
   },
   {
     q: "Do I need more totes?",
@@ -73,7 +73,7 @@ export default function EventsPage() {
               Call or text {siteConfig.phone}
             </a>
           </div>
-          <p className="mt-3 text-sm text-ink/70">Reserve online — no payment up front.</p>
+          <p className="mt-3 text-sm text-ink/70">Reserve online. No payment up front.</p>
         </div>
       </section>
 

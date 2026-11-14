@@ -28,16 +28,15 @@ export default function About() {
 
             <p className="mt-4 text-ink/75">
               I&apos;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
-              {siteConfig.about.homeTown}. Moving is always a bigger job than you think it&apos;s
-              going to be — there&apos;s never enough time, and there&apos;s always one more closet.
-              I can&apos;t pack it for you, but I can take one thing off the list: no hunting for
-              boxes, no taping, no pile of cardboard in the garage afterward. Totes show up, you
-              fill them, I come get them. That&apos;s it.
+              {siteConfig.about.homeTown}. Moving always takes more time than you think it will. I
+              can&apos;t pack for you, but I can cut out the boxes: nothing to buy, nothing to
+              tape, no cardboard pile in the garage after. I drop off the totes, you fill them, and
+              I pick them up.
             </p>
             <p className="mt-3 text-ink/75">
-              No franchise, no call center — a family-owned operation covering{" "}
-              {siteConfig.serviceAreas.length}+ towns across {siteConfig.region}, which means when something
-              needs sorting out, you&apos;re talking to the person who can sort it out.
+              We&apos;re family owned. No franchise and no call center, so if something comes up
+              you&apos;re talking to me. We cover {siteConfig.serviceAreas.length}+ towns across{" "}
+              {siteConfig.region}.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">

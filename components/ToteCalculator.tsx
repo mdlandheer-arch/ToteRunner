@@ -39,7 +39,7 @@ export default function ToteCalculator() {
       <div className="mt-5 rounded-md bg-crate/5 p-4">
         <p className="text-sm text-ink/70">Recommended:</p>
         <p className="mt-1 text-xl font-bold text-ink">
-          {suggested.name} — {suggested.totes} totes
+          {suggested.name}: {suggested.totes} totes
         </p>
         <p className="mt-1 text-sm text-ink/70">
           Starting at ${suggested.price} for a {suggested.days}-day rental.

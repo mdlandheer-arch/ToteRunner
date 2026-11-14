@@ -165,7 +165,7 @@ export function buildCustomerEmail(b: BookingDetails): { subject: string; html: 
   const html = shell(
     "We'll reply within one business day to confirm availability and send payment details.",
     `<h2 style="color:#1F7A55;margin:0 0 8px;font-size:22px;">Got it, ${esc(first)}!</h2>
-      <p style="margin:0 0 16px;line-height:1.5;">We've received your reservation request. <strong>This isn't a confirmed booking yet</strong> — nothing has been charged and your dates aren't locked in until we reply. Here's what you sent:</p>
+      <p style="margin:0 0 16px;line-height:1.5;">We've received your reservation request. <strong>This isn't a confirmed booking yet.</strong> Nothing has been charged and your dates aren't locked in until we reply. Here's what you sent:</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         ${row("Package", `${esc(b.packageName)} (${esc(b.totes)} totes)`)}
         ${row("Add-ons", esc(b.addOnSummary || "None"))}
@@ -180,7 +180,7 @@ export function buildCustomerEmail(b: BookingDetails): { subject: string; html: 
       <table role="presentation" style="width:100%;border-collapse:collapse;">
         ${step(1, "We reply within one business day", "We'll confirm the totes are available for your dates and send payment details.")}
         ${step(2, "We deliver, you pack", "We bring the totes and dolly to your door. Pack at your own pace.")}
-        ${step(3, "We pick up the empties", "On your pickup date we collect everything — no boxes to break down.")}
+        ${step(3, "We pick up the empties", "On your pickup date we collect everything. No boxes to break down.")}
       </table>
       <p style="margin:8px 0 0;line-height:1.5;font-size:14px;">Need to change something? Just reply to this email or call <a href="tel:${tel()}" style="color:#1F7A55;">${esc(siteConfig.phone)}</a>.</p>`,
     { signature: true },
@@ -189,7 +189,7 @@ export function buildCustomerEmail(b: BookingDetails): { subject: string; html: 
   const text = [
     `Got it, ${first}!`,
     "",
-    "We've received your reservation request. This isn't a confirmed booking yet — nothing has been charged and your dates aren't locked in until we reply.",
+    "We've received your reservation request. This isn't a confirmed booking yet. Nothing has been charged and your dates aren't locked in until we reply.",
     "",
     `Package: ${b.packageName} (${b.totes} totes)`,
     `Add-ons: ${b.addOnSummary || "None"}`,

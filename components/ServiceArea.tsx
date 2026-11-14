@@ -30,8 +30,8 @@ export default function ServiceArea() {
               Further out?{" "}
               <a href={`mailto:${siteConfig.email}`} className="font-medium text-crate hover:underline">
                 Email us
-              </a>{" "}
-              — if you&apos;re nearby, chances are we can help.
+              </a>
+              . If you&apos;re close, we can probably help.
             </p>
           </div>
 

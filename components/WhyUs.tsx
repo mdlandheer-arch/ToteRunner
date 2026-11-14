@@ -28,18 +28,16 @@ export default function WhyUs() {
         </div>
 
         <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
-          <h3 className="text-xl font-bold text-ink">Built for real moving days</h3>
+          <h3 className="text-xl font-bold text-ink">If it rains</h3>
           <p className="mt-2 max-w-2xl text-sm text-ink/70">
-            Rain or snow doesn&apos;t care about your move date. Wet cardboard loses its strength fast —
-            our totes have weather-resistant lids and a rigid plastic shell that hold their shape.
+            Wet cardboard gives out fast. The totes have weather-resistant lids and a hard plastic shell, so they hold their shape.
           </p>
         </div>
 
         <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
           <h3 className="font-bold text-ink">Clean every time</h3>
           <p className="mt-1 text-sm text-ink/75">
-            Vacuumed, sanitized, and inspected between every rental — no moisture, odors, or pests
-            the way used cardboard can carry.
+            We vacuum, sanitize and check every tote between rentals.
           </p>
         </div>
 

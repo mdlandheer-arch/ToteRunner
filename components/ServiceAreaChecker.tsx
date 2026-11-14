@@ -106,7 +106,7 @@ export default function ServiceAreaChecker() {
       {result?.kind === "free" && (
         <div className="mt-4 rounded-md bg-crate/10 p-4 text-sm">
           <p className="font-semibold text-crate">
-            Yes — we deliver to {result.city}, {result.state}.
+            Yes, we deliver to {result.city}, {result.state}.
           </p>
           <p className="mt-1 text-ink/70">Free delivery and pickup included.</p>
           <a href="#booking" className="mt-3 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
@@ -118,10 +118,10 @@ export default function ServiceAreaChecker() {
       {result?.kind === "fee" && (
         <div className="mt-4 rounded-md bg-safety/10 p-4 text-sm">
           <p className="font-semibold text-ink">
-            Yes — we can deliver to {result.city}, {result.state}.
+            Yes, we can deliver to {result.city}, {result.state}.
           </p>
           <p className="mt-1 text-ink/70">
-            ~{Math.round(result.miles)} mi out — about ${result.fee.toFixed(2)} for delivery.
+            ~{Math.round(result.miles)} mi out. About ${result.fee.toFixed(2)} for delivery.
           </p>
           <a href="#booking" className="mt-3 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark">
             Request your totes

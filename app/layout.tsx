@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     default: `Reusable Moving Tote Rental in ${siteConfig.city} | ${siteConfig.name}`,
     template: `%s | ${siteConfig.name}`,
   },
-  description: `${siteConfig.name} delivers reusable moving totes across ${siteConfig.region}. Skip the cardboard — we drop off, you pack, we pick up.`,
+  description: `${siteConfig.name} delivers reusable moving totes across ${siteConfig.region}. Skip the cardboard. We drop off, you pack, we pick up.`,
   openGraph: {
     title: `Reusable Moving Tote Rental in ${siteConfig.city} | ${siteConfig.name}`,
     description: `Reusable moving totes delivered and picked up across ${siteConfig.region}. No cardboard, no tape, no landfill.`,

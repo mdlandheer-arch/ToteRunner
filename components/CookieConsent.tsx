@@ -52,7 +52,7 @@ export default function CookieConsent() {
         >
           <div className="mx-auto flex max-w-5xl flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm leading-snug text-paper/90">
-              We use cookies for basic site analytics — nothing sold, nothing tracked across other sites.
+              We use cookies for basic site analytics. Nothing is sold or tracked across other sites.
               See our{" "}
               <a href="/privacy" className="underline underline-offset-2">
                 privacy policy

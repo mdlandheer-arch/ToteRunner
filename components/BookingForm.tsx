@@ -90,7 +90,7 @@ function computeErrors(
 
   if (form.name.trim().length < 2) e.name = "Enter your full name so we know who to look for at delivery.";
 
-  if (!form.email.trim()) e.email = "Enter your email — we'll send your confirmation there.";
+  if (!form.email.trim()) e.email = "Enter your email. We'll send your confirmation there.";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
     e.email = "That email looks incomplete. Use the format name@example.com.";
 
@@ -440,7 +440,7 @@ export default function BookingForm() {
       setSubmitted(true);
       router.push("/thank-you");
     } catch {
-      setServerError("Network error — please try again.");
+      setServerError("Network error. Please try again.");
       submittingRef.current = false;
       setSubmitting(false);
     }
@@ -562,7 +562,7 @@ export default function BookingForm() {
                       <span className="text-ink/70">within our free {distanceRadius}-mile delivery zone</span>
                     ) : (
                       <span className="text-ink/70">
-                        ~{Math.round(distanceMiles)} mi from our nearest hub — an estimated ${estimatedFee.toFixed(2)} delivery fee applies
+                        ~{Math.round(distanceMiles)} mi from our nearest hub. An estimated ${estimatedFee.toFixed(2)} delivery fee applies
                       </span>
                     )}
                   </>
@@ -647,15 +647,15 @@ export default function BookingForm() {
             <div className="rounded-md border border-line bg-white/70 p-3 text-sm">
               {isBuild ? (
                 <p className="text-ink/80">
-                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> — billed as{" "}
+                  <span className="font-semibold text-ink">{rentalDays}-day rental</span>, billed as{" "}
                   {billedWeeks} week{billedWeeks > 1 ? "s" : ""}.
                 </p>
               ) : extraDays === 0 ? (
-<p className="text-ink/80"><span className="font-semibold text-crate">{rentalDays}-day rental</span> — included.</p>
+<p className="text-ink/80"><span className="font-semibold text-crate">{rentalDays}-day rental</span> is included.</p>
               ) : (
 <p className="text-ink/80">
-                  <span className="font-semibold text-ink">{rentalDays}-day rental</span> — {includedDays} included
-                  + {extraDays} day{extraDays > 1 ? "s" : ""} at ${(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day.
+                  <span className="font-semibold text-ink">{rentalDays}-day rental</span>: {includedDays} included,
+                  plus {extraDays} day{extraDays > 1 ? "s" : ""} at ${(selectedPackage?.dailyRate ?? 0).toFixed(0)}/day.
                 </p>
               )}
             </div>
@@ -667,11 +667,11 @@ export default function BookingForm() {
               onChange={(e) => setForm({ ...form, packageId: e.target.value })}>
               {packages.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} — {p.totes} totes — ${p.price}
+                  {p.name}: {p.totes} totes, ${p.price}
                 </option>
               ))}
               <option value={eventPackage.id}>
-                {eventPackage.name} (weddings &amp; events) — {eventPackage.totes} totes, {eventPackage.days} days — ${eventPackage.price}
+                {eventPackage.name} (weddings &amp; events): {eventPackage.totes} totes, {eventPackage.days} days, ${eventPackage.price}
               </option>
               <option value="build">Build your own package</option>
               <option value="custom">Not sure / need a custom quote</option>
@@ -865,7 +865,7 @@ export default function BookingForm() {
           <div className="rounded-md border border-crate bg-crate/5 p-4">
             {form.packageId === "custom" ? (
               <p className="text-sm text-ink/80">
-                <span className="font-semibold text-ink">No estimate to show yet</span> — tell us
+                <span className="font-semibold text-ink">No estimate to show yet.</span> Tell us
                 what you need in the notes above and we&apos;ll send a real quote when we reply.
               </p>
             ) : (
@@ -935,14 +935,14 @@ export default function BookingForm() {
                 </span>
               </div>
               <p className="mt-3 border-t border-crate/20 pt-3 text-xs text-ink/70">
-                Estimate only — we&apos;ll confirm the final amount when we reply.
+                Estimate only. We&apos;ll confirm the final amount when we reply.
               </p>
             </div>
           </div>
 
           {attempted && errorCount > 0 && (
             <p role="alert" className="text-sm font-medium text-red-700">
-              {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`} — they&apos;re marked in red above. Everything else you entered is saved.
+              {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`}. They&apos;re marked in red above. Everything else you entered is saved.
             </p>
           )}
 
@@ -956,7 +956,7 @@ export default function BookingForm() {
             {submitting ? "Sending…" : "Request these dates"}
           </button>
           <p className="text-xs text-ink/70">
-Submitting a request doesn&apos;t charge you or lock in your dates — we&apos;ll confirm availability first.
+Submitting a request doesn&apos;t charge you or lock in your dates. We&apos;ll confirm availability first.
           </p>
         </form>
         )}

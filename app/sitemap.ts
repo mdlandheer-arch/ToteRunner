@@ -16,7 +16,7 @@ import { siteConfig, legalLastUpdated } from "@/lib/site-config";
  * Bump this when you make a real content change to the marketing pages —
  * new pricing, rewritten copy, a new section. Not for typo fixes or deploys.
  */
-const contentLastUpdated = "2026-09-19";
+const contentLastUpdated = "2026-11-14";
 
 /** The legal pages carry the same date customers see printed on them. */
 const legalLastUpdatedISO = new Date(legalLastUpdated).toISOString().split("T")[0];
@@ -25,7 +25,7 @@ const routes: { path: string; lastModified: string }[] = [
   { path: "", lastModified: "2026-11-14" },
   { path: "/faq", lastModified: "2026-11-14" },
   { path: "/realtor-referral", lastModified: contentLastUpdated },
-  { path: "/events", lastModified: "2026-10-23" },
+  { path: "/events", lastModified: "2026-11-14" },
   { path: "/rental-agreement", lastModified: legalLastUpdatedISO },
   { path: "/terms", lastModified: legalLastUpdatedISO },
   { path: "/privacy", lastModified: legalLastUpdatedISO },

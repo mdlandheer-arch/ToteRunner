@@ -32,7 +32,7 @@ export default function Pricing() {
                   Need longer? ${pkg.dailyRate}/day after that.
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">
-                  ${(pkg.price / pkg.totes).toFixed(2)} per tote — dolly, labels, delivery and
+                  ${(pkg.price / pkg.totes).toFixed(2)} per tote, with dolly, labels, delivery and
                   pickup included.
                 </p>
                 <p className="mt-3 text-sm text-ink/70">{pkg.blurb}</p>
