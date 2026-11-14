@@ -16,12 +16,14 @@ export const metadata: Metadata = pageMetadata({
 
 const sections = [
   {
+    icon: "📦",
     title: "What you're renting",
     body: [
       `${siteConfig.legalName} rents reusable plastic moving totes and a rolling dolly as listed in your chosen package. The totes stay our property the whole time. This is a rental, not a sale.`,
     ],
   },
   {
+    icon: "📅",
     title: "Rental period",
     body: [
       `Every package includes ${packages[0]?.days ?? 14} days, starting on your delivery date. If you keep the totes longer, we charge a per-day rate based on your package size (listed on our pricing page and shown in the estimate on your reservation request).`,
@@ -30,6 +32,7 @@ const sections = [
     ],
   },
   {
+    icon: "💳",
     title: "Payment",
     body: [
       "Submitting a request doesn't charge you. Once we confirm your dates we'll send payment details, and your reservation is held when payment is received.",
@@ -37,6 +40,7 @@ const sections = [
     ],
   },
   {
+    icon: "🔄",
     title: "Cancellations",
     body: [
       `Cancel at least ${cancellationPolicy.freeCancellationHours} hours before your scheduled delivery and there's no charge. Cancel inside that window and a $${cancellationPolicy.lateCancellationFee} fee applies. If we've already delivered the totes, a $${cancellationPolicy.postDeliveryRestockingFee} fee applies to cover the delivery and return trip. Only one cancellation fee applies.`,
@@ -44,6 +48,7 @@ const sections = [
     ],
   },
   {
+    icon: "🧼",
     title: "Taking care of the totes",
     body: [
       "You're responsible for the totes from delivery until we confirm pickup.",
@@ -53,6 +58,7 @@ const sections = [
     ],
   },
   {
+    icon: "🛠️",
     title: "Lost or damaged totes",
     body: [
       "Normal wear and tear is expected and never charged for.",
@@ -61,6 +67,7 @@ const sections = [
     ],
   },
   {
+    icon: "🚚",
     title: "Delivery and pickup",
     body: [
       "We'll confirm a delivery window before your date. You don't need to be home if you give us a safe, accessible drop-off spot when you book.",
@@ -69,6 +76,7 @@ const sections = [
     ],
   },
   {
+    icon: "⚠️",
     title: "Safety and liability",
     body: [
       "You're responsible for safely lifting, stacking, and transporting the totes and their contents. We aren't responsible for injuries from handling them, or for damage to items packed inside.",
@@ -77,6 +85,7 @@ const sections = [
     ],
   },
   {
+    icon: "⚖️",
     title: "Disputes and governing law",
     body: [
       "This agreement is governed by the laws of the State of Michigan.",
@@ -119,6 +128,7 @@ export default function RentalAgreementPage() {
           {sections.map((sec) => (
             <details key={sec.title} open className="group rounded-lg border border-line bg-white/70 p-5">
               <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 font-bold text-ink">
+                <span aria-hidden="true" className="text-xl">{sec.icon}</span>
                 {sec.title}
                 <span className="ml-auto text-crate transition-transform group-open:rotate-45">+</span>
               </summary>
