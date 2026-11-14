@@ -95,11 +95,8 @@ export default function PrivacyPage() {
           <h2>8. Your rights and choices</h2>
           <p>
             You can ask us to access, correct, or delete the personal information we hold about you
-            by emailing <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>. Depending on
-            your state of residence, you may have additional rights under state privacy law (for
-            example, Michigan does not currently have a comprehensive consumer privacy statute in
-            effect as of this writing — confirm current law with your attorney before finalizing this
-            section, and add any state-specific disclosures your customers require).
+            by emailing <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>. We&apos;ll
+            respond within a reasonable time.
           </p>
 
           <h2>9. Children&apos;s privacy</h2>
