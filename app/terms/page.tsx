@@ -91,7 +91,7 @@ export default function TermsPage() {
 
           <h2>8. Delivery and pickup logistics</h2>
           <p>
-            We&apos;ll send a delivery window by [email/text] before your scheduled date. You don&apos;t
+            We&apos;ll send a delivery window by text or email before your scheduled date. You don&apos;t
             need to be present for delivery or pickup if you provide a safe, accessible drop-off/pickup
             location when you book (for example, a garage, porch, or building lobby). We&apos;re not
             responsible for delays caused by inaccurate address information, blocked access, or
