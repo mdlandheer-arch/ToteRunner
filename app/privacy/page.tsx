@@ -81,9 +81,8 @@ export default function PrivacyPage() {
 
           <h2>6. Data retention</h2>
           <p>
-            [Decide and state your real retention period — for example: &quot;We retain booking
-            records for 3 years for tax, accounting, and dispute-resolution purposes, then delete or
-            anonymize them.&quot;]
+            We keep booking records for 7 years for tax, accounting, and dispute-resolution
+            purposes, then delete or anonymize them.
           </p>
 
           <h2>7. Data security</h2>

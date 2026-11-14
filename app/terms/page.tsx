@@ -66,7 +66,7 @@ export default function TermsPage() {
             Cancel at least {cancellationPolicy.freeCancellationHours} hours before your scheduled
             delivery and there is no charge. Cancel within {cancellationPolicy.freeCancellationHours}{" "}
             hours of delivery and a ${cancellationPolicy.lateCancellationFee} fee applies. If the
-            Equipment has already been delivered, a ${cancellationPolicy.postDeliveryRestockingFee}{" "}
+            totes have already been delivered, a ${cancellationPolicy.postDeliveryRestockingFee}{" "}
             fee applies to cover the delivery and return trip. Only one cancellation fee applies to
             a reservation. To request a date change, contact us as early as possible; changes are
             accommodated subject to availability.
@@ -85,7 +85,7 @@ export default function TermsPage() {
             period. A replacement fee of ${damageFees.perTote} per tote (and ${damageFees.perAccessory}{" "}
             per accessory) applies for items that are lost, stolen, or damaged beyond normal wear and
             tear. Totes not returned or
-            made available for pickup within [X] days of the scheduled pickup date may be billed at
+            made available for pickup within 14 days of the scheduled pickup date may be billed at
             full replacement value.
           </p>
 
