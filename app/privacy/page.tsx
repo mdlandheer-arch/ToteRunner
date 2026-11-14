@@ -116,7 +116,7 @@ export default function PrivacyPage() {
           <p>
             Questions about this policy or your data? Email{" "}
             <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> or call{" "}
-            <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}>{siteConfig.phone}</a>.
+            <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}>{siteConfig.phone}</a>.
           </p>
         </div>
       </div>

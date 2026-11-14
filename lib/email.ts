@@ -78,7 +78,7 @@ function row(label: string, value: string): string {
   </tr>`;
 }
 
-const tel = () => siteConfig.phone.replace(/[^0-9+]/g, "");
+const tel = () => "+1" + siteConfig.phone.replace(/\D/g, "");
 
 // Shared wrapper: logo, content, signature. `preheader` is the grey preview line
 // shown next to the subject in the inbox list.

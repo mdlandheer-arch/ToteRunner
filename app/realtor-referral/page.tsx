@@ -140,7 +140,7 @@ export default function RealtorReferralPage() {
               Get your referral code
             </a>
             <a
-              href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}
+              href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}
               className="rounded-md border border-ink/20 px-6 py-3 font-semibold text-ink hover:bg-ink/5"
             >
               Call {siteConfig.phone}
@@ -243,7 +243,7 @@ export default function RealtorReferralPage() {
             </a>
             <p className="mt-3 text-sm text-ink/75">
               Or call{" "}
-              <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`} className="font-medium text-crate hover:underline">
+              <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="font-medium text-crate hover:underline">
                 {siteConfig.phone}
               </a>
             </p>

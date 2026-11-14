@@ -67,7 +67,7 @@ export default function EventsPage() {
               Reserve the Event Package
             </a>
             <a
-              href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}
+              href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}
               className="rounded-md border border-crate px-6 py-3 font-semibold text-crate hover:bg-crate/5"
             >
               Call or text {siteConfig.phone}

@@ -73,7 +73,7 @@ export default function Footer() {
           <p className="text-sm font-semibold uppercase tracking-wide text-paper/60">Contact</p>
           <ul className="mt-2 text-sm">
             <li><a href={`mailto:${siteConfig.email}`} className="inline-block py-3 hover:underline">{siteConfig.email}</a></li>
-            <li><a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`} className="inline-block py-3 hover:underline">{siteConfig.phone}</a></li>
+            <li><a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="inline-block py-3 hover:underline">{siteConfig.phone}</a></li>
           </ul>
         </div>
       </div>

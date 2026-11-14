@@ -146,7 +146,7 @@ export default function TermsPage() {
           <p>
             Questions about these terms? Email{" "}
             <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> or call{" "}
-            <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}>{siteConfig.phone}</a>.
+            <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}>{siteConfig.phone}</a>.
           </p>
         </div>
       </div>

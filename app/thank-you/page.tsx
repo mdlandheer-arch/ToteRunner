@@ -33,7 +33,7 @@ const steps = [
 ];
 
 export default function ThankYouPage() {
-  const tel = `tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`;
+  const tel = `tel:+1${siteConfig.phone.replace(/\D/g, "")}`;
 
   return (
     <main>

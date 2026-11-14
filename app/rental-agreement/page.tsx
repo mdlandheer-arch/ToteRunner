@@ -10,23 +10,18 @@ export const metadata: Metadata = pageMetadata({
   description: `The rental terms customers agree to when booking moving totes from ${siteConfig.name}.`,
 });
 
-// This is the customer-facing version of the rental agreement — the plain
-// summary people actually read and check a box against at booking. The fuller
-// signed contract (ToteRunner-Rental-Agreement.docx) still governs; this page
-// mirrors it in shorter form.
-//
-// ATTORNEY REVIEW STILL REQUIRED. Bracketed amounts below must be filled in.
+// Customer-facing rental agreement: the plain-English version people read and
+// check a box against at booking. Keep it consistent with app/terms/page.tsx.
+// Attorney review still pending.
 
 const sections = [
   {
-    icon: "📦",
     title: "What you're renting",
     body: [
-      `${siteConfig.legalName} rents reusable plastic moving totes and a rolling dolly as listed in your chosen package. The totes remain our property throughout — this is a rental, not a sale.`,
+      `${siteConfig.legalName} rents reusable plastic moving totes and a rolling dolly as listed in your chosen package. The totes stay our property the whole time. This is a rental, not a sale.`,
     ],
   },
   {
-    icon: "📅",
     title: "Rental period",
     body: [
       `Every package includes ${packages[0]?.days ?? 14} days, starting on your delivery date. If you keep the totes longer, we charge a per-day rate based on your package size (listed on our pricing page and shown in the estimate on your reservation request).`,
@@ -35,7 +30,6 @@ const sections = [
     ],
   },
   {
-    icon: "💳",
     title: "Payment",
     body: [
       "Submitting a request doesn't charge you. Once we confirm your dates we'll send payment details, and your reservation is held when payment is received.",
@@ -43,7 +37,6 @@ const sections = [
     ],
   },
   {
-    icon: "🔄",
     title: "Cancellations",
     body: [
       `Cancel at least ${cancellationPolicy.freeCancellationHours} hours before your scheduled delivery and there's no charge. Cancel inside that window and a $${cancellationPolicy.lateCancellationFee} fee applies. If we've already delivered the totes, a $${cancellationPolicy.postDeliveryRestockingFee} fee applies to cover the delivery and return trip. Only one cancellation fee applies.`,
@@ -51,7 +44,6 @@ const sections = [
     ],
   },
   {
-    icon: "🧼",
     title: "Taking care of the totes",
     body: [
       "You're responsible for the totes from delivery until we confirm pickup.",
@@ -61,35 +53,35 @@ const sections = [
     ],
   },
   {
-    icon: "🛠️",
     title: "Lost or damaged totes",
     body: [
       "Normal wear and tear is expected and never charged for.",
       `Totes or accessories that are lost, stolen, or damaged beyond normal use are billed at $${damageFees.perTote} per tote and $${damageFees.perAccessory} per dolly.`,
+      "If totes aren't returned or made available for pickup within 14 days of the scheduled pickup date, we may bill them at full replacement value.",
     ],
   },
   {
-    icon: "🚚",
     title: "Delivery and pickup",
     body: [
       "We'll confirm a delivery window before your date. You don't need to be home if you give us a safe, accessible drop-off spot when you book.",
-      "We're a door-to-door service — we deliver to the nearest accessible point (driveway, garage, porch, or unit door) and don't carry items inside.",
+      "We're a door-to-door service. We deliver to the nearest accessible point (driveway, garage, porch, or unit door) and don't carry items inside.",
       "We aren't responsible for delays caused by inaccurate addresses, blocked access, or circumstances outside our control such as severe weather or road closures.",
     ],
   },
   {
-    icon: "⚠️",
     title: "Safety and liability",
     body: [
       "You're responsible for safely lifting, stacking, and transporting the totes and their contents. We aren't responsible for injuries from handling them, or for damage to items packed inside.",
-      `We're a tote rental service, not a moving company — we don't pack, load, or move your belongings.`,
-      `To the extent Michigan law allows, our total liability is limited to the amount you paid for your rental.`,
+      "We're a tote rental service, not a moving company. We don't pack, load, or move your belongings.",
+      "You agree to reimburse us for any loss, claim, or damage caused by misuse of the totes or by breaking these terms, to the extent Michigan law allows.",
     ],
   },
   {
-    icon: "⚖️",
-    title: "Governing law",
-    body: ["This agreement is governed by the laws of the State of Michigan."],
+    title: "Disputes and governing law",
+    body: [
+      "This agreement is governed by the laws of the State of Michigan.",
+      `If a problem comes up, contact us first at ${siteConfig.email} and we will work with you in good faith to resolve it. If we can't, either of us may bring the claim in the courts of Kent County, Michigan, including small claims court where the amount qualifies.`,
+    ],
   },
 ];
 
@@ -102,10 +94,10 @@ export default function RentalAgreementPage() {
         <p className="mt-2 text-sm text-ink/70">Last updated: {legalLastUpdated}</p>
         <p className="mt-4 text-ink/75">
           These are the terms you agree to when you book totes with us. We&apos;ve kept it in plain
-          English — if anything here is unclear, call {siteConfig.phone} and ask before you book.
+          English. If anything here is unclear, call {siteConfig.phone} and ask before you book.
         </p>
 
-        {/* Quick-scan summary so nobody has to read nine sections to get the gist */}
+        {/* Quick-scan summary so nobody has to read a few sections to get the gist */}
         <div className="mt-10 rounded-lg border border-crate/30 bg-tint-green p-6">
           <p className="font-bold text-ink">The short version</p>
           <ul className="mt-3 space-y-2 text-sm text-ink/80">
@@ -113,7 +105,7 @@ export default function RentalAgreementPage() {
               `${packages[0]?.days ?? 14} days included, then a small daily rate.`,
               "Take care of them, return them reasonably clean, and there's nothing else to pay.",
               `Free cancellation up to ${cancellationPolicy.freeCancellationHours} hours before delivery.`,
-              "We're a tote rental service — we don't pack or move your things.",
+              "We're a tote rental service. We don't pack or move your things.",
             ].map((line) => (
               <li key={line} className="flex gap-2">
                 <span className="text-crate" aria-hidden="true">✓</span>
@@ -127,7 +119,6 @@ export default function RentalAgreementPage() {
           {sections.map((sec) => (
             <details key={sec.title} open className="group rounded-lg border border-line bg-white/70 p-5">
               <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 font-bold text-ink">
-                <span aria-hidden="true" className="text-xl">{sec.icon}</span>
                 {sec.title}
                 <span className="ml-auto text-crate transition-transform group-open:rotate-45">+</span>
               </summary>
@@ -151,7 +142,7 @@ export default function RentalAgreementPage() {
             </a>{" "}
             or call{" "}
             <a
-              href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`}
+              href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}
               className="font-medium text-crate hover:underline"
             >
               {siteConfig.phone}

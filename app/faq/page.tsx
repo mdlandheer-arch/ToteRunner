@@ -19,7 +19,7 @@ export default function FAQPage() {
         <h1 className="text-3xl font-bold text-ink">Frequently asked questions</h1>
         <p className="mt-3 text-ink/70">
           Everything people usually want to know before booking. Still stuck? Call{" "}
-          <a href={`tel:${siteConfig.phone.replace(/[^0-9+]/g, "")}`} className="font-medium text-crate hover:underline">
+          <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="font-medium text-crate hover:underline">
             {siteConfig.phone}
           </a>{" "}
           or email{" "}
