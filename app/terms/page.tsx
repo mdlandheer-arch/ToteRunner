@@ -21,14 +21,14 @@ export default function TermsPage() {
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Agreement to these terms</h2>
           <p>
-            By booking a rental with {siteConfig.name}, you agree to these terms. If you&apos;re
+            By booking a rental with {siteConfig.legalName}, you agree to these terms. If you&apos;re
             booking on behalf of someone else, you confirm you have the authority to agree to these
             terms for that booking.
           </p>
 
           <h2>2. What we provide</h2>
           <p>
-            {siteConfig.name} rents reusable plastic moving totes and optional accessories (hand
+            {siteConfig.legalName} rents reusable plastic moving totes and optional accessories (hand
             trucks, dollies, label kits). We deliver totes to the address you provide, and pick them
             up from that same address (or a new address you&apos;ve confirmed with us in writing)
             after your rental period.
@@ -115,14 +115,14 @@ export default function TermsPage() {
 
           <h2>11. Assumption of risk</h2>
           <p>
-            You&apos;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.name}{" "}
+            You&apos;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.legalName}{" "}
             is not responsible for injury resulting from improper lifting, stacking, or transport of
             totes by you or others assisting with your move.
           </p>
 
           <h2>12. Indemnification</h2>
           <p>
-            You agree to reimburse {siteConfig.name} for any loss, claim, or damage arising from your
+            You agree to reimburse {siteConfig.legalName} for any loss, claim, or damage arising from your
             misuse of the totes or violation of these terms, to the extent permitted by Michigan law.
           </p>
 

@@ -2,6 +2,9 @@
 // Every page pulls from here — nothing else in the codebase needs editing.
 export const siteConfig = {
   name: "ToteRunner",
+  // Legal entity name as filed with the State of Michigan. Use it where a contracting
+  // party or copyright holder is named; use `name` for the brand everywhere else.
+  legalName: "ToteRunner LLC",
   tagline: "We run the totes. You run the move.",
   // Signature block at the bottom of customer emails (lib/email.ts). Edit here to change it.
   // Gmail's own signature can't be added automatically — these emails are sent by Resend, not Gmail.
@@ -259,7 +262,7 @@ export const addOns: AddOn[] = [
 // Set from the owner's decisions — confirm with your attorney that these are
 // enforceable as liquidated damages under Michigan consumer law.
 // Shown on the legal pages. Bump this whenever you change legal copy.
-export const legalLastUpdated = "October 16, 2026";
+export const legalLastUpdated = "November 14, 2026";
 
 export const damageFees = {
   perTote: 15,

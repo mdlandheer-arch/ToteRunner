@@ -22,7 +22,7 @@ const sections = [
     icon: "📦",
     title: "What you're renting",
     body: [
-      `${siteConfig.name} rents reusable plastic moving totes and a rolling dolly as listed in your chosen package. The totes remain our property throughout — this is a rental, not a sale.`,
+      `${siteConfig.legalName} rents reusable plastic moving totes and a rolling dolly as listed in your chosen package. The totes remain our property throughout — this is a rental, not a sale.`,
     ],
   },
   {

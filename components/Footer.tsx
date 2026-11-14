@@ -78,7 +78,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-paper/10 px-5 py-4 text-center text-xs text-paper/50">
-        © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+        © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
       </div>
     </footer>
   );

@@ -21,7 +21,7 @@ export default function PrivacyPage() {
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Who this policy covers</h2>
           <p>
-            This policy explains how {siteConfig.name} (&quot;we,&quot; &quot;us&quot;) collects, uses,
+            This policy explains how {siteConfig.legalName} (&quot;we,&quot; &quot;us&quot;) collects, uses,
             and protects information from people who visit our website or book a tote rental
             (&quot;you&quot;). It applies to {siteConfig.domain} and any related booking or contact forms.
           </p>
