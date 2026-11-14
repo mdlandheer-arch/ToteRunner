@@ -14,6 +14,7 @@ export const faqs = [
   { q: "What if a tote is lost or damaged?", a: `Normal wear and tear is expected and never charged for. Totes lost or damaged beyond normal use are $${damageFees.perTote} each, and the dolly is $${damageFees.perAccessory}. Returned needing more than a wipe-down? A $${damageFees.cleaning} cleaning fee may apply.` },
   { q: "Do the lids lock or snap shut?", a: "Yes — each lid snaps securely and stays closed during transport." },
   { q: "Do I need tape with these totes?", a: "No tape needed — that's the point." },
+  { q: "How big are the totes?", a: "Each tote holds 27 gallons and measures about 28.5 in long by 19.6 in wide by 15.2 in tall on the outside. They have built-in handles and stack securely." },
   { q: "How much weight can a tote hold?", a: "Up to roughly 60 lbs per tote, comfortably." },
   { q: "Do I need to be home for delivery or pickup?", a: "Not necessarily — let us know a safe drop-off spot when you book, and we'll coordinate the rest by text or email." },
   { q: "What are your delivery and pickup hours?", a: "We deliver and pick up between 7 am and 8 pm. Choose your preferred dates when you reserve and let us know any timing needs in the notes — we'll coordinate the exact time by text or email." },
