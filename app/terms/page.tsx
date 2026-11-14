@@ -128,9 +128,11 @@ export default function TermsPage() {
 
           <h2>13. Dispute resolution and governing law</h2>
           <p>
-            These terms are governed by the laws of the State of Michigan. [Add your preferred dispute
-            resolution process — for example, informal resolution first, followed by small claims
-            court or arbitration, and specify the venue/county.]
+            These terms are governed by the laws of the State of Michigan. If a problem comes up,
+            contact us first at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> and we
+            will work with you in good faith to resolve it. If we can&apos;t, either of us may bring
+            the claim in the courts of Kent County, Michigan, including small claims court where the
+            amount qualifies.
           </p>
 
           <h2>14. Changes to these terms</h2>
