@@ -2,10 +2,10 @@
 // its own visual moment without a wall of text. Claims stay qualitative; see
 // the note in WhyUs before adding any hard statistics.
 const points = [
-  ["Hundreds of moves", "One tote replaces boxes over and over."],
+  ["Built for many moves", "One tote replaces boxes over and over."],
   ["Nothing at the curb", "No cardboard pile. We take them away."],
   ["No tape, ever", "Tape isn't recyclable. Skip it entirely."],
-  ["Recycled at end of life", "Worn-out totes become new product."],
+  ["Reused, not tossed", "Totes go back into rotation after every rental."],
 ];
 
 export default function EcoImpact() {

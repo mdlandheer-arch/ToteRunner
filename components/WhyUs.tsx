@@ -31,7 +31,7 @@ export default function WhyUs() {
           <h3 className="text-xl font-bold text-ink">Built for real moving days</h3>
           <p className="mt-2 max-w-2xl text-sm text-ink/70">
             Rain or snow doesn&apos;t care about your move date. Wet cardboard loses its strength fast —
-            our totes have secure lids and a rigid plastic shell that hold up regardless of weather.
+            our totes have weather-resistant lids and a rigid plastic shell that hold their shape.
           </p>
         </div>
 

@@ -7,10 +7,10 @@ import { siteConfig } from "@/lib/site-config";
 // do when you're not hauling totes) are worth more here than polish.
 
 const badges = [
-  { icon: "👪", label: "Family owned & operated" },
-  { icon: "♻️", label: "Hundreds of moves per tote" },
-  { icon: "✨", label: "Scrubbed before every drop-off" },
-  { icon: "🚚", label: "We handle both trips" },
+  "Family owned & operated",
+  "Built for many moves",
+  "Scrubbed before every drop-off",
+  "We handle both trips",
 ];
 
 export default function About() {
@@ -41,12 +41,12 @@ export default function About() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              {badges.map((b) => (
+              {badges.map((label) => (
                 <span
-                  key={b.label}
+                  key={label}
                   className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80"
                 >
-                  <span aria-hidden="true">{b.icon}</span> {b.label}
+                  {label}
                 </span>
               ))}
             </div>

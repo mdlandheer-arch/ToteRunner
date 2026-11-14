@@ -7,7 +7,7 @@ const steps = [
   {
     n: "2",
     title: "You pack",
-    body: "Fill the stackable totes instead of wrestling with cardboard and tape. Each holds up to 60 lbs.",
+    body: "Fill the stackable totes instead of wrestling with cardboard and tape. Keep each tote under about 60 lbs.",
   },
   {
     n: "3",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import ReserveButton from "@/components/ReserveButton";
+import { siteConfig } from "@/lib/site-config";
 
 export default function Header() {
   return (
@@ -19,7 +20,16 @@ export default function Header() {
           <Link href="/realtor-referral" className="inline-flex min-h-11 items-center hover:text-crate">Realtors</Link>
         </nav>
 
-        <ReserveButton className="inline-flex min-h-11 shrink-0 items-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark" />
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`}
+            aria-label={`Call ${siteConfig.name} at ${siteConfig.phone}`}
+            className="inline-flex min-h-11 items-center rounded-md border border-crate px-4 py-2 text-sm font-semibold text-crate hover:bg-crate hover:text-paper md:hidden"
+          >
+            Call
+          </a>
+          <ReserveButton className="inline-flex min-h-11 shrink-0 items-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark" />
+        </div>
       </div>
     </header>
   );
