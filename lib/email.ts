@@ -78,6 +78,12 @@ function row(label: string, value: string): string {
   </tr>`;
 }
 
+// 16164028504 or 616-402-8504 -> (616) 402-8504. Anything else is shown as typed.
+const fmtPhone = (raw: string) => {
+  const d = raw.replace(/\D/g, "");
+  const ten = d.length === 11 && d.startsWith("1") ? d.slice(1) : d;
+  return ten.length === 10 ? `(${ten.slice(0, 3)}) ${ten.slice(3, 6)}-${ten.slice(6)}` : raw;
+};
 const tel = () => "+1" + siteConfig.phone.replace(/\D/g, "");
 
 // Shared wrapper: logo, content, signature. `preheader` is the grey preview line
@@ -121,12 +127,12 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
 
   const html = shell(
     `New request from ${b.name}: ${fmtDate(b.deliveryDate)} to ${fmtDate(b.pickupDate)}`,
-    `<h2 style="color:#1F7A55;margin:0 0 4px;font-size:20px;">New reservation request — ${esc(b.name)}</h2>
+    `<h2 style="color:#1F7A55;margin:0 0 4px;font-size:20px;">New reservation request: ${esc(b.name)}</h2>
       <p style="margin:0 0 16px;opacity:.7;">No payment taken. Confirm availability, then arrange payment.</p>
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         ${row("Customer", esc(b.name))}
         ${row("Email", `<a href="mailto:${esc(b.email)}" style="color:#1F7A55;">${esc(b.email)}</a>`)}
-        ${row("Phone", `<a href="tel:${esc(b.phone.replace(/[^0-9+]/g, ""))}" style="color:#1F7A55;">${esc(b.phone)}</a>`)}
+        ${row("Phone", `<a href="tel:${esc(b.phone.replace(/[^0-9+]/g, ""))}" style="color:#1F7A55;">${esc(fmtPhone(b.phone))}</a>`)}
         ${row("Delivery address", esc(b.address))}
         ${b.pickupAddress && b.pickupAddress !== b.address ? row("Pickup address", esc(b.pickupAddress)) : ""}
         ${row("Delivery", esc(fmtDate(b.deliveryDate)))}
@@ -148,7 +154,7 @@ export async function sendOwnerNotification(b: BookingDetails): Promise<void> {
       from: fromAddress(),
       to: ownerAddress(),
       replyTo: b.email,
-      subject: `Reservation request: ${b.name} — ${fmtDate(b.deliveryDate)}`,
+      subject: `Reservation request: ${b.name}, ${fmtDate(b.deliveryDate)}`,
       html,
     });
   } catch (err) {
