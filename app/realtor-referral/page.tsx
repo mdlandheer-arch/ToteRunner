@@ -61,22 +61,22 @@ const steps = [
   {
     n: "4",
     title: "They save",
-    body: `Your client pays ${100 - clientDiscountPercent}% of the base package price. You look good, and there's nothing for you to track.`,
+    body: `Your client pays ${100 - clientDiscountPercent}% of the base package price. There's nothing for you to track.`,
   },
 ];
 
 const why = [
   {
-    title: "A recommendation that isn't a candle",
-    body: "Most closing gifts get used once and forgotten. A name they actually need the week they're packing takes a real job off their list.",
+    title: "Something clients actually use",
+    body: "Most closing gifts get used once and forgotten. Totes are something your client needs the week they're packing.",
   },
   {
-    title: "It makes your listings show better",
-    body: "Sellers packing in uniform stacking totes keep a cleaner house during showings than sellers with cardboard piled in every corner.",
+    title: "Less clutter while listed",
+    body: "Matching totes stack neatly, so there's less clutter in the house while it's on the market.",
   },
   {
-    title: "Your clients move faster",
-    body: "No hunting for boxes, no taping, no breaking cardboard down afterward. Faster packing means fewer delays at the closing table.",
+    title: "Easier packing",
+    body: "No hunting for boxes, no taping, no breaking cardboard down afterward.",
   },
   {
     title: "Zero effort on your end",
