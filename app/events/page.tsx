@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   path: "/events",
-  title: "Wedding & Event Tote Rental",
+  title: "Wedding & Event Tote Rental in Grand Rapids",
   description: `Haul wedding and event decor in sturdy reusable totes. ${eventPackage.totes} totes, a dolly and labels for ${eventPackage.days} days, $${eventPackage.price}. Grand Rapids & the Lakeshore.`,
 });
 
