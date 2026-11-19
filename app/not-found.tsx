@@ -14,7 +14,7 @@ export default function NotFound() {
           The page you&apos;re looking for may have moved. Try the homepage, or reserve your totes below.
         </p>
         <div className="mt-8 flex justify-center gap-3">
-          <a href="/" className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark">
+          <a href="/" className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge">
             Go home
           </a>
           <a href="/#booking" className="rounded-md border border-ink/20 px-6 py-3 font-semibold text-ink hover:bg-ink/5">

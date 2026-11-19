@@ -28,7 +28,7 @@ export default function Header() {
           >
             Call
           </a>
-          <ReserveButton className="inline-flex min-h-11 shrink-0 items-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark" />
+          <ReserveButton className="inline-flex min-h-11 shrink-0 items-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark btn-edge" />
         </div>
       </div>
     </header>

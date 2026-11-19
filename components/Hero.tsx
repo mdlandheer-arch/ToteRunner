@@ -20,7 +20,7 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <ReserveButton
               label="Request your totes"
-              className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
+              className="btn-edge-yellow rounded-md bg-safety px-6 py-3 font-semibold text-ink hover:brightness-95"
             />
             <a
               href="#pricing"

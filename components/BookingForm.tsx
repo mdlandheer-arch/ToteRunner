@@ -950,7 +950,7 @@ export default function BookingForm() {
             type="submit"
             disabled={submitting}
             aria-busy={submitting}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting && <Spinner />}
             {submitting ? "Sending…" : "Request these dates"}

@@ -135,7 +135,7 @@ export default function RealtorReferralPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href={referralMailto}
-              className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
+              className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge"
             >
               Get your referral code
             </a>
@@ -237,7 +237,7 @@ export default function RealtorReferralPage() {
             </p>
             <a
               href={referralMailto}
-              className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
+              className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge"
             >
               Email {siteConfig.email}
             </a>

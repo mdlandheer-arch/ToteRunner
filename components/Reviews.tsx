@@ -46,7 +46,7 @@ export default function Reviews() {
             href={googleReviewUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-md bg-crate px-5 py-3 font-semibold text-white hover:bg-crate-dark"
+            className="inline-block rounded-md bg-crate px-5 py-3 font-semibold text-white hover:bg-crate-dark btn-edge"
           >
             Leave a review on Google
           </a>

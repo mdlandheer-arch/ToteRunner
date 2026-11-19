@@ -87,7 +87,7 @@ export default function ThankYouPage() {
         <div className="mt-8 flex flex-wrap gap-3">
           <a
             href="/"
-            className="inline-flex min-h-11 items-center rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
+            className="inline-flex min-h-11 items-center rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge"
           >
             Back to home
           </a>

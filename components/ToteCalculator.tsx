@@ -46,7 +46,7 @@ export default function ToteCalculator() {
         </p>
         <a
           href="#booking"
-          className="mt-4 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark"
+          className="mt-4 inline-flex min-h-11 items-center rounded-md bg-crate px-5 py-2 text-sm font-semibold text-paper hover:bg-crate-dark btn-edge"
         >
           Request this package
         </a>

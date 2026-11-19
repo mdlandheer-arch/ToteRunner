@@ -190,7 +190,7 @@ export default function CustomPackageBuilder() {
           <button
             type="button"
             onClick={request}
-            className="mt-4 w-full rounded-md bg-crate px-4 py-2.5 text-sm font-semibold text-paper hover:bg-crate-dark"
+            className="mt-4 w-full rounded-md bg-crate px-4 py-2.5 text-sm font-semibold text-paper hover:bg-crate-dark btn-edge"
           >
             Request this package
           </button>

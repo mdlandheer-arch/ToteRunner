@@ -63,7 +63,7 @@ export default function EventsPage() {
             boxes, no crushed decor.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <a href={bookHref} className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark">
+            <a href={bookHref} className="btn-edge-yellow rounded-md bg-safety px-6 py-3 font-semibold text-ink hover:brightness-95">
               Reserve the Event Package
             </a>
             <a
@@ -100,7 +100,7 @@ export default function EventsPage() {
             </p>
             <a
               href={bookHref}
-              className="mt-5 flex min-h-11 items-center justify-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark"
+              className="mt-5 flex min-h-11 items-center justify-center rounded-md bg-crate px-4 py-2 text-sm font-semibold text-paper hover:bg-crate-dark btn-edge"
             >
               Request this package
             </a>
@@ -156,7 +156,7 @@ export default function EventsPage() {
           <div className="mt-10 rounded-lg border border-line bg-white/70 p-6 text-center">
             <h3 className="text-xl font-bold text-ink">Ready to reserve?</h3>
             <p className="mt-2 text-sm text-ink/75">Pick your dates and we&apos;ll confirm by email.</p>
-            <a href={bookHref} className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark">
+            <a href={bookHref} className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge">
               Reserve the Event Package
             </a>
           </div>

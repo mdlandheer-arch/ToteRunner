@@ -161,7 +161,7 @@ export default function RentalAgreementPage() {
           </p>
           <a
             href="/#booking"
-            className="mt-4 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark"
+            className="mt-4 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge"
           >
             Back to booking
           </a>
