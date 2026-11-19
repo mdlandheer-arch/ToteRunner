@@ -151,7 +151,7 @@ export default function RealtorReferralPage() {
 
       <section>
         <div className="mx-auto max-w-4xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">How it works</h2>
+          <h2 className="section-h text-3xl font-bold text-ink">How it works</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s) => (
               <div key={s.n} className="border-l-2 border-crate pl-4">
@@ -178,7 +178,7 @@ export default function RealtorReferralPage() {
 
       <section className="bg-tint-sand">
         <div className="mx-auto max-w-4xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">Why agents use us</h2>
+          <h2 className="section-h text-3xl font-bold text-ink">Why agents use us</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
             {why.map((w) => (
               <div key={w.title} className="rounded-lg border border-line bg-white/70 p-6">
@@ -192,7 +192,7 @@ export default function RealtorReferralPage() {
 
       <section>
         <div className="mx-auto max-w-4xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">What your clients pay</h2>
+          <h2 className="section-h text-3xl font-bold text-ink">What your clients pay</h2>
           <p className="mt-2 text-ink/75">
             Every package includes the totes, dolly, labels, and both trips. With your code,
             clients take {clientDiscountPercent}% off the base price.
@@ -217,13 +217,14 @@ export default function RealtorReferralPage() {
 
       <section className="bg-tint-green">
         <div className="mx-auto max-w-3xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">Questions</h2>
-          <div className="mt-6 divide-y divide-line border-y border-line">
+          <h2 className="section-h text-3xl font-bold text-ink">Questions</h2>
+          <div className="mt-6 space-y-3">
             {faqs.map((f) => (
-              <details key={f.q} className="group py-4">
+              <details key={f.q} className="card-edge group rounded-lg border border-line bg-white px-4 py-2">
                 <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between font-medium text-ink">
                   {f.q}
-                  <span className="ml-4 text-crate transition-transform group-open:rotate-45">+</span>
+                  <span aria-hidden="true" className="ml-4 text-crate group-open:hidden">+</span>
+            <span aria-hidden="true" className="ml-4 hidden text-crate group-open:inline">&minus;</span>
                 </summary>
                 <p className="mt-3 text-sm text-ink/75">{f.a}</p>
               </details>

@@ -13,7 +13,7 @@ export default function EcoImpact() {
     <section id="eco" className="border-t border-line bg-tint-green">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-crate">The greener move</p>
-        <h2 className="mt-2 max-w-xl text-3xl font-bold text-ink">
+        <h2 className="section-h mt-2 max-w-xl text-3xl font-bold text-ink">
           A move that doesn&apos;t end in a landfill.
         </h2>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

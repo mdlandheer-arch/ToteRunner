@@ -22,7 +22,7 @@ export default function About() {
             <p className="text-sm font-semibold uppercase tracking-wide text-crate">
               Locally & family owned
             </p>
-            <h2 className="mt-2 text-3xl font-bold text-ink">
+            <h2 className="section-h mt-2 text-3xl font-bold text-ink">
               A better way to box up your move.
             </h2>
 

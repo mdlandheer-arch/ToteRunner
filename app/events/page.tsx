@@ -106,7 +106,7 @@ export default function EventsPage() {
             </a>
           </div>
 
-          <h2 className="mt-16 text-3xl font-bold text-ink">How it works</h2>
+          <h2 className="section-h mt-16 text-3xl font-bold text-ink">How it works</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-3">
             {steps.map((s) => (
               <div key={s.n} className="rounded-lg border border-line p-6">
@@ -119,7 +119,7 @@ export default function EventsPage() {
             ))}
           </div>
 
-          <h2 className="mt-16 text-3xl font-bold text-ink">Great for</h2>
+          <h2 className="section-h mt-16 text-3xl font-bold text-ink">Great for</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             {uses.map((u) => (
               <span key={u} className="rounded-full border border-line bg-white/70 px-4 py-1.5 text-sm text-ink/80">
@@ -140,13 +140,14 @@ export default function EventsPage() {
 
       <section className="bg-tint-green">
         <div className="mx-auto max-w-3xl px-5 py-16">
-          <h2 className="text-3xl font-bold text-ink">Questions</h2>
-          <div className="mt-6 divide-y divide-line border-y border-line">
+          <h2 className="section-h text-3xl font-bold text-ink">Questions</h2>
+          <div className="mt-6 space-y-3">
             {faqs.map((f) => (
-              <details key={f.q} className="group py-4">
+              <details key={f.q} className="card-edge group rounded-lg border border-line bg-white px-4 py-2">
                 <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between font-medium text-ink">
                   {f.q}
-                  <span className="ml-4 text-crate transition-transform group-open:rotate-45">+</span>
+                  <span aria-hidden="true" className="ml-4 text-crate group-open:hidden">+</span>
+            <span aria-hidden="true" className="ml-4 hidden text-crate group-open:inline">&minus;</span>
                 </summary>
                 <p className="mt-3 text-sm text-ink/75">{f.a}</p>
               </details>

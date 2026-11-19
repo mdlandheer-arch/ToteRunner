@@ -1,4 +1,4 @@
-import { siteConfig, hubs } from "@/lib/site-config";
+import { siteConfig, hubs, packages } from "@/lib/site-config";
 import ReserveButton from "@/components/ReserveButton";
 import HeroAnimation from "@/components/HeroAnimation";
 
@@ -29,10 +29,18 @@ export default function Hero() {
               See pricing
             </a>
           </div>
-          <p className="mt-4 text-sm text-ink/70">
-            Free delivery and pickup within {siteConfig.freeDeliveryRadiusMiles} miles of{" "}
-            {hubs.map((h) => h.name).join(" or ")}.
-          </p>
+          <ul className="mt-6 flex flex-wrap gap-2 text-sm font-semibold text-ink">
+            {[
+              "Locally and family owned",
+              `Free delivery within ${siteConfig.freeDeliveryRadiusMiles} miles of ${hubs.map((h) => h.name).join(" or ")}`,
+              `${packages[0].days} days included`,
+              "Nothing due when you request",
+            ].map((t) => (
+              <li key={t} className="card-edge rounded-md border border-line bg-white px-3 py-1.5">
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Animated tote stack — brand master tote, CSS keyframes, still frame for reduced motion */}

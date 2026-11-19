@@ -16,7 +16,7 @@ export default function Reviews() {
     <section id="reviews" className="border-t border-line bg-tint-green">
       <div className="mx-auto max-w-6xl px-5 py-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-crate">Reviews</p>
-        <h2 className="mt-2 max-w-xl text-3xl font-bold text-ink">What customers say</h2>
+        <h2 className="section-h mt-2 max-w-xl text-3xl font-bold text-ink">What customers say</h2>
         <div
           className={
             reviews.length === 1
@@ -25,7 +25,8 @@ export default function Reviews() {
           }
         >
           {reviews.map((r) => (
-            <figure key={`${r.name}-${r.text}`} className="rounded-lg border border-line bg-paper p-6">
+            <div key={`${r.name}-${r.text}`} className="card-layer mr-2 mb-2">
+            <figure className="rounded-lg border border-crate bg-paper p-6">
               <Stars rating={r.rating} />
               <blockquote className="mt-3 text-ink/90">&ldquo;{r.text}&rdquo;</blockquote>
               <figcaption className="mt-4 text-sm text-ink/70">
@@ -39,6 +40,7 @@ export default function Reviews() {
                 )}
               </figcaption>
             </figure>
+            </div>
           ))}
         </div>
         <div className="mt-8 text-center">

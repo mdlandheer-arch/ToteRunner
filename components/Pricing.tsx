@@ -6,7 +6,7 @@ export default function Pricing() {
   return (
     <section id="pricing" className="bg-tint-green">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="text-3xl font-bold text-ink">Pricing</h2>
+        <h2 className="section-h text-3xl font-bold text-ink">Pricing</h2>
         <p className="mt-2 text-ink/70">Delivery and pickup included in every package.</p>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
@@ -14,8 +14,10 @@ export default function Pricing() {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`relative rounded-lg border p-6 ${
-                  pkg.popular ? "border-2 border-crate" : "border-line"
+                className={`relative rounded-lg border bg-white p-6 ${
+                  pkg.popular
+                    ? "card-edge-green border-2 border-crate sm:-translate-y-1.5"
+                    : "card-edge border-line"
                 }`}
               >
                 {pkg.popular && (

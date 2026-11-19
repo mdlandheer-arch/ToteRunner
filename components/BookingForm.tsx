@@ -454,7 +454,7 @@ export default function BookingForm() {
   return (
     <section id="booking" className="bg-tint-green">
       <div className="mx-auto max-w-2xl px-5 py-16">
-        <h2 className="text-3xl font-bold text-ink">Reserve your totes</h2>
+        <h2 className="section-h text-3xl font-bold text-ink">Reserve your totes</h2>
         <p className="mt-2 text-ink/75">Send a request and we&apos;ll get back to you within one business day. No payment now.</p>
 
         {submitted ? (
@@ -661,22 +661,36 @@ export default function BookingForm() {
             </div>
           )}
 
-          <div>
-            <label className={labelClass} htmlFor="packageId">Package</label>
-            <select id="packageId" className={inputClass} value={form.packageId}
-              onChange={(e) => setForm({ ...form, packageId: e.target.value })}>
-              {packages.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}: {p.totes} totes, ${p.price}
-                </option>
+          <fieldset id="packageId">
+            <legend className={labelClass}>Package</legend>
+            <div className="mt-2 grid gap-2">
+              {[
+                ...packages.map((p) => ({ id: p.id, name: p.name, detail: `${p.totes} totes, ${p.days} days`, price: `$${p.price}` })),
+                { id: eventPackage.id, name: `${eventPackage.name} (weddings & events)`, detail: `${eventPackage.totes} totes, ${eventPackage.days} days`, price: `$${eventPackage.price}` },
+                { id: "build", name: "Build your own package", detail: "Choose your tote count", price: "" },
+                { id: "custom", name: "Not sure / need a custom quote", detail: "Tell us what you need in the notes", price: "" },
+              ].map((o) => (
+                <label
+                  key={o.id}
+                  className="pick-card card-edge flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-md border border-line bg-white px-3 py-2"
+                >
+                  <input
+                    type="radio"
+                    name="packageId"
+                    value={o.id}
+                    checked={form.packageId === o.id}
+                    onChange={() => setForm({ ...form, packageId: o.id })}
+                    className="sr-only"
+                  />
+                  <span>
+                    <span className="block text-sm font-semibold text-ink">{o.name}</span>
+                    <span className="block text-xs text-ink/70">{o.detail}</span>
+                  </span>
+                  {o.price && <span className="text-base font-bold text-ink">{o.price}</span>}
+                </label>
               ))}
-              <option value={eventPackage.id}>
-                {eventPackage.name} (weddings &amp; events): {eventPackage.totes} totes, {eventPackage.days} days, ${eventPackage.price}
-              </option>
-              <option value="build">Build your own package</option>
-              <option value="custom">Not sure / need a custom quote</option>
-            </select>
-          </div>
+            </div>
+          </fieldset>
 
           {isBuild && (
             <div className="grid gap-5 rounded-md border border-line bg-white/70 p-4 sm:grid-cols-2">

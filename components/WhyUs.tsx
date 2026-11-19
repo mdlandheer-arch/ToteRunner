@@ -7,7 +7,7 @@ export default function WhyUs() {
   return (
     <section className="bg-tint-sand">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="text-3xl font-bold text-ink">Cardboard vs. totes</h2>
+        <h2 className="section-h text-3xl font-bold text-ink">Cardboard vs. totes</h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
           <div className="rounded-lg border border-line p-6">
             <h3 className="font-bold text-ink/75">Cardboard boxes</h3>

@@ -41,7 +41,7 @@ export default function ThankYouPage() {
       <div className="mx-auto max-w-2xl px-5 py-16">
         <div
           aria-hidden="true"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-crate text-2xl font-bold text-paper"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-crate text-2xl font-bold text-paper btn-edge"
         >
           ✓
         </div>
@@ -52,12 +52,12 @@ export default function ThankYouPage() {
         </p>
 
         <h2 className="mt-10 text-xl font-bold text-ink">What happens next</h2>
-        <ol className="mt-4 space-y-5">
+        <ol className="mt-4 space-y-3">
           {steps.map((s, i) => (
-            <li key={s.title} className="flex gap-4">
+            <li key={s.title} className="card-edge flex gap-4 rounded-lg border border-line bg-white p-4">
               <span
                 aria-hidden="true"
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-crate text-sm font-semibold text-crate"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-crate text-sm font-semibold text-paper btn-edge"
               >
                 {i + 1}
               </span>
