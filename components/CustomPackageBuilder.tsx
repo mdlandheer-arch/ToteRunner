@@ -81,7 +81,6 @@ export default function CustomPackageBuilder() {
                   borderBottom: "2px solid color-mix(in srgb, var(--crate-green) 55%, var(--ink))",
                 }}
               />
-              <div aria-hidden="true" className="absolute right-1.5 top-[0.9rem] h-1.5 w-1.5 rounded-full bg-ink/40" />
               <input
                 id="build-totes"
                 type="range"
