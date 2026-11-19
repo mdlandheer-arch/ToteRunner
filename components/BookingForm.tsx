@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { packages, bookablePackages, eventPackage, addOns, siteConfig, customPackage } from "@/lib/site-config";
 import { customQuote, clampTotes } from "@/lib/pricing";
@@ -687,13 +687,16 @@ export default function BookingForm() {
             <legend className={labelClass}>Package</legend>
             <div className="mt-2 grid gap-2">
               {[
-                ...packages.map((p) => ({ id: p.id, name: p.name, detail: `${p.totes} totes, ${p.days} days`, price: `$${p.price}` })),
-                { id: eventPackage.id, name: `${eventPackage.name} (weddings & events)`, detail: `${eventPackage.totes} totes, ${eventPackage.days} days`, price: `$${eventPackage.price}` },
-                { id: "build", name: "Build your own package", detail: "Choose your tote count", price: "" },
-                { id: "custom", name: "Not sure / need a custom quote", detail: "Tell us what you need in the notes", price: "" },
-              ].map((o) => (
+                ...packages.map((p) => ({ group: "Pick a size", id: p.id, name: p.name, detail: `${p.totes} totes, ${p.days} days`, price: `$${p.price}` })),
+                { group: "Something else", id: eventPackage.id, name: `${eventPackage.name} (weddings & events)`, detail: `${eventPackage.totes} totes, ${eventPackage.days} days`, price: `$${eventPackage.price}` },
+                { group: "Something else", id: "build", name: "Build your own package", detail: "Choose your tote count", price: "" },
+                { group: "Something else", id: "custom", name: "Not sure / need a custom quote", detail: "Tell us what you need in the notes", price: "" },
+              ].map((o, i, all) => (
+                <Fragment key={o.id}>
+                {(i === 0 || all[i - 1].group !== o.group) && (
+                  <p className={`text-xs font-semibold uppercase tracking-wide text-crate${i === 0 ? "" : " mt-2"}`}>{o.group}</p>
+                )}
                 <label
-                  key={o.id}
                   className="pick-card card-edge flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-md border border-line bg-white px-3 py-2"
                 >
                   <input
@@ -710,6 +713,7 @@ export default function BookingForm() {
                   </span>
                   {o.price && <span className="text-base font-bold text-ink">{o.price}</span>}
                 </label>
+                </Fragment>
               ))}
             </div>
           </fieldset>
@@ -911,7 +915,7 @@ export default function BookingForm() {
                   {promoSavings > 0 && (
                     <span className="mr-2 text-sm text-ink/70 line-through">${subtotalBeforePromo.toFixed(2)}</span>
                   )}
-                  <span className="text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
+                  <span key={estimatedTotal} className="total-flash rounded px-1 text-2xl font-extrabold text-ink">${estimatedTotal.toFixed(2)}</span>
                 </span>
               </div>
             )}

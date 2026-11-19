@@ -39,11 +39,10 @@ export default function ThankYouPage() {
     <main>
       <Header />
       <div className="mx-auto max-w-2xl px-5 py-16">
-        <div
-          aria-hidden="true"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-crate text-2xl font-bold text-paper btn-edge"
-        >
-          ✓
+        <div aria-hidden="true" className="pop-in flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border-2 border-crate/35">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-crate text-2xl font-bold text-paper btn-edge">
+            ✓
+          </div>
         </div>
         <h1 className="mt-5 text-3xl font-bold text-ink">Request received. Thank you!</h1>
         <p className="mt-3 text-ink/75">

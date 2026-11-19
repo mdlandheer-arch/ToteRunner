@@ -268,3 +268,17 @@ details.card-edge[open] {
   from { clip-path: inset(0 100% 0 0); }
   to { clip-path: inset(0 0 0 0); }
 }
+
+/* Estimated total: brief yellow flash when the number changes. */
+@media (prefers-reduced-motion: no-preference) {
+  .total-flash { animation: total-flash 0.6s ease-out; }
+  .pop-in { animation: pop-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+}
+@keyframes total-flash {
+  from { background-color: color-mix(in srgb, var(--safety-yellow) 40%, transparent); }
+  to { background-color: transparent; }
+}
+@keyframes pop-in {
+  from { scale: 0.4; opacity: 0; }
+  to { scale: 1; opacity: 1; }
+}
