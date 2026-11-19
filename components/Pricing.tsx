@@ -14,9 +14,9 @@ export default function Pricing() {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className={`relative rounded-lg border bg-white p-6 ${
+                className={`pkg-card relative rounded-lg border bg-white p-6 ${
                   pkg.popular
-                    ? "card-edge-green border-2 border-crate sm:-translate-y-1.5"
+                    ? "pkg-popular card-edge-green border-2 border-crate sm:-translate-y-1.5"
                     : "card-edge border-line"
                 }`}
               >

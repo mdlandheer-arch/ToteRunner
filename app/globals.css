@@ -344,3 +344,10 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
 @keyframes pack-wipe {
   to { width: calc(100% + 72px); }
 }
+
+/* Desktop only: package cards rise slightly on hover. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .pkg-card { transition: translate 0.2s ease; }
+  .pkg-card:hover { translate: 0 -6px; }
+  .pkg-card.pkg-popular:hover { translate: 0 -12px; }
+}
