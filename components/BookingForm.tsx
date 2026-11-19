@@ -154,6 +154,7 @@ export default function BookingForm() {
   const [promo, setPromo] = useState<AppliedPromo | null>(null);
   const [promoError, setPromoError] = useState<string | null>(null);
   const [promoChecking, setPromoChecking] = useState(false);
+  const [promoOpen, setPromoOpen] = useState(false);
 
   // Errors are derived from what's typed, never stored, so they update as the person
   // fixes a field and nothing they typed is ever cleared. A field's error shows once
@@ -444,11 +445,11 @@ export default function BookingForm() {
       }
       // Success: hand off to the thank-you page. The button stays disabled meanwhile,
       // so a slow navigation can't turn into a second submission.
-      // Success: a tote on a dolly rolls across the button, then on to the thank-you page.
+      // Success: a tote on a dolly rolls across the button and wipes the text away, then on to the thank-you page.
       // Skipped for people who asked for reduced motion.
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setSent(true);
-        await new Promise((r) => setTimeout(r, 1100));
+        await new Promise((r) => setTimeout(r, 2150));
       }
       setSubmitted(true);
       router.push("/thank-you");
@@ -835,6 +836,16 @@ export default function BookingForm() {
           </fieldset>
 
           <div>
+            {!promo && !promoOpen && !promoError ? (
+              <button
+                type="button"
+                onClick={() => setPromoOpen(true)}
+                className="min-h-11 text-sm font-medium text-crate underline"
+              >
+                Have a promo or realtor code?
+              </button>
+            ) : (
+              <>
             <label className={labelClass} htmlFor="promoCode">Promo code (optional)</label>
             {promo ? (
               <div className="mt-1 flex items-center justify-between rounded-md border border-crate bg-white px-3 py-2 text-sm">
@@ -850,6 +861,7 @@ export default function BookingForm() {
               <div className="mt-1 flex gap-2">
                 <input
                   id="promoCode"
+                  autoFocus
                   aria-invalid={promoError ? true : undefined}
                   aria-describedby={promoError ? "promoCode-error" : undefined}
                   className={`${inputClass} mt-0 uppercase${promoError ? " border-red-600! bg-red-50/40" : ""}`}
@@ -877,6 +889,8 @@ export default function BookingForm() {
                   {promoChecking ? "Checking…" : "Apply"}
                 </button>
               </div>
+            )}
+              </>
             )}
             <FieldError id="promoCode" msg={promoError ?? undefined} />
             {promo && form.packageId === "custom" && (
@@ -1006,6 +1020,7 @@ export default function BookingForm() {
             className="pack-btn relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge disabled:cursor-not-allowed disabled:opacity-90"
           >
             {sent && (
+              <span aria-hidden="true" className="pack-wipe">
               <svg aria-hidden="true" viewBox="0 0 100 56" className="pack-roll">
                 <g transform="translate(25.5 3) scale(0.7)">
                   <path d="M9,28L61,28Q64,28 63.25,30.9L58.25,50.1Q57.5,53 54.5,53L15.5,53Q12.5,53 11.75,50.1L6.75,30.9Q6,28 9,28Z" fill="#14211C" />
@@ -1018,10 +1033,9 @@ export default function BookingForm() {
                 <circle cx="69" cy="50" r="5" fill="#14211C" />
                 <circle cx="69" cy="48.5" r="1.2" fill="#F7F4ED" />
               </svg>
+              </span>
             )}
-            <span key={sent ? "sent" : "go"} className={sent ? "pack-sent" : undefined} role="status">
-              {sent ? "Request sent ✓" : submitting ? "Packing up…" : "Request these dates"}
-            </span>
+            <span role="status">{submitting ? "Packing up…" : "Request these dates"}</span>
           </button>
           <p className="text-xs text-ink/70">
 Submitting a request doesn&rsquo;t charge you or lock in your dates. We&rsquo;ll confirm availability first.
