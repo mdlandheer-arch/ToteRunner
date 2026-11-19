@@ -18,14 +18,12 @@ export default function Reviews() {
         <p className="text-sm font-semibold uppercase tracking-wide text-crate">Reviews</p>
         <h2 className="section-h mt-2 max-w-xl text-3xl font-bold text-ink">What customers say</h2>
         <div
-          className={
-            reviews.length === 1
-              ? "mx-auto mt-8 max-w-xl"
-              : "mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          }
+          {...(reviews.length === 1
+            ? { className: "mx-auto mt-8 max-w-xl" }
+            : { className: "review-track mt-8", tabIndex: 0, role: "region", "aria-label": "Customer reviews" })}
         >
           {reviews.map((r) => (
-            <div key={`${r.name}-${r.text}`} className="card-layer mr-2 mb-2">
+            <div key={`${r.name}-${r.text}`} className={`card-layer mr-2 mb-2${reviews.length > 1 ? " review-item" : ""}`}>
             <figure className="rounded-lg border border-crate bg-paper p-6">
               <Stars rating={r.rating} />
               <blockquote className="mt-3 text-ink/90">&ldquo;{r.text}&rdquo;</blockquote>

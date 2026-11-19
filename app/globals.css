@@ -147,3 +147,112 @@ details.card-edge[open] {
   outline: 2px solid var(--crate-green);
   outline-offset: 2px;
 }
+
+/* Floating labels on booking text fields. Label sits inside the field, floats up on focus or when filled. */
+.fl { position: relative; }
+.fl input {
+  margin-top: 0;
+  min-height: 3.5rem;
+  padding-top: 1.35rem;
+  padding-bottom: 0.3rem;
+}
+.fl label {
+  position: absolute;
+  left: 0.75rem;
+  top: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: translate 0.2s, scale 0.2s, color 0.2s;
+}
+.fl:focus-within label,
+.fl.filled label,
+.fl:has(input:-webkit-autofill) label {
+  translate: 0 -0.65rem;
+  scale: 0.75;
+}
+.fl:focus-within label { color: var(--crate-green); }
+.fl input::placeholder { opacity: 0; }
+.fl:focus-within input::placeholder { opacity: 1; }
+.fl::after {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  bottom: 1px;
+  height: 2px;
+  background: var(--crate-green);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s;
+  pointer-events: none;
+}
+.fl:focus-within::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .fl label, .fl::after { transition: none; }
+}
+
+/* Tote count slider: flat filled track, yellow thumb with a darker edge. */
+.tote-range {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.tote-range::-webkit-slider-runnable-track { height: 28px; background: transparent; }
+.tote-range::-moz-range-track { height: 28px; background: transparent; }
+.tote-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 24px;
+  margin-top: 2px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--safety-yellow);
+  border-bottom: 3px solid color-mix(in srgb, var(--safety-yellow) 65%, var(--ink));
+}
+.tote-range::-moz-range-thumb {
+  width: 10px;
+  height: 21px;
+  border: 0;
+  border-radius: 5px;
+  background: var(--safety-yellow);
+  border-bottom: 3px solid color-mix(in srgb, var(--safety-yellow) 65%, var(--ink));
+}
+.tote-range:focus-visible { outline: 2px solid var(--crate-green); outline-offset: 2px; border-radius: 4px; }
+
+/* Reviews: swipe carousel on phones once there is more than one review. Grid from sm up. */
+.review-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 0.5rem 7.5% 0.5rem;
+}
+.review-track::-webkit-scrollbar { display: none; }
+.review-item { flex: none; width: 85%; scroll-snap-align: center; }
+@supports (animation-timeline: view()) {
+  @media (max-width: 39.999rem) and (prefers-reduced-motion: no-preference) {
+    .review-item { animation: review-focus linear both; animation-timeline: view(inline); }
+  }
+}
+@keyframes review-focus {
+  0%, 100% { scale: 0.92; opacity: 0.6; }
+  50% { scale: 1; opacity: 1; }
+}
+@media (min-width: 40rem) {
+  .review-track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; overflow: visible; padding: 0; }
+  .review-item { width: auto; }
+}
+@media (min-width: 64rem) {
+  .review-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

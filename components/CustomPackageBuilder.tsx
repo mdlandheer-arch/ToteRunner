@@ -71,16 +71,28 @@ export default function CustomPackageBuilder() {
                 </button>
               </div>
             </div>
-            <input
-              id="build-totes"
-              type="range"
-              min={customPackage.minTotes}
-              max={customPackage.maxTotes}
-              step={1}
-              value={totes}
-              onChange={(e) => setTotes(Number(e.target.value))}
-              className="mt-3 w-full accent-[var(--crate-green)]"
-            />
+            <div className="relative mt-3 h-7">
+              <div aria-hidden="true" className="absolute inset-x-0 top-2 h-3 rounded-r-md rounded-l-sm" style={{ background: "color-mix(in srgb, var(--ink) 13%, transparent)" }} />
+              <div
+                aria-hidden="true"
+                className="absolute left-0 top-2 h-3 rounded-l-md rounded-r-sm bg-crate"
+                style={{
+                  width: `calc(5px + (100% - 10px) * ${(totes - customPackage.minTotes) / (customPackage.maxTotes - customPackage.minTotes)})`,
+                  borderBottom: "2px solid color-mix(in srgb, var(--crate-green) 55%, var(--ink))",
+                }}
+              />
+              <div aria-hidden="true" className="absolute right-1.5 top-[0.9rem] h-1.5 w-1.5 rounded-full bg-ink/40" />
+              <input
+                id="build-totes"
+                type="range"
+                min={customPackage.minTotes}
+                max={customPackage.maxTotes}
+                step={1}
+                value={totes}
+                onChange={(e) => setTotes(Number(e.target.value))}
+                className="tote-range"
+              />
+            </div>
             <div className="flex justify-between text-xs text-ink/70">
               <span>{customPackage.minTotes}</span>
               <span>{customPackage.maxTotes}</span>

@@ -482,28 +482,34 @@ export default function BookingForm() {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <label className={labelClass} htmlFor="name">Full name</label>
-              <input id="name" {...fp("name")} autoComplete="name" className={cls("name")} value={form.name}
+              <div className={`fl${form.name ? " filled" : ""}`}>
+                <input id="name" {...fp("name")} autoComplete="name" className={cls("name")} value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                <label htmlFor="name">Full name</label>
+              </div>
               <FieldError id="name" msg={errors.name} />
             </div>
             <div>
-              <label className={labelClass} htmlFor="email">Email</label>
-              <input id="email" {...fp("email")} type="email" autoComplete="email" className={cls("email")} value={form.email}
+              <div className={`fl${form.email ? " filled" : ""}`}>
+                <input id="email" {...fp("email")} type="email" autoComplete="email" className={cls("email")} value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                <label htmlFor="email">Email</label>
+              </div>
               <FieldError id="email" msg={errors.email} />
             </div>
           </div>
 
           <div>
-            <label className={labelClass} htmlFor="phone">Phone</label>
-            <input id="phone" {...fp("phone")} type="tel" autoComplete="tel" className={cls("phone")} value={form.phone}
+            <div className={`fl${form.phone ? " filled" : ""}`}>
+              <input id="phone" {...fp("phone")} type="tel" autoComplete="tel" className={cls("phone")} value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <label htmlFor="phone">Phone</label>
+            </div>
             <FieldError id="phone" msg={errors.phone} />
           </div>
 
           <div>
-            <label className={labelClass} htmlFor="street">Street address</label>
+            <div className={`fl${form.street ? " filled" : ""}`}>
             <AddressAutocomplete
               id="street"
               className={cls("street")}
@@ -521,30 +527,38 @@ export default function BookingForm() {
                 }));
               }}
             />
+              <label htmlFor="street">Street address</label>
+            </div>
             <FieldError id="street" msg={errors.street} />
           </div>
 
           {/* Zip comes first: once it verifies, city and state fill themselves in. */}
           <div className="grid gap-5 sm:grid-cols-[7rem_1fr_5rem]">
             <div>
-              <label className={labelClass} htmlFor="zip">Zip code</label>
-              <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={10} autoComplete="postal-code"
+              <div className={`fl${form.zip ? " filled" : ""}`}>
+                <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={10} autoComplete="postal-code"
                 className={cls("zip")} value={form.zip}
                 onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
+                <label htmlFor="zip">Zip code</label>
+              </div>
               <FieldError id="zip" msg={errors.zip} />
             </div>
             <div className="grid grid-cols-[1fr_5rem] gap-5 sm:contents">
               <div>
-                <label className={labelClass} htmlFor="city">City</label>
-                <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
+                <div className={`fl${form.city ? " filled" : ""}`}>
+                  <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })} />
+                  <label htmlFor="city">City</label>
+                </div>
                 <FieldError id="city" msg={errors.city} />
               </div>
               <div>
-                <label className={labelClass} htmlFor="state">State</label>
-                <input id="state" {...fp("state")} maxLength={2} autoComplete="address-level1"
+                <div className={`fl${form.state ? " filled" : ""}`}>
+                  <input id="state" {...fp("state")} maxLength={2} autoComplete="address-level1"
                   className={cls("state", " uppercase")} value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
+                  <label htmlFor="state">State</label>
+                </div>
                 <FieldError id="state" msg={errors.state} />
               </div>
             </div>
@@ -613,29 +627,37 @@ export default function BookingForm() {
 
             <div className="mt-4 space-y-4 border-t border-line pt-4">
               <div>
-                <label className={labelClass} htmlFor="pickupStreet">Pickup street address</label>
-                <input id="pickupStreet" {...fp("pickupStreet")} autoComplete="off" className={cls("pickupStreet")} value={form.pickupStreet}
+                <div className={`fl${form.pickupStreet ? " filled" : ""}`}>
+                  <input id="pickupStreet" {...fp("pickupStreet")} autoComplete="off" className={cls("pickupStreet")} value={form.pickupStreet}
                   onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
+                  <label htmlFor="pickupStreet">Pickup street address</label>
+                </div>
                 <FieldError id="pickupStreet" msg={errors.pickupStreet} />
               </div>
               <div className="grid gap-4 sm:grid-cols-[7rem_1fr_5rem]">
                 <div>
-                  <label className={labelClass} htmlFor="pickupZip">Zip code</label>
-                  <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={10} className={cls("pickupZip")} value={form.pickupZip}
+                  <div className={`fl${form.pickupZip ? " filled" : ""}`}>
+                    <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={10} className={cls("pickupZip")} value={form.pickupZip}
                     onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
+                    <label htmlFor="pickupZip">Zip code</label>
+                  </div>
                   <FieldError id="pickupZip" msg={errors.pickupZip} />
                 </div>
                 <div className="grid grid-cols-[1fr_5rem] gap-4 sm:contents">
                   <div>
-                    <label className={labelClass} htmlFor="pickupCity">City</label>
-                    <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
+                    <div className={`fl${form.pickupCity ? " filled" : ""}`}>
+                      <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
                       onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
+                      <label htmlFor="pickupCity">City</label>
+                    </div>
                     <FieldError id="pickupCity" msg={errors.pickupCity} />
                   </div>
                   <div>
-                    <label className={labelClass} htmlFor="pickupState">State</label>
-                    <input id="pickupState" {...fp("pickupState")} maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
+                    <div className={`fl${form.pickupState ? " filled" : ""}`}>
+                      <input id="pickupState" {...fp("pickupState")} maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
                       onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
+                      <label htmlFor="pickupState">State</label>
+                    </div>
                     <FieldError id="pickupState" msg={errors.pickupState} />
                   </div>
                 </div>
