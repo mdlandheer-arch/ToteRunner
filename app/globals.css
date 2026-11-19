@@ -256,3 +256,15 @@ details.card-edge[open] {
 @media (min-width: 64rem) {
   .review-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* Typewriter reveal for the hero tagline. Text stays in the page; only the reveal is animated. */
+@media (prefers-reduced-motion: no-preference) {
+  .typewrite {
+    display: inline-block;
+    animation: typewrite 1.8s steps(35, end) 0.1s both;
+  }
+}
+@keyframes typewrite {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}

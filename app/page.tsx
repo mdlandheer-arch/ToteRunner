@@ -28,7 +28,7 @@ export default function Home() {
     <main className="relative">
       <LocalBusinessSchema />
       <Header />
-      <Reveal><Hero /></Reveal>
+      <Hero />
       <ToteDivider />
       <Reveal><Pricing /></Reveal>
       <Reveal><HowItWorks /></Reveal>

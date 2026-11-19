@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center md:py-24">
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-crate">
-            {siteConfig.tagline}
+            <span className="typewrite">{siteConfig.tagline}</span>
           </p>
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">
             Stop buying boxes you&apos;ll just throw away.
