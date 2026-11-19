@@ -169,6 +169,7 @@ export default function BookingForm() {
   const promoCheckingRef = useRef(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const [zipStatus, setZipStatus] = useState<ZipStatus>("idle");
   const [zipInfo, setZipInfo] = useState<ZipInfo | null>(null);
@@ -420,6 +421,7 @@ export default function BookingForm() {
 
     submittingRef.current = true;
     setSubmitting(true);
+    const startedAt = Date.now();
     try {
       const address = `${form.street}, ${form.city}, ${form.state} ${form.zip}`;
       const pickupAddress = `${form.pickupStreet}, ${form.pickupCity}, ${form.pickupState} ${form.pickupZip}`;
@@ -443,6 +445,15 @@ export default function BookingForm() {
       }
       // Success: hand off to the thank-you page. The button stays disabled meanwhile,
       // so a slow navigation can't turn into a second submission.
+      // Hold the "Packing up" animation for at least ~1.2s total so it can be seen.
+      // Skipped for people who asked for reduced motion.
+      const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!calm) {
+        const wait = Math.max(0, 850 - (Date.now() - startedAt));
+        if (wait) await new Promise((r) => setTimeout(r, wait));
+        setSent(true);
+        await new Promise((r) => setTimeout(r, 350));
+      }
       setSubmitted(true);
       router.push("/thank-you");
     } catch {
@@ -996,10 +1007,18 @@ export default function BookingForm() {
             type="submit"
             disabled={submitting}
             aria-busy={submitting}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge disabled:cursor-not-allowed disabled:opacity-60"
+            className="pack-btn relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge disabled:cursor-not-allowed disabled:opacity-90"
           >
-            {submitting && <Spinner />}
-            {submitting ? "Sending…" : "Request these dates"}
+            {submitting && !sent && (
+              <svg aria-hidden="true" viewBox="0 0 70 70" className="pack-tote">
+                <path d="M9,28L61,28Q64,28 63.25,30.9L58.25,50.1Q57.5,53 54.5,53L15.5,53Q12.5,53 11.75,50.1L6.75,30.9Q6,28 9,28Z" fill="#14211C" />
+                <path d="M17,33L53,33L51,46L19,46Z" fill="#1B2620" />
+                <rect x="3" y="18" width="64" height="10" rx="3" fill="#F5A524" />
+              </svg>
+            )}
+            <span key={sent ? "sent" : "go"} className={sent ? "pack-sent" : undefined} role="status">
+              {sent ? "Request sent ✓" : submitting ? "Packing up…" : "Request these dates"}
+            </span>
           </button>
           <p className="text-xs text-ink/70">
 Submitting a request doesn&rsquo;t charge you or lock in your dates. We&rsquo;ll confirm availability first.
