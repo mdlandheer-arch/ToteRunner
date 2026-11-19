@@ -71,7 +71,7 @@ export default function ServiceAreaChecker() {
   }
 
   return (
-    <div className="rounded-lg border border-line bg-white/70 p-6">
+    <div className="card-edge rounded-lg border border-line bg-white p-6">
       <h3 className="text-lg font-bold text-ink">Do we deliver to you?</h3>
 
       <div className="mt-4 flex gap-2">
@@ -90,7 +90,7 @@ export default function ServiceAreaChecker() {
           aria-describedby={invalid ? "zipcheck-error" : undefined}
           placeholder="49544"
           aria-label="Zip code"
-          className={`min-h-11 w-32 rounded-md border border-line bg-white px-3 py-2 text-base text-ink sm:text-sm focus:border-crate${invalid ? " border-red-600! bg-red-50/40" : ""}`}
+          className={`min-h-11 w-32 rounded-md border border-t-[3px] border-line bg-paper px-3 py-2 text-base text-ink sm:text-sm focus:border-crate${invalid ? " border-red-600! bg-red-50/40" : ""}`}
         />
         <button
           onClick={check}

@@ -97,3 +97,26 @@ h1, h2, h3, h4 {
   .btn-edge,
   .btn-edge-yellow { transition: none; }
 }
+
+/* Flat depth for cards: a thicker, darker bottom edge. Solid colors only. */
+.card-edge {
+  border-bottom-width: 4px;
+  border-bottom-color: color-mix(in srgb, var(--ink) 22%, var(--paper));
+}
+.card-edge-green {
+  border-bottom-width: 5px;
+  border-bottom-color: color-mix(in srgb, var(--crate-green) 55%, var(--ink));
+}
+/* Layer behind a card, offset down and right. A flat block, not a shadow. */
+.card-layer { position: relative; }
+.card-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(8px, 8px);
+  border: 1px solid var(--crate-green);
+  border-radius: 0.5rem;
+  background: var(--tint-green);
+  z-index: 0;
+}
+.card-layer > * { position: relative; z-index: 1; }
