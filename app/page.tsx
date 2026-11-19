@@ -10,7 +10,6 @@ import ServiceArea from "@/components/ServiceArea";
 import Reviews from "@/components/Reviews";
 import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
-import ToteDivider from "@/components/ToteDivider";
 import Reveal from "@/components/Reveal";
 import { LocalBusinessSchema } from "@/components/StructuredData";
 import { absoluteUrl } from "@/lib/seo";
@@ -29,7 +28,6 @@ export default function Home() {
       <LocalBusinessSchema />
       <Header />
       <Reveal><Hero /></Reveal>
-      <ToteDivider />
       <Reveal><Pricing /></Reveal>
       <Reveal><HowItWorks /></Reveal>
       <Reveal><WhyUs /></Reveal>

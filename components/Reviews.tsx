@@ -25,8 +25,7 @@ export default function Reviews() {
           }
         >
           {reviews.map((r) => (
-            <div key={`${r.name}-${r.text}`} className="card-layer mr-2 mb-2">
-            <figure className="rounded-lg border border-crate bg-paper p-6">
+            <figure key={`${r.name}-${r.text}`} className="rounded-lg border border-line bg-paper p-6">
               <Stars rating={r.rating} />
               <blockquote className="mt-3 text-ink/90">&ldquo;{r.text}&rdquo;</blockquote>
               <figcaption className="mt-4 text-sm text-ink/70">
@@ -40,7 +39,6 @@ export default function Reviews() {
                 )}
               </figcaption>
             </figure>
-            </div>
           ))}
         </div>
         <div className="mt-8 text-center">
