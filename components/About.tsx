@@ -27,15 +27,15 @@ export default function About() {
             </h2>
 
             <p className="mt-4 text-ink/75">
-              I&apos;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
+              I&rsquo;m {siteConfig.about.ownerNames}, and I run {siteConfig.name} out of{" "}
               {siteConfig.about.homeTown}. Moving always takes more time than you think it will. I
-              can&apos;t pack for you, but I can cut out the boxes: nothing to buy, nothing to
+              can&rsquo;t pack for you, but I can cut out the boxes: nothing to buy, nothing to
               tape, no cardboard pile in the garage after. I drop off the totes, you fill them, and
               I pick them up.
             </p>
             <p className="mt-3 text-ink/75">
-              We&apos;re family owned. No franchise and no call center, so if something comes up
-              you&apos;re talking to me. We cover {siteConfig.serviceAreas.length}+ towns across{" "}
+              We&rsquo;re family owned. No franchise and no call center, so if something comes up
+              you&rsquo;re talking to me. We cover {siteConfig.serviceAreas.length}+ towns across{" "}
               {siteConfig.region}.
             </p>
 

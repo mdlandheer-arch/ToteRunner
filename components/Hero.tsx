@@ -11,11 +11,11 @@ export default function Hero() {
             <span className="typewrite">{siteConfig.tagline}</span>
           </p>
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] text-ink sm:text-5xl">
-            Stop buying boxes you&apos;ll just throw away.
+            Stop buying boxes you&rsquo;ll just throw away.
           </h1>
           <p className="mt-5 max-w-md text-lg text-ink/70">
             We drop off sturdy, stackable totes before your move and haul the empties away when
-            you&apos;re done. No tape, no cardboard mess, no landfill run.
+            you&rsquo;re done. No tape, no cardboard mess, no landfill run.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ReserveButton

@@ -102,7 +102,7 @@ export default function RentalAgreementPage() {
         <h1 className="text-3xl font-bold text-ink">Rental Agreement</h1>
         <p className="mt-2 text-sm text-ink/70">Last updated: {legalLastUpdated}</p>
         <p className="mt-4 text-ink/75">
-          These are the terms you agree to when you book totes with us. We&apos;ve kept it in plain
+          These are the terms you agree to when you book totes with us. We&rsquo;ve kept it in plain
           English. If anything here is unclear, call {siteConfig.phone} and ask before you book.
         </p>
 

@@ -135,7 +135,7 @@ export default function ServiceAreaChecker() {
 
       {notFound && (
         <p id="zipcheck-error" className="mt-2 text-sm text-red-700">
-          We couldn&apos;t find that zip code. Check it for a typo and try again, or{" "}
+          We couldn&rsquo;t find that zip code. Check it for a typo and try again, or{" "}
           <a href={`mailto:${siteConfig.email}`} className="underline">email us</a>.
         </p>
       )}

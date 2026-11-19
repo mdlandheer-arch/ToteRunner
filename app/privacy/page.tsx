@@ -95,11 +95,11 @@ export default function PrivacyPage() {
           <h2>8. Your rights and choices</h2>
           <p>
             You can ask us to access, correct, or delete the personal information we hold about you
-            by emailing <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>. We&apos;ll
+            by emailing <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>. We&rsquo;ll
             respond within a reasonable time.
           </p>
 
-          <h2>9. Children&apos;s privacy</h2>
+          <h2>9. Children&rsquo;s privacy</h2>
           <p>
             Our services are intended for adults arranging their own moves and are not directed at
             children under 13. We do not knowingly collect personal information from children under 13.
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
 
           <h2>10. Changes to this policy</h2>
           <p>
-            We may update this policy from time to time. We&apos;ll update the &quot;Last updated&quot;
+            We may update this policy from time to time. We&rsquo;ll update the &quot;Last updated&quot;
             date above when we do. Continued use of our site after changes means you accept the
             updated policy.
           </p>

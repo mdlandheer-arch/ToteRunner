@@ -17,19 +17,19 @@ const bookHref = `/?package=${eventPackage.id}#booking`;
 const steps = [
   { n: "1", title: "We drop off at your home", body: `${eventPackage.totes} clean totes, a dolly and labels, delivered to your house before the event.` },
   { n: "2", title: "You pack and haul", body: "Load centerpieces, candles, signs and favors. Everything stacks, so it all fits in one trip to the venue and back home after." },
-  { n: "3", title: "We pick up from your home", body: "Once you're unpacked and the totes are empty, we pick them up from your house." },
+  { n: "3", title: "We pick up from your home", body: "Once you’re unpacked and the totes are empty, we pick them up from your house." },
 ];
 
 const uses = ["Weddings & receptions", "Bridal & baby showers", "Grad parties", "Church & school events", "Craft & vendor shows"];
 
 const faqs = [
   {
-    q: "What's included?",
-    a: `${eventPackage.totes} totes, ${eventPackage.dollies} dolly, ${eventPackage.totes} labels, and delivery and pickup for ${eventPackage.days} days. Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of Grand Rapids or Muskegon; beyond that it's $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile.`,
+    q: "What’s included?",
+    a: `${eventPackage.totes} totes, ${eventPackage.dollies} dolly, ${eventPackage.totes} labels, and delivery and pickup for ${eventPackage.days} days. Delivery and pickup are free within ${siteConfig.freeDeliveryRadiusMiles} miles of Grand Rapids or Muskegon; beyond that it’s $${siteConfig.perMileFeeBeyondRadius.toFixed(2)}/mile.`,
   },
   {
     q: "Can I keep them longer than a week?",
-    a: `Yes. Pick your dates on the booking form and anything past ${eventPackage.days} days is $${eventPackage.dailyRate}/day. You'll see the total before you pay.`,
+    a: `Yes. Pick your dates on the booking form and anything past ${eventPackage.days} days is $${eventPackage.dailyRate}/day. You’ll see the total before you pay.`,
   },
   {
     q: "Can you deliver to the venue?",
@@ -156,7 +156,7 @@ export default function EventsPage() {
 
           <div className="mt-10 rounded-lg border border-line bg-white/70 p-6 text-center">
             <h3 className="text-xl font-bold text-ink">Ready to reserve?</h3>
-            <p className="mt-2 text-sm text-ink/75">Pick your dates and we&apos;ll confirm by email.</p>
+            <p className="mt-2 text-sm text-ink/75">Pick your dates and we&rsquo;ll confirm by email.</p>
             <a href={bookHref} className="mt-5 inline-block rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge">
               Reserve the Event Package
             </a>

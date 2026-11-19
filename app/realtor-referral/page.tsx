@@ -170,7 +170,7 @@ export default function RealtorReferralPage() {
             </p>
             <p className="mt-3 text-sm text-ink/70">
               <span className="font-semibold text-ink">Note:</span> the discount
-              applies to the base package price only. We don&apos;t pay agents for referrals.
+              applies to the base package price only. We don&rsquo;t pay agents for referrals.
             </p>
           </div>
         </div>
@@ -234,7 +234,7 @@ export default function RealtorReferralPage() {
           <div className="mt-10 rounded-lg border border-line bg-white/70 p-6 text-center">
             <h3 className="text-xl font-bold text-ink">Ready to start referring?</h3>
             <p className="mt-2 text-sm text-ink/75">
-              One email and you&apos;ll have a code the same day.
+              One email and you&rsquo;ll have a code the same day.
             </p>
             <a
               href={referralMailto}

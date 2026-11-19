@@ -17,7 +17,7 @@ const steps = [
   {
     n: "4",
     title: "We pick up",
-    body: "When you're unpacked, we come get the empties. No cardboard to break down or haul away.",
+    body: "When you’re unpacked, we come get the empties. No cardboard to break down or haul away.",
   },
 ];
 

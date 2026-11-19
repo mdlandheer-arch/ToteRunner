@@ -397,6 +397,12 @@ export default function BookingForm() {
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.focus({ preventScroll: true });
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      (el.closest(".fl") ?? el).animate(
+        [{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(-4px)" }, { transform: "translateX(3px)" }, { transform: "translateX(0)" }],
+        { duration: 400 },
+      );
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -455,7 +461,7 @@ export default function BookingForm() {
     <section id="booking" className="bg-tint-green">
       <div className="mx-auto max-w-2xl px-5 py-16">
         <h2 className="section-h text-3xl font-bold text-ink">Reserve your totes</h2>
-        <p className="mt-2 text-ink/75">Send a request and we&apos;ll get back to you within one business day. No payment now.</p>
+        <p className="mt-2 text-ink/75">Send a request and we&rsquo;ll get back to you within one business day. No payment now.</p>
 
         {submitted ? (
           // Normally replaced by /thank-you within a moment; the link is a fallback if navigation stalls.
@@ -483,7 +489,7 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <div className={`fl${form.name ? " filled" : ""}`}>
-                <input id="name" {...fp("name")} autoComplete="name" className={cls("name")} value={form.name}
+                <input id="name" {...fp("name")} enterKeyHint="next" autoComplete="name" className={cls("name")} value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 <label htmlFor="name">Full name</label>
               </div>
@@ -491,7 +497,7 @@ export default function BookingForm() {
             </div>
             <div>
               <div className={`fl${form.email ? " filled" : ""}`}>
-                <input id="email" {...fp("email")} type="email" autoComplete="email" className={cls("email")} value={form.email}
+                <input id="email" {...fp("email")} enterKeyHint="next" type="email" autoComplete="email" className={cls("email")} value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })} />
                 <label htmlFor="email">Email</label>
               </div>
@@ -501,7 +507,7 @@ export default function BookingForm() {
 
           <div>
             <div className={`fl${form.phone ? " filled" : ""}`}>
-              <input id="phone" {...fp("phone")} type="tel" autoComplete="tel" className={cls("phone")} value={form.phone}
+              <input id="phone" {...fp("phone")} enterKeyHint="next" type="tel" autoComplete="tel" className={cls("phone")} value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })} />
               <label htmlFor="phone">Phone</label>
             </div>
@@ -513,7 +519,7 @@ export default function BookingForm() {
             <AddressAutocomplete
               id="street"
               className={cls("street")}
-              inputProps={fp("street")}
+              inputProps={{ ...fp("street"), enterKeyHint: "next" }}
               value={form.street}
               onChange={(street) => setForm({ ...form, street })}
               onAddressSelected={(addr: ParsedAddress) => {
@@ -536,7 +542,7 @@ export default function BookingForm() {
           <div className="grid gap-5 sm:grid-cols-[7rem_1fr_5rem]">
             <div>
               <div className={`fl${form.zip ? " filled" : ""}`}>
-                <input id="zip" {...fp("zip")} inputMode="numeric" maxLength={10} autoComplete="postal-code"
+                <input id="zip" {...fp("zip")} enterKeyHint="next" inputMode="numeric" maxLength={10} autoComplete="postal-code"
                 className={cls("zip")} value={form.zip}
                 onChange={(e) => setForm({ ...form, zip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
                 <label htmlFor="zip">Zip code</label>
@@ -546,7 +552,7 @@ export default function BookingForm() {
             <div className="grid grid-cols-[1fr_5rem] gap-5 sm:contents">
               <div>
                 <div className={`fl${form.city ? " filled" : ""}`}>
-                  <input id="city" {...fp("city")} autoComplete="address-level2" className={cls("city")} value={form.city}
+                  <input id="city" {...fp("city")} enterKeyHint="next" autoComplete="address-level2" className={cls("city")} value={form.city}
                   onChange={(e) => setForm({ ...form, city: e.target.value })} />
                   <label htmlFor="city">City</label>
                 </div>
@@ -554,7 +560,7 @@ export default function BookingForm() {
               </div>
               <div>
                 <div className={`fl${form.state ? " filled" : ""}`}>
-                  <input id="state" {...fp("state")} maxLength={2} autoComplete="address-level1"
+                  <input id="state" {...fp("state")} enterKeyHint="next" maxLength={2} autoComplete="address-level1"
                   className={cls("state", " uppercase")} value={form.state}
                   onChange={(e) => setForm({ ...form, state: e.target.value.toUpperCase() })} />
                   <label htmlFor="state">State</label>
@@ -628,7 +634,7 @@ export default function BookingForm() {
             <div className="mt-4 space-y-4 border-t border-line pt-4">
               <div>
                 <div className={`fl${form.pickupStreet ? " filled" : ""}`}>
-                  <input id="pickupStreet" {...fp("pickupStreet")} autoComplete="off" className={cls("pickupStreet")} value={form.pickupStreet}
+                  <input id="pickupStreet" {...fp("pickupStreet")} enterKeyHint="next" autoComplete="off" className={cls("pickupStreet")} value={form.pickupStreet}
                   onChange={(e) => setForm({ ...form, pickupStreet: e.target.value })} />
                   <label htmlFor="pickupStreet">Pickup street address</label>
                 </div>
@@ -637,7 +643,7 @@ export default function BookingForm() {
               <div className="grid gap-4 sm:grid-cols-[7rem_1fr_5rem]">
                 <div>
                   <div className={`fl${form.pickupZip ? " filled" : ""}`}>
-                    <input id="pickupZip" {...fp("pickupZip")} inputMode="numeric" maxLength={10} className={cls("pickupZip")} value={form.pickupZip}
+                    <input id="pickupZip" {...fp("pickupZip")} enterKeyHint="next" inputMode="numeric" maxLength={10} className={cls("pickupZip")} value={form.pickupZip}
                     onChange={(e) => setForm({ ...form, pickupZip: e.target.value.replace(/\D/g, "").slice(0, 5) })} />
                     <label htmlFor="pickupZip">Zip code</label>
                   </div>
@@ -646,7 +652,7 @@ export default function BookingForm() {
                 <div className="grid grid-cols-[1fr_5rem] gap-4 sm:contents">
                   <div>
                     <div className={`fl${form.pickupCity ? " filled" : ""}`}>
-                      <input id="pickupCity" {...fp("pickupCity")} className={cls("pickupCity")} value={form.pickupCity}
+                      <input id="pickupCity" {...fp("pickupCity")} enterKeyHint="next" className={cls("pickupCity")} value={form.pickupCity}
                       onChange={(e) => setForm({ ...form, pickupCity: e.target.value })} />
                       <label htmlFor="pickupCity">City</label>
                     </div>
@@ -654,7 +660,7 @@ export default function BookingForm() {
                   </div>
                   <div>
                     <div className={`fl${form.pickupState ? " filled" : ""}`}>
-                      <input id="pickupState" {...fp("pickupState")} maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
+                      <input id="pickupState" {...fp("pickupState")} enterKeyHint="next" maxLength={2} className={cls("pickupState", " uppercase")} value={form.pickupState}
                       onChange={(e) => setForm({ ...form, pickupState: e.target.value.toUpperCase() })} />
                       <label htmlFor="pickupState">State</label>
                     </div>
@@ -867,7 +873,7 @@ export default function BookingForm() {
             )}
             <FieldError id="promoCode" msg={promoError ?? undefined} />
             {promo && form.packageId === "custom" && (
-              <p className="mt-1 text-xs text-ink/70">We&apos;ll apply this code to your custom quote when we reply.</p>
+              <p className="mt-1 text-xs text-ink/70">We&rsquo;ll apply this code to your custom quote when we reply.</p>
             )}
           </div>
 
@@ -902,11 +908,11 @@ export default function BookingForm() {
             <FieldError id="agreed" msg={errors.agreed} />
           </div>
 
-          <div className="rounded-md border border-crate bg-crate/5 p-4">
+          <div className="rounded-md border border-crate bg-crate/5 p-4 tabular-nums">
             {form.packageId === "custom" ? (
               <p className="text-sm text-ink/80">
                 <span className="font-semibold text-ink">No estimate to show yet.</span> Tell us
-                what you need in the notes above and we&apos;ll send a real quote when we reply.
+                what you need in the notes above and we&rsquo;ll send a real quote when we reply.
               </p>
             ) : (
               <div className="flex items-baseline justify-between">
@@ -975,14 +981,14 @@ export default function BookingForm() {
                 </span>
               </div>
               <p className="mt-3 border-t border-crate/20 pt-3 text-xs text-ink/70">
-                Estimate only. We&apos;ll confirm the final amount when we reply.
+                Estimate only. We&rsquo;ll confirm the final amount when we reply.
               </p>
             </div>
           </div>
 
           {attempted && errorCount > 0 && (
             <p role="alert" className="text-sm font-medium text-red-700">
-              {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`}. They&apos;re marked in red above. Everything else you entered is saved.
+              {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`}. They&rsquo;re marked in red above. Everything else you entered is saved.
             </p>
           )}
 
@@ -996,7 +1002,7 @@ export default function BookingForm() {
             {submitting ? "Sending…" : "Request these dates"}
           </button>
           <p className="text-xs text-ink/70">
-Submitting a request doesn&apos;t charge you or lock in your dates. We&apos;ll confirm availability first.
+Submitting a request doesn&rsquo;t charge you or lock in your dates. We&rsquo;ll confirm availability first.
           </p>
         </form>
         )}

@@ -46,8 +46,8 @@ export default function ThankYouPage() {
         </div>
         <h1 className="mt-5 text-3xl font-bold text-ink">Request received. Thank you!</h1>
         <p className="mt-3 text-ink/75">
-          This isn&apos;t a confirmed booking yet. Your dates aren&apos;t locked in and nothing has been charged.
-          We&apos;ll check availability first.
+          This isn&rsquo;t a confirmed booking yet. Your dates aren&rsquo;t locked in and nothing has been charged.
+          We&rsquo;ll check availability first.
         </p>
 
         <h2 className="mt-10 text-xl font-bold text-ink">What happens next</h2>

@@ -21,7 +21,7 @@ export default function TermsPage() {
         <div className="prose prose-sm mt-8 max-w-none text-ink/80">
           <h2>1. Agreement to these terms</h2>
           <p>
-            By booking a rental with {siteConfig.legalName}, you agree to these terms. If you&apos;re
+            By booking a rental with {siteConfig.legalName}, you agree to these terms. If you&rsquo;re
             booking on behalf of someone else, you confirm you have the authority to agree to these
             terms for that booking.
           </p>
@@ -30,7 +30,7 @@ export default function TermsPage() {
           <p>
             {siteConfig.legalName} rents reusable plastic moving totes and optional accessories (hand
             trucks, dollies, label kits). We deliver totes to the address you provide, and pick them
-            up from that same address (or a new address you&apos;ve confirmed with us in writing)
+            up from that same address (or a new address you&rsquo;ve confirmed with us in writing)
             after your rental period.
           </p>
 
@@ -81,7 +81,7 @@ export default function TermsPage() {
 
           <h2>7. Lost, damaged, or unreturned totes</h2>
           <p>
-            You&apos;re responsible for our totes and any rented accessories during your rental
+            You&rsquo;re responsible for our totes and any rented accessories during your rental
             period. A replacement fee of ${damageFees.perTote} per tote (and ${damageFees.perAccessory}{" "}
             per accessory) applies for items that are lost, stolen, or damaged beyond normal wear and
             tear. Totes not returned or
@@ -91,9 +91,9 @@ export default function TermsPage() {
 
           <h2>8. Delivery and pickup logistics</h2>
           <p>
-            We&apos;ll send a delivery window by text or email before your scheduled date. You don&apos;t
+            We&rsquo;ll send a delivery window by text or email before your scheduled date. You don&rsquo;t
             need to be present for delivery or pickup if you provide a safe, accessible drop-off/pickup
-            location when you book (for example, a garage, porch, or building lobby). We&apos;re not
+            location when you book (for example, a garage, porch, or building lobby). We&rsquo;re not
             responsible for delays caused by inaccurate address information, blocked access, or
             circumstances outside our control (see Section 10).
           </p>
@@ -107,15 +107,15 @@ export default function TermsPage() {
 
           <h2>10. Force majeure</h2>
           <p>
-            We&apos;re not liable for delays or failure to perform caused by events beyond our
+            We&rsquo;re not liable for delays or failure to perform caused by events beyond our
             reasonable control, including severe weather, road closures, natural disasters, or other
-            circumstances that make delivery or pickup impracticable. We&apos;ll make reasonable
+            circumstances that make delivery or pickup impracticable. We&rsquo;ll make reasonable
             efforts to reschedule as soon as conditions allow.
           </p>
 
           <h2>11. Assumption of risk</h2>
           <p>
-            You&apos;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.legalName}{" "}
+            You&rsquo;re responsible for safely lifting, stacking, and transporting totes. {siteConfig.legalName}{" "}
             is not responsible for injury resulting from improper lifting, stacking, or transport of
             totes by you or others assisting with your move.
           </p>
@@ -130,7 +130,7 @@ export default function TermsPage() {
           <p>
             These terms are governed by the laws of the State of Michigan. If a problem comes up,
             contact us first at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a> and we
-            will work with you in good faith to resolve it. If we can&apos;t, either of us may bring
+            will work with you in good faith to resolve it. If we can&rsquo;t, either of us may bring
             the claim in the courts of Kent County, Michigan, including small claims court where the
             amount qualifies.
           </p>

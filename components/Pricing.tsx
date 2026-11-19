@@ -26,7 +26,7 @@ export default function Pricing() {
                   </span>
                 )}
                 <h3 className="text-lg font-bold text-ink">{pkg.name}</h3>
-                <p className="mt-3 text-3xl font-extrabold text-ink">${pkg.price}</p>
+                <p className="mt-3 text-3xl font-extrabold tabular-nums text-ink">${pkg.price}</p>
                 <p className="mt-1 text-sm text-ink/70">
                   {pkg.totes} totes · {pkg.days}-day rental
                 </p>
@@ -69,11 +69,11 @@ export default function Pricing() {
         <CustomPackageBuilder />
 
         <p className="mt-4 text-sm text-ink/75">
-          Need something the builder doesn&apos;t cover?{" "}
+          Need something the builder doesn&rsquo;t cover?{" "}
           <a href="#booking" className="font-medium text-crate hover:underline">
             Tell us what you need
           </a>{" "}
-          and we&apos;ll put together a quote.
+          and we&rsquo;ll put together a quote.
         </p>
 
         <div className="mt-10">

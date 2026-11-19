@@ -9,9 +9,9 @@ export default function NotFound() {
       <Header />
       <div className="mx-auto max-w-xl px-5 py-24 text-center">
         <p className="text-sm font-semibold text-crate">404</p>
-        <h1 className="mt-2 text-3xl font-bold text-ink">We couldn&apos;t find that page</h1>
+        <h1 className="mt-2 text-3xl font-bold text-ink">We couldn&rsquo;t find that page</h1>
         <p className="mt-4 text-ink/70">
-          The page you&apos;re looking for may have moved. Try the homepage, or reserve your totes below.
+          The page you&rsquo;re looking for may have moved. Try the homepage, or reserve your totes below.
         </p>
         <div className="mt-8 flex justify-center gap-3">
           <a href="/" className="rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge">

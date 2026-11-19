@@ -16,7 +16,7 @@ export function LocalBusinessSchema() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: siteConfig.name,
-    description: `${siteConfig.name} rents reusable moving totes across ${siteConfig.region}. Delivered to your door, picked up when you're unpacked.`,
+    description: `${siteConfig.name} rents reusable moving totes across ${siteConfig.region}. Delivered to your door, picked up when you’re unpacked.`,
     url: siteConfig.domain,
     telephone: siteConfig.phone,
     email: siteConfig.email,
