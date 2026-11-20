@@ -125,8 +125,8 @@ h1, h2, h3, h4 {
 .section-h::before {
   content: "";
   display: block;
-  width: 26px;
-  height: 6px;
+  width: 1.625rem;
+  height: 0.375rem;
   border-radius: 2px;
   background: var(--safety-yellow);
   margin-bottom: 0.75rem;
@@ -202,28 +202,28 @@ details.card-edge[open] {
   z-index: 1;
   display: block;
   width: 100%;
-  height: 28px;
+  height: 1.75rem;
   margin: 0;
   background: transparent;
   cursor: pointer;
 }
-.tote-range::-webkit-slider-runnable-track { height: 28px; background: transparent; }
-.tote-range::-moz-range-track { height: 28px; background: transparent; }
+.tote-range::-webkit-slider-runnable-track { height: 1.75rem; background: transparent; }
+.tote-range::-moz-range-track { height: 1.75rem; background: transparent; }
 .tote-range::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 10px;
-  height: 24px;
-  margin-top: 2px;
+  width: 0.625rem;
+  height: 1.5rem;
+  margin-top: 0.125rem;
   border: 0;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   background: var(--safety-yellow);
   border-bottom: 3px solid color-mix(in srgb, var(--safety-yellow) 65%, var(--ink));
 }
 .tote-range::-moz-range-thumb {
-  width: 10px;
-  height: 21px;
+  width: 0.625rem;
+  height: 1.3125rem;
   border: 0;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   background: var(--safety-yellow);
   border-bottom: 3px solid color-mix(in srgb, var(--safety-yellow) 65%, var(--ink));
 }
@@ -319,10 +319,11 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
 
 /* Submit button: on success a tote on a dolly rolls across, wiping the text away, then the page moves on. */
 .pack-wipe {
+  --dolly-w: 4.5rem;
   position: absolute;
   top: 0;
   bottom: 0;
-  left: -72px;
+  left: calc(var(--dolly-w) * -1);
   width: 0;
   background: var(--crate-green);
   pointer-events: none;
@@ -331,9 +332,9 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
   position: absolute;
   left: 100%;
   top: 50%;
-  width: 72px;
-  height: 40px;
-  margin-top: -20px;
+  width: var(--dolly-w);
+  height: 2.5rem;
+  margin-top: -1.25rem;
 }
 @media (prefers-reduced-motion: no-preference) {
   .pack-wipe { animation: pack-wipe 2s cubic-bezier(0.4, 0, 0.4, 1) forwards; }
@@ -342,7 +343,7 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
   .pack-wipe { display: none; }
 }
 @keyframes pack-wipe {
-  to { width: calc(100% + 72px); }
+  to { width: calc(100% + var(--dolly-w)); }
 }
 
 /* Desktop only: package cards rise slightly on hover. */
