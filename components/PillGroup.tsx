@@ -23,6 +23,7 @@ export default function PillGroup({
   const pillRef = useRef<HTMLSpanElement>(null);
   const prev = useRef<number | null>(null);
   const anim = useRef<Animation | null>(null);
+  const selectedRef = useRef(selected);
 
   function rect(i: number) {
     const b = chipRefs.current[i]!;
@@ -67,22 +68,30 @@ export default function PillGroup({
     }
     settle(selected);
     prev.current = selected;
+    selectedRef.current = selected;
     setReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected]);
 
   // Buttons can re-wrap when the screen or text size changes: snap the pill to the new spot.
+  // Set up once (not per selection) and ignore the observer's first reading, or it would
+  // cancel the stretch the moment a new button is picked.
   useLayoutEffect(() => {
     const row = rowRef.current;
     if (!row || typeof ResizeObserver === "undefined") return;
+    let first = true;
     const ro = new ResizeObserver(() => {
+      if (first) {
+        first = false;
+        return;
+      }
       anim.current?.cancel();
-      settle(selected);
+      settle(selectedRef.current);
     });
     ro.observe(row);
     return () => ro.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, []);
 
   return (
     <div ref={rowRef} className={`relative flex flex-wrap gap-2 ${className}`}>
