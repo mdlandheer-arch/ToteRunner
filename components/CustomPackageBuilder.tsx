@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import PillGroup from "@/components/PillGroup";
 import { addOns, customPackage, siteConfig } from "@/lib/site-config";
 import { customQuote } from "@/lib/pricing";
 
@@ -107,23 +108,12 @@ export default function CustomPackageBuilder() {
 
           <div>
             <p className="text-sm font-medium text-ink/80">How long do you need them?</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {weekOptions.map((w) => (
-                <button
-                  key={w}
-                  type="button"
-                  onClick={() => setWeeks(w)}
-                  aria-pressed={w === weeks}
-                  className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                    w === weeks
-                      ? "border-crate bg-crate text-paper"
-                      : "border-line text-ink/70 hover:border-crate/50"
-                  }`}
-                >
-                  {w} week{w > 1 ? "s" : ""}
-                </button>
-              ))}
-            </div>
+            <PillGroup
+              className="mt-2"
+              options={weekOptions.map((w) => `${w} week${w > 1 ? "s" : ""}`)}
+              selected={weekOptions.indexOf(weeks)}
+              onSelect={(i) => setWeeks(weekOptions[i])}
+            />
             <p className="mt-2 text-xs text-ink/70">
               Most moves take 2–4 weeks once you count packing and unpacking.
             </p>
