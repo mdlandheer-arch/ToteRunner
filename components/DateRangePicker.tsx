@@ -121,7 +121,7 @@ export default function DateRangePicker({ delivery, pickup, onChange, onClose, i
           id={dialogId}
           role="dialog"
           aria-label="Choose delivery and pickup dates"
-          className="absolute left-0 z-30 mt-2 max-w-full overflow-x-auto rounded-md border border-line bg-white p-2"
+          className="cal-pop absolute left-0 z-30 mt-2 max-w-full overflow-x-auto rounded-md border border-line bg-white p-2"
         >
           <p className="px-2 pb-1 pt-1 text-sm font-medium text-ink" aria-live="polite">
             {hint}

@@ -50,6 +50,21 @@ export default function ThankYouPage() {
           We&rsquo;ll check availability first.
         </p>
 
+        <div aria-hidden="true" className="ty-lane">
+          <svg viewBox="0 0 100 56" className="ty-roll">
+            <g transform="translate(25.5 3) scale(0.7)">
+              <path d="M9,28L61,28Q64,28 63.25,30.9L58.25,50.1Q57.5,53 54.5,53L15.5,53Q12.5,53 11.75,50.1L6.75,30.9Q6,28 9,28Z" fill="#14211C" />
+              <path d="M17,33L53,33L51,46L19,46Z" fill="#1B2620" />
+              <rect x="3" y="18" width="64" height="10" rx="3" fill="#F5A524" />
+            </g>
+            <rect x="22" y="40" width="56" height="5" rx="2" fill="#14211C" />
+            <circle cx="31" cy="50" r="5" fill="#14211C" />
+            <circle cx="31" cy="48.5" r="1.2" fill="#F7F4ED" />
+            <circle cx="69" cy="50" r="5" fill="#14211C" />
+            <circle cx="69" cy="48.5" r="1.2" fill="#F7F4ED" />
+          </svg>
+        </div>
+
         <h2 className="mt-10 text-xl font-bold text-ink">What happens next</h2>
         <ol className="mt-4 space-y-3">
           {steps.map((s, i) => (

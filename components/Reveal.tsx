@@ -13,7 +13,7 @@ export default function Reveal({ children }: { children: React.ReactNode }) {
       // "some": any part visible triggers it. A fixed fraction can never be met by
       // sections taller than the phone screen (they stayed blank).
       viewport={{ once: true, amount: "some" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>

@@ -261,7 +261,7 @@ details.card-edge[open] {
 @media (prefers-reduced-motion: no-preference) {
   .typewrite {
     display: inline-block;
-    animation: typewrite 1.8s steps(35, end) 0.1s both;
+    animation: typewrite 1.2s steps(35, end) 0.1s both;
   }
 }
 @keyframes typewrite {
@@ -351,3 +351,20 @@ a, button, input, select, textarea, label, summary { touch-action: manipulation;
   .pkg-card:hover { translate: 0 -6px; }
   .pkg-card.pkg-popular:hover { translate: 0 -12px; }
 }
+
+/* Date picker calendar grows out of its field (top-left corner) instead of just appearing. */
+@media (prefers-reduced-motion: no-preference) {
+  .cal-pop { transform-origin: top left; animation: cal-pop 0.25s ease-out both; }
+}
+@keyframes cal-pop {
+  from { opacity: 0; transform: scale(0.94, 0.7); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Thank-you page: a tote on a dolly rolls across once. */
+.ty-lane { position: relative; height: 3.5rem; margin-top: 1.5rem; border-bottom: 2px solid var(--line, #D9D4C7); overflow: hidden; }
+.ty-roll { position: absolute; bottom: 2px; left: 0; width: 4.5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .ty-roll { left: -4.5rem; animation: ty-roll 1.6s cubic-bezier(0.4, 0, 0.4, 1) 0.3s forwards; }
+}
+@keyframes ty-roll { to { left: calc(100% - 5rem); } }

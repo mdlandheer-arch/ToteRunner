@@ -1,6 +1,7 @@
 import { packages, addOns, eventPackage } from "@/lib/site-config";
 import ToteCalculator from "@/components/ToteCalculator";
 import CustomPackageBuilder from "@/components/CustomPackageBuilder";
+import StaggerItem from "@/components/StaggerItem";
 
 export default function Pricing() {
   return (
@@ -11,10 +12,10 @@ export default function Pricing() {
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
           <div className="grid gap-6 sm:grid-cols-2">
-            {packages.map((pkg) => (
+            {packages.map((pkg, i) => (
+              <StaggerItem key={pkg.id} index={i} className="h-full">
               <div
-                key={pkg.id}
-                className={`pkg-card relative rounded-lg border bg-white p-6 ${
+                className={`pkg-card relative h-full rounded-lg border bg-white p-6 ${
                   pkg.popular
                     ? "pkg-popular card-edge-green border-2 border-crate sm:-translate-y-1.5"
                     : "card-edge border-line"
@@ -53,6 +54,7 @@ export default function Pricing() {
                   Request this package
                 </a>
               </div>
+              </StaggerItem>
             ))}
           </div>
 

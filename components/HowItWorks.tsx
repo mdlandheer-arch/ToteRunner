@@ -1,3 +1,5 @@
+import StaggerItem from "@/components/StaggerItem";
+
 const steps = [
   {
     n: "1",
@@ -27,12 +29,12 @@ export default function HowItWorks() {
       <div className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="section-h text-3xl font-bold text-ink">How it works</h2>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s) => (
-            <div key={s.n} className="border-l-2 border-crate pl-4">
+          {steps.map((s, i) => (
+            <StaggerItem key={s.n} index={i} className="border-l-2 border-crate pl-4">
               <div className="btn-edge flex h-8 w-8 items-center justify-center rounded-full bg-crate text-sm font-bold text-paper">{s.n}</div>
               <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
               <p className="mt-2 text-sm text-ink/70">{s.body}</p>
-            </div>
+            </StaggerItem>
           ))}
         </div>
 

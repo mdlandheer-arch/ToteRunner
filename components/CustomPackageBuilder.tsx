@@ -71,6 +71,13 @@ export default function CustomPackageBuilder() {
                 </button>
               </div>
             </div>
+            {(totes <= customPackage.minTotes || totes >= customPackage.maxTotes) && (
+              <p className="mt-1 text-right text-xs text-ink/70">
+                {totes <= customPackage.minTotes
+                  ? `Smallest build is ${customPackage.minTotes} totes.`
+                  : `Largest build is ${customPackage.maxTotes} totes.`}
+              </p>
+            )}
             <div className="relative mt-3 h-7">
               <div aria-hidden="true" className="absolute inset-x-0 top-2 h-3 rounded-r-md rounded-l-sm" style={{ background: "color-mix(in srgb, var(--ink) 13%, transparent)" }} />
               <div

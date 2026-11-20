@@ -167,6 +167,7 @@ export default function BookingForm() {
   // Refs block a second click/Enter in the same tick, before React re-renders
   // the disabled button.
   const submittingRef = useRef(false);
+  const skipRollRef = useRef<(() => void) | null>(null);
   const promoCheckingRef = useRef(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -449,7 +450,20 @@ export default function BookingForm() {
       // Skipped for people who asked for reduced motion.
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setSent(true);
-        await new Promise((r) => setTimeout(r, 2150));
+        // Any tap or key press skips the rest of the roll and goes straight on.
+        await new Promise<void>((resolve) => {
+          const done = () => {
+            clearTimeout(timer);
+            window.removeEventListener("pointerdown", done);
+            window.removeEventListener("keydown", done);
+            skipRollRef.current = null;
+            resolve();
+          };
+          const timer = setTimeout(done, 2150);
+          skipRollRef.current = done;
+          window.addEventListener("pointerdown", done);
+          window.addEventListener("keydown", done);
+        });
       }
       setSubmitted(true);
       router.push("/thank-you");
@@ -1015,7 +1029,7 @@ export default function BookingForm() {
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting && !sent}
             aria-busy={submitting}
             className="pack-btn relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-md bg-crate px-6 py-3 font-semibold text-paper hover:bg-crate-dark btn-edge disabled:cursor-not-allowed disabled:opacity-90"
           >
