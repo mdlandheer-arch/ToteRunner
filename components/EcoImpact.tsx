@@ -20,7 +20,7 @@ export default function EcoImpact() {
           {points.map(([title, body]) => (
             <div key={title}>
               <p className="font-bold text-ink">{title}</p>
-              <p className="mt-1 text-sm text-ink/75">{body}</p>
+              <p className="mt-1 text-base text-ink/75">{body}</p>
             </div>
           ))}
         </div>

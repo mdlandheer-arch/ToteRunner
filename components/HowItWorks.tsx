@@ -33,7 +33,7 @@ export default function HowItWorks() {
             <StaggerItem key={s.n} index={i} className="border-l-2 border-crate pl-4">
               <div className="btn-edge flex h-8 w-8 items-center justify-center rounded-full bg-crate text-sm font-bold text-paper">{s.n}</div>
               <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
-              <p className="mt-2 text-sm text-ink/70">{s.body}</p>
+              <p className="mt-2 text-base text-ink/70">{s.body}</p>
             </StaggerItem>
           ))}
         </div>

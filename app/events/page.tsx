@@ -114,7 +114,7 @@ export default function EventsPage() {
                   {s.n}
                 </span>
                 <h3 className="mt-4 font-bold text-ink">{s.title}</h3>
-                <p className="mt-2 text-sm text-ink/75">{s.body}</p>
+                <p className="mt-2 text-base text-ink/75">{s.body}</p>
               </div>
             ))}
           </div>
@@ -149,7 +149,7 @@ export default function EventsPage() {
                   <span aria-hidden="true" className="ml-4 text-crate group-open:hidden">+</span>
             <span aria-hidden="true" className="ml-4 hidden text-crate group-open:inline">&minus;</span>
                 </summary>
-                <p className="mt-3 text-sm text-ink/75">{f.a}</p>
+                <p className="mt-3 text-base text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>

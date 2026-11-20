@@ -29,14 +29,14 @@ export default function WhyUs() {
 
         <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
           <h3 className="text-xl font-bold text-ink">If it rains</h3>
-          <p className="mt-2 max-w-2xl text-sm text-ink/70">
+          <p className="mt-2 max-w-2xl text-base text-ink/70">
             Wet cardboard gives out fast. The totes have weather-resistant lids and a hard plastic shell, so they hold their shape.
           </p>
         </div>
 
         <div className="mt-6 rounded-lg border border-line bg-white/70 p-6">
           <h3 className="font-bold text-ink">Clean every time</h3>
-          <p className="mt-1 text-sm text-ink/75">
+          <p className="mt-1 text-base text-ink/75">
             We vacuum, sanitize and check every tote between rentals.
           </p>
         </div>

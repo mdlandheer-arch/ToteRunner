@@ -77,7 +77,7 @@ export default function ThankYouPage() {
               </span>
               <div>
                 <p className="font-semibold text-ink">{s.title}</p>
-                <p className="mt-1 text-sm text-ink/75">{s.body}</p>
+                <p className="mt-1 text-base text-ink/75">{s.body}</p>
               </div>
             </li>
           ))}

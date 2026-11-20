@@ -12,7 +12,7 @@ export default function FAQ() {
             <span aria-hidden="true" className="ml-4 text-crate group-open:hidden">+</span>
             <span aria-hidden="true" className="ml-4 hidden text-crate group-open:inline">&minus;</span>
           </summary>
-          <p className="mt-3 text-sm text-ink/70">{f.a}</p>
+          <p className="mt-3 text-base text-ink/70">{f.a}</p>
         </details>
       ))}
     </div>

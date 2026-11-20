@@ -157,7 +157,7 @@ export default function RealtorReferralPage() {
               <div key={s.n} className="border-l-2 border-crate pl-4">
                 <div className="text-sm font-semibold text-crate">{s.n}</div>
                 <h3 className="mt-1 font-bold text-ink">{s.title}</h3>
-                <p className="mt-2 text-sm text-ink/75">{s.body}</p>
+                <p className="mt-2 text-base text-ink/75">{s.body}</p>
               </div>
             ))}
           </div>
@@ -183,7 +183,7 @@ export default function RealtorReferralPage() {
             {why.map((w) => (
               <div key={w.title} className="rounded-lg border border-line bg-white/70 p-6">
                 <h3 className="font-bold text-ink">{w.title}</h3>
-                <p className="mt-2 text-sm text-ink/75">{w.body}</p>
+                <p className="mt-2 text-base text-ink/75">{w.body}</p>
               </div>
             ))}
           </div>
@@ -226,14 +226,14 @@ export default function RealtorReferralPage() {
                   <span aria-hidden="true" className="ml-4 text-crate group-open:hidden">+</span>
             <span aria-hidden="true" className="ml-4 hidden text-crate group-open:inline">&minus;</span>
                 </summary>
-                <p className="mt-3 text-sm text-ink/75">{f.a}</p>
+                <p className="mt-3 text-base text-ink/75">{f.a}</p>
               </details>
             ))}
           </div>
 
           <div className="mt-10 rounded-lg border border-line bg-white/70 p-6 text-center">
             <h3 className="text-xl font-bold text-ink">Ready to start referring?</h3>
-            <p className="mt-2 text-sm text-ink/75">
+            <p className="mt-2 text-base text-ink/75">
               One email and you&rsquo;ll have a code the same day.
             </p>
             <a
@@ -242,7 +242,7 @@ export default function RealtorReferralPage() {
             >
               Email {siteConfig.email}
             </a>
-            <p className="mt-3 text-sm text-ink/75">
+            <p className="mt-3 text-base text-ink/75">
               Or call{" "}
               <a href={`tel:+1${siteConfig.phone.replace(/\D/g, "")}`} className="font-medium text-crate hover:underline">
                 {siteConfig.phone}

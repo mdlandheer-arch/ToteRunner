@@ -28,17 +28,17 @@ export default function Pricing() {
                 )}
                 <h3 className="text-lg font-bold text-ink">{pkg.name}</h3>
                 <p className="mt-3 text-3xl font-extrabold tabular-nums text-ink">${pkg.price}</p>
-                <p className="mt-1 text-sm text-ink/70">
+                <p className="mt-1 text-base text-ink/70">
                   {pkg.totes} totes · {pkg.days}-day rental
                 </p>
-                <p className="mt-1 text-sm text-ink/70">
+                <p className="mt-1 text-base text-ink/70">
                   Need longer? ${pkg.dailyRate}/day after that.
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">
                   ${(pkg.price / pkg.totes).toFixed(2)} per tote, with dolly, labels, delivery and
                   pickup included.
                 </p>
-                <p className="mt-3 text-sm text-ink/70">{pkg.blurb}</p>
+                <p className="mt-3 text-base text-ink/70">{pkg.blurb}</p>
                 <ul className="mt-4 space-y-1.5 border-t border-line pt-4">
                   {pkg.includes.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-ink/80">
