@@ -385,6 +385,17 @@ export default function BookingForm() {
   }
   const errorCount = Object.keys(rawErrors).length;
 
+  // Progress toward the finish line: five sections, each done when none of its fields has a problem.
+  const sections: string[][] = [
+    ["name", "email", "phone"],
+    ["street", "zip", "city", "state"],
+    ["deliveryDate", "pickupDate"],
+    ["pickupStreet", "pickupZip", "pickupCity", "pickupState"],
+    ["customTotes", "agreed"],
+  ];
+  const sectionsDone = sections.filter((keys) => keys.every((k) => !rawErrors[k])).length;
+  const showProgress = !submitted && (sectionsDone > 0 && (Object.values(touched).some(Boolean) || form.name !== "" || form.email !== "" || form.phone !== "" || form.street !== "" || form.zip !== "" || form.deliveryDate !== ""));
+
   // Props every validated control shares: red state, screen-reader link to its message, mark touched on blur.
   const fp = (name: string) => ({
     "aria-invalid": errors[name] ? (true as const) : undefined,
@@ -1025,6 +1036,26 @@ export default function BookingForm() {
             <p role="alert" className="text-sm font-medium text-red-700">
               {errorCount === 1 ? "1 field needs a fix" : `${errorCount} fields need a fix`}. They&rsquo;re marked in red above. Everything else you entered is saved.
             </p>
+          )}
+
+          {showProgress && (
+            <div>
+              <p className="text-sm text-ink/80">
+                {sectionsDone === sections.length
+                  ? "All set. Send your request."
+                  : `${sectionsDone} of ${sections.length} sections done`}
+              </p>
+              <div aria-hidden="true" className="mt-1.5 flex gap-1">
+                {sections.map((keys, i) => (
+                  <span
+                    key={i}
+                    className={`h-1.5 flex-1 rounded-sm transition-colors duration-200 ${
+                      keys.every((k) => !rawErrors[k]) ? "bg-crate" : "bg-line"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
           )}
 
           <button

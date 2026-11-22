@@ -30,10 +30,20 @@ export default function HowItWorks() {
         <h2 className="section-h text-3xl font-bold text-ink">How it works</h2>
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
-            <StaggerItem key={s.n} index={i} className="border-l-2 border-crate pl-4">
-              <div className="btn-edge flex h-8 w-8 items-center justify-center rounded-full bg-crate text-sm font-bold text-paper">{s.n}</div>
-              <h3 className="mt-3 text-lg font-bold text-ink">{s.title}</h3>
-              <p className="mt-2 text-base text-ink/70">{s.body}</p>
+            <StaggerItem key={s.n} index={i} className="relative flex gap-4 sm:block">
+              {i < steps.length - 1 && (
+                <>
+                  {/* Phone: a line runs down from this badge to the next one. */}
+                  <span aria-hidden="true" className="absolute -bottom-8 left-[15px] top-8 w-0.5 bg-crate sm:hidden" />
+                  {/* Wide screens: a line runs across from this badge to the next one. */}
+                  <span aria-hidden="true" className="absolute left-8 top-[15px] hidden h-0.5 w-full bg-crate lg:block" />
+                </>
+              )}
+              <div className="btn-edge relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-crate text-sm font-bold text-paper">{s.n}</div>
+              <div>
+                <h3 className="text-lg font-bold text-ink sm:mt-3">{s.title}</h3>
+                <p className="mt-2 text-base text-ink/70">{s.body}</p>
+              </div>
             </StaggerItem>
           ))}
         </div>
