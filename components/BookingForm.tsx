@@ -1,5 +1,6 @@
 "use client";
 
+import RollNumber from "@/components/RollNumber";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { packages, bookablePackages, eventPackage, addOns, siteConfig, customPackage } from "@/lib/site-config";
@@ -842,8 +843,8 @@ export default function BookingForm() {
                       >
                         −
                       </button>
-                      <span className="w-8 text-center text-sm font-semibold tabular-nums" aria-live="polite">
-                        {qty}
+                      <span className="text-sm font-semibold tabular-nums">
+                        <RollNumber value={qty} />
                       </span>
                       <button
                         type="button"
@@ -933,8 +934,16 @@ export default function BookingForm() {
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--crate-green)]"
+                className="peer sr-only"
               />
+              <span
+                aria-hidden="true"
+                className="ck-box mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-[1.5px] border-ink/50 bg-white transition-colors peer-checked:border-crate peer-checked:bg-crate peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-crate peer-aria-invalid:border-red-600"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M2 7.5l3.2 3L12 3.5" stroke="#F7F4ED" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               <span className="text-sm text-ink/80">
                 I have reviewed and agree to the{" "}
                 <a href="/rental-agreement" target="_blank" rel="noopener noreferrer" className="font-medium text-crate underline">
