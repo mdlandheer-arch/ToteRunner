@@ -167,7 +167,7 @@ export default function CustomPackageBuilder() {
           <div className="mt-4 space-y-1 border-t border-crate/20 pt-3 text-sm text-ink/75">
             <div className="flex justify-between">
               <span>
-                {quote.totes} totes · {quote.weeks} week{quote.weeks > 1 ? "s" : ""}
+                {quote.totes} totes, {quote.weeks} week{quote.weeks > 1 ? "s" : ""}
               </span>
               <span>${quote.price}</span>
             </div>

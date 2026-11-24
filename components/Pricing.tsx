@@ -29,7 +29,7 @@ export default function Pricing() {
                 <h3 className="text-lg font-bold text-ink">{pkg.name}</h3>
                 <p className="mt-3 text-3xl font-extrabold tabular-nums text-ink">${pkg.price}</p>
                 <p className="mt-1 text-base text-ink/70">
-                  {pkg.totes} totes · {pkg.days}-day rental
+                  {pkg.totes} totes, {pkg.days}-day rental
                 </p>
                 <p className="mt-1 text-base text-ink/70">
                   Need longer? ${pkg.dailyRate}/day after that.

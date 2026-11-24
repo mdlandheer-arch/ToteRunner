@@ -19,10 +19,7 @@ export default function About() {
       <div className="mx-auto max-w-6xl px-5 py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_380px] lg:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-crate">
-              Locally & family owned
-            </p>
-            <h2 className="section-h mt-2 text-3xl font-bold text-ink">
+            <h2 className="section-h text-3xl font-bold text-ink">
               A better way to box up your move.
             </h2>
 

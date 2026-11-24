@@ -28,7 +28,7 @@ export default function Reviews() {
               <Stars rating={r.rating} />
               <blockquote className="mt-3 text-ink/90">&ldquo;{r.text}&rdquo;</blockquote>
               <figcaption className="mt-4 text-sm text-ink/70">
-                <span className="font-semibold text-ink">{r.name}</span> · {r.town} · {r.package} ·{" "}
+                <span className="font-semibold text-ink">{r.name}</span>, {r.town}, {r.package},{" "}
                 {r.url ? (
                   <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline">
                     {r.source}

@@ -122,15 +122,12 @@ export default function RealtorReferralPage() {
 
       <section className="bg-tint-green">
         <div className="mx-auto max-w-4xl px-5 py-16 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wide text-crate">
-            For Grand Rapids &amp; Lakeshore agents
-          </p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-tight text-ink">
+          <h1 className="text-4xl font-extrabold leading-tight text-ink">
             Your clients are moving anyway.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-ink/75">
-            Give your clients {clientDiscountPercent}% off their move. Free to join, nothing to
-            manage.
+            Free for Grand Rapids &amp; Lakeshore agents. Give your clients {clientDiscountPercent}% off
+            their move, with nothing to manage.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -153,11 +150,19 @@ export default function RealtorReferralPage() {
         <div className="mx-auto max-w-4xl px-5 py-16">
           <h2 className="section-h text-3xl font-bold text-ink">How it works</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {steps.map((s) => (
-              <div key={s.n} className="border-l-2 border-crate pl-4">
-                <div className="text-sm font-semibold text-crate">{s.n}</div>
-                <h3 className="mt-1 font-bold text-ink">{s.title}</h3>
-                <p className="mt-2 text-base text-ink/75">{s.body}</p>
+            {steps.map((s, i) => (
+              <div key={s.n} className="relative flex gap-4 sm:block">
+                {i < steps.length - 1 && (
+                  <>
+                    <span aria-hidden="true" className="absolute -bottom-6 left-[15px] top-8 w-0.5 bg-crate sm:hidden" />
+                    <span aria-hidden="true" className="absolute left-8 top-[15px] hidden h-0.5 w-[calc(100%-0.5rem)] bg-crate lg:block" />
+                  </>
+                )}
+                <div className="btn-edge relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-crate text-sm font-bold text-paper">{s.n}</div>
+                <div>
+                  <h3 className="font-bold text-ink sm:mt-3">{s.title}</h3>
+                  <p className="mt-2 text-base text-ink/75">{s.body}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -204,7 +209,7 @@ export default function RealtorReferralPage() {
                 <p className="mt-2 text-2xl font-extrabold text-ink">${discounted(pkg.price)}</p>
                 <p className="text-sm text-ink/70 line-through">${pkg.price}</p>
                 <p className="mt-1 text-sm text-ink/70">
-                  {pkg.totes} totes · {pkg.days} days
+                  {pkg.totes} totes, {pkg.days} days
                 </p>
                 <p className="mt-2 text-sm font-medium text-crate">
                   {clientDiscountPercent}% off with your code

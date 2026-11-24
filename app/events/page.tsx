@@ -52,15 +52,12 @@ export default function EventsPage() {
 
       <section className="bg-tint-green">
         <div className="mx-auto max-w-4xl px-5 py-16 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wide text-crate">
-            Weddings &amp; events · {siteConfig.region}
-          </p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-tight text-ink">
+          <h1 className="text-4xl font-extrabold leading-tight text-ink">
             Wedding decor everywhere? Pack it once.
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-ink/75">
-            Sturdy, stackable totes for centerpieces, candles, signs and favors. No hunting for
-            boxes, no crushed decor.
+            Wedding and event totes across {siteConfig.region}. Sturdy, stackable totes for
+            centerpieces, candles, signs and favors. No hunting for boxes, no crushed decor.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={bookHref} className="btn-edge-yellow rounded-md bg-safety px-6 py-3 font-semibold text-ink hover:brightness-95">
@@ -83,7 +80,7 @@ export default function EventsPage() {
             <h2 className="text-lg font-bold text-ink">{eventPackage.name}</h2>
             <p className="mt-3 text-4xl font-extrabold text-ink">${eventPackage.price}</p>
             <p className="mt-1 text-sm text-ink/70">
-              {eventPackage.totes} totes · {eventPackage.days}-day rental
+              {eventPackage.totes} totes, {eventPackage.days}-day rental
             </p>
             <p className="mt-1 text-sm text-ink/70">Need longer? ${eventPackage.dailyRate}/day after that.</p>
             <ul className="mt-4 space-y-1.5 border-t border-line pt-4 text-left">
