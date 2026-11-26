@@ -61,6 +61,9 @@ export default function PrivacyPage() {
 
             <li><strong>Zippopotam.us (or successor address-verification provider)</strong> — receives
               only the zip code you enter, to verify it and estimate distance.</li>
+            <li><strong>OpenStreetMap</strong> — serves the map tiles on the booking form. Your browser
+              requests them directly, so OpenStreetMap sees your IP address and the map area on screen.
+              It does not receive your street address.</li>
             <li><strong>Google Analytics</strong> — receives anonymized usage data, only if you accept
               analytics cookies.</li>
             <li><strong>Resend</strong> — sends the reservation confirmation email to you and the

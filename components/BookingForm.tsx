@@ -6,11 +6,16 @@ import { useRouter } from "next/navigation";
 import { packages, bookablePackages, eventPackage, addOns, siteConfig, customPackage } from "@/lib/site-config";
 import { customQuote, clampTotes } from "@/lib/pricing";
 import { BUILD_EVENT } from "@/components/CustomPackageBuilder";
+import dynamic from "next/dynamic";
+import type { MapPoint } from "@/components/DeliveryMap";
+
 import { lookupZip, nearestHub, calculateDeliveryFee, type ZipInfo } from "@/lib/geo";
 import Spinner from "@/components/Spinner";
 import DateRangePicker from "@/components/DateRangePicker";
 import AddressAutocomplete, { type ParsedAddress } from "@/components/AddressAutocomplete";
 import { promoDiscount, type AppliedPromo } from "@/lib/promo";
+
+const DeliveryMap = dynamic(() => import("@/components/DeliveryMap"), { ssr: false });
 
 type FormState = {
   name: string;
@@ -180,6 +185,7 @@ export default function BookingForm() {
   // leg also carries that hub's free radius — hubs can have different ones.
   const [distanceMiles, setDistanceMiles] = useState<number | null>(null);
   const [distanceRadius, setDistanceRadius] = useState<number>(siteConfig.freeDeliveryRadiusMiles);
+  const [pickupZipInfo, setPickupZipInfo] = useState<ZipInfo | null>(null);
   const [pickupDistanceMiles, setPickupDistanceMiles] = useState<number | null>(null);
   const [pickupRadius, setPickupRadius] = useState<number>(siteConfig.freeDeliveryRadiusMiles);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -240,6 +246,7 @@ export default function BookingForm() {
   useEffect(() => {
     if (!/^\d{5}$/.test(form.pickupZip)) {
       setPickupDistanceMiles(null);
+      setPickupZipInfo(null);
       return;
     }
     let cancelled = false;
@@ -253,6 +260,7 @@ export default function BookingForm() {
         pickupCity: mine(f.pickupCity, prev.pickupCity) ? pz.city : f.pickupCity,
         pickupState: mine(f.pickupState, prev.pickupState) ? pz.stateAbbreviation : f.pickupState,
       }));
+      setPickupZipInfo(pz);
       const { hub, miles } = nearestHub(pz.latitude, pz.longitude);
       setPickupDistanceMiles(miles);
       setPickupRadius(hub.freeRadiusMiles);
@@ -274,6 +282,10 @@ export default function BookingForm() {
       ? calculateDeliveryFee(pickupDistanceMiles, pickupRadius, siteConfig.perMileFeeBeyondRadius)
       : 0;
   const estimatedFee = deliveryLegFee + pickupLegFee;
+  const mapPoints: MapPoint[] = [
+    ...(zipStatus === "verified" && zipInfo ? [{ label: "Delivery", lat: zipInfo.latitude, lon: zipInfo.longitude }] : []),
+    ...(pickupZipInfo ? [{ label: "Pickup", lat: pickupZipInfo.latitude, lon: pickupZipInfo.longitude }] : []),
+  ];
 
   // Running total shown as an estimate. The server recalculates it for the
   // owner's email; nothing here is a charge.
@@ -704,6 +716,15 @@ export default function BookingForm() {
               </div>
             </div>
           </div>
+
+          {mapPoints.length > 0 && (
+            <div>
+              <DeliveryMap points={mapPoints} />
+              <p className="mt-1 text-xs text-ink/70">
+                Pins mark the center of each zip code, not your street address. The dashed circles are our free delivery areas.
+              </p>
+            </div>
+          )}
 
           {rentalDays !== null && rentalDays > 0 && (
             <div className="rounded-md border border-line bg-white/70 p-3 text-sm">
